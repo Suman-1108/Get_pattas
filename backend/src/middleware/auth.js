@@ -15,7 +15,7 @@ const authMiddleware = (req, res, next) => {
     req.admin = decoded;
     next();
   } catch (err) {
-    return res.status(401).json({ success: false, message: 'Invalid or expiGet pattas token.' });
+    return res.status(401).json({ success: false, message: 'Invalid or expired token.' });
   }
 };
 

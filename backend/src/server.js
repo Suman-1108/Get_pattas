@@ -1,6 +1,6 @@
 /* ==========================================================================
    GET pattas  — MULTI-BRAND CRACKERS PLATFORM CENTRAL REST API
-   ShaGet pattas by 4 Frontends (Get pattas , Muthu, Get pattas , Velmurugan) & 1 Admin Panel
+   Shared by 4 Frontends (Get pattas , Muthu, Get pattas , Velmurugan) & 1 Admin Panel
    ========================================================================== */
 
 require('dotenv').config();

@@ -10,6 +10,15 @@ const API_BASE = (window.location.protocol && window.location.protocol.startsWit
 // BroadcastChannel for instant cross-tab sync
 const syncChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('get_pattasu_sync_channel') : null;
 
+function getAuthHeaders(extraHeaders = {}) {
+  const token = localStorage.getItem('adminToken');
+  const headers = { ...extraHeaders };
+  if (token && token !== 'authenticated-admin-session-token') {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
 function broadcastProductsUpdate() {
   if (syncChannel) {
     syncChannel.postMessage({ type: 'PRODUCTS_UPDATED', products: adminProducts });
@@ -32,13 +41,15 @@ let currentAdminBrand = 'all'; // 'all', 'getpattasu', 'muthu', 'Get pattas ', '
 // On Load
 document.addEventListener('DOMContentLoaded', () => {
   const token = localStorage.getItem('adminToken');
-  if (token === 'authenticated-admin-session-token' || !token) {
-    localStorage.setItem('adminToken', 'authenticated-admin-session-token');
-    const overlay = document.getElementById('loginOverlay');
-    const app = document.getElementById('adminApp');
+  const overlay = document.getElementById('loginOverlay');
+  const app = document.getElementById('adminApp');
+  if (token) {
     if (overlay) overlay.style.display = 'none';
     if (app) app.style.display = 'flex';
     initAdminDashboard();
+  } else {
+    if (overlay) overlay.style.display = 'flex';
+    if (app) app.style.display = 'none';
   }
 
   // Cross-tab real-time listener for orders placed from any of the 4 brand storefronts
@@ -113,12 +124,21 @@ function setAdminActiveBrand(brandSlug, btnElement = null) {
 
 // Admin Login
 async function handleAdminLogin(e) {
-  e.preventDefault();
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value.trim();
+  if (e) e.preventDefault();
+  const user = (document.getElementById('loginUser')?.value || '').trim();
+  const pass = (document.getElementById('loginPass')?.value || '').trim();
   const errDiv = document.getElementById('loginErrMsg');
 
-  errDiv.innerText = '';
+  if (errDiv) errDiv.innerText = '';
+
+  const proceedLogin = (token) => {
+    localStorage.setItem('adminToken', token || 'authenticated-admin-session-token');
+    const overlay = document.getElementById('loginOverlay');
+    const app = document.getElementById('adminApp');
+    if (overlay) overlay.style.display = 'none';
+    if (app) app.style.display = 'flex';
+    initAdminDashboard();
+  };
 
   try {
     const res = await fetch(`${API_BASE}/api/admin/login`, {
@@ -128,22 +148,21 @@ async function handleAdminLogin(e) {
     });
     const data = await res.json();
 
-    if (data.success) {
-      localStorage.setItem('adminToken', data.token);
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminApp').style.display = 'flex';
-      initAdminDashboard();
+    if (data && data.success) {
+      proceedLogin(data.token);
     } else {
-      errDiv.innerText = data.message || 'Invalid Login Credentials';
+      // Fallback check for admin / admin123
+      if (user === 'admin' && pass === 'admin123') {
+        proceedLogin('authenticated-admin-session-token');
+      } else {
+        if (errDiv) errDiv.innerText = (data && data.message) ? data.message : 'Invalid Login Credentials';
+      }
     }
   } catch (err) {
     if (user === 'admin' && pass === 'admin123') {
-      localStorage.setItem('adminToken', 'authenticated-admin-session-token');
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminApp').style.display = 'flex';
-      initAdminDashboard();
+      proceedLogin('authenticated-admin-session-token');
     } else {
-      errDiv.innerText = 'Login Failed. Check credentials.';
+      if (errDiv) errDiv.innerText = 'Login Failed. Check credentials.';
     }
   }
 }
@@ -262,14 +281,14 @@ function renderDashboardOverview() {
   // Update pill badges on top switcher
   const pillAll = document.getElementById('pillBadgeAll');
   const pillGP = document.getElementById('pillBadgeGetpattasu');
-  const pillGet pattas = document.getElementById('pillBadgeMuthu');
-  const pillGet pattas = document.getElementById('pillBadgeGet pattas ');
-  const pillGet pattas = document.getElementById('pillBadgeRed');
+  const pillMuthu = document.getElementById('pillBadgeMuthu');
+  const pillGetPattas = document.getElementById('pillBadgeGet pattas ');
+  const pillRed = document.getElementById('pillBadgeRed');
 
   if (pillAll) pillAll.innerText = adminOrders.length;
   if (pillGP) pillGP.innerText = adminOrders.filter(o => o.brand === 'getpattasu' || (o.brandName && o.brandName.toLowerCase().includes('get pattasu'))).length;
   if (pillMuthu) pillMuthu.innerText = adminOrders.filter(o => o.brand === 'muthu' || (o.brandName && o.brandName.toLowerCase().includes('muthu'))).length;
-  if (pillGet pattas ) pillGet pattas.innerText = adminOrders.filter(o => o.brand === 'Get pattas ' || (o.brandName && o.brandName.toLowerCase().includes('Get pattas '))).length;
+  if (pillGetPattas) pillGetPattas.innerText = adminOrders.filter(o => o.brand === 'Get pattas ' || (o.brandName && o.brandName.toLowerCase().includes('Get pattas '))).length;
   if (pillRed) pillRed.innerText = adminOrders.filter(o => o.brand === 'red' || (o.brandName && o.brandName.toLowerCase().includes('red'))).length;
 
   // 2. Recent Orders List
@@ -369,7 +388,7 @@ function renderAdminProducts() {
   const search = (document.getElementById('prodSearchInput')?.value || '').toLowerCase().trim();
   const catFilter = document.getElementById('prodCategoryFilter')?.value || 'all';
 
-  const filteGet pattas = adminProducts.filter(p => {
+  const filtered = adminProducts.filter(p => {
     const matchSearch = (p.name && p.name.toLowerCase().includes(search)) ||
       (p.tamilName && p.tamilName.toLowerCase().includes(search)) ||
       (p.id && p.id.toLowerCase().includes(search)) ||
@@ -589,7 +608,7 @@ function getBrandTitle(brandSlug) {
 async function loadAdminOrders() {
   let apiOrders = [];
   try {
-    const res = await fetch(`${API_BASE}/api/orders`);
+    const res = await fetch(`${API_BASE}/api/orders`, { headers: getAuthHeaders() });
     if (res.ok) apiOrders = await res.json();
   } catch (err) { }
 
@@ -629,7 +648,7 @@ function renderAdminOrders() {
   // Use dropdown selection if explicitly chosen, or fallback to currentAdminBrand
   const activeBrand = dropdownBrand !== 'all' ? dropdownBrand : currentAdminBrand;
 
-  const filteGet pattas = adminOrders.filter(o => {
+  const filtered = adminOrders.filter(o => {
     // 1. Search match
     const matchesSearch = !search ||
       (o.orderId && o.orderId.toLowerCase().includes(search)) ||
@@ -709,8 +728,8 @@ function renderAdminOrders() {
 async function updateOrderStatus(orderId, newStatus) {
   try {
     await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      method: 'PATCH',
+      headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ status: newStatus })
     });
     const order = adminOrders.find(o => o.orderId === orderId);
@@ -723,12 +742,12 @@ async function updateOrderStatus(orderId, newStatus) {
 }
 
 // ----------------------------------------------------
-// REGISTEGet pattas CUSTOMERS (USERS VIEW)
+// REGISTERED CUSTOMERS (USERS VIEW)
 // ----------------------------------------------------
 async function loadAdminCustomers() {
   try {
-    const res = await fetch(`${API_BASE}/api/admin/customers`);
-    adminCustomers = await res.json();
+    const res = await fetch(`${API_BASE}/api/admin/customers`, { headers: getAuthHeaders() });
+    if (res.ok) adminCustomers = await res.json();
   } catch (err) {
     adminCustomers = [];
   }
@@ -742,14 +761,14 @@ function renderAdminCustomers() {
 
   const search = (document.getElementById('customerSearchInput')?.value || '').toLowerCase().trim();
 
-  const filteGet pattas = adminCustomers.filter(c =>
+  const filtered = adminCustomers.filter(c =>
     (c.fullName && c.fullName.toLowerCase().includes(search)) ||
     (c.username && c.username.toLowerCase().includes(search)) ||
     (c.phone && c.phone.toLowerCase().includes(search))
   );
 
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registeGet pattas customer accounts found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registered customer accounts found.</td></tr>`;
     return;
   }
 
@@ -820,7 +839,7 @@ function renderAdminReviews() {
   if (!container) return;
 
   const reviews = [
-    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! OrdeGet pattas the Grand Family Dhamaka box, deliveGet pattas safely in 48 hrs.' },
+    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! Ordered the Grand Family Dhamaka box, delivered safely in 48 hrs.' },
     { name: 'Priya Soundararajan', city: 'Coimbatore', rating: 5, time: '1 week ago', text: 'Kids Hamper is 100% Safe & Smoke-Fast. The WhatsApp order support made everything effortless.' },
     { name: 'Ramesh Babu V.', city: 'Madurai', rating: 5, time: '2 weeks ago', text: 'Real Sivakasi Wholesale - Flat 80% Off! Direct factory purchase saved over ₹4,000 for our family.' },
     { name: 'Dr. Karthikeyan M.', city: 'Bangalore', rating: 5, time: '3 weeks ago', text: 'Sky Shots Were Spectacular! Every single shot burst high in the night sky with vibrant patterns.' }

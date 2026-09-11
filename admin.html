@@ -20,17 +20,17 @@
     <div class="login-card">
       <div class="login-brand">
         <img src="assets/logo.jpg" alt="Get pattas  Kadai Logo">
-        <h2>GET Get pattas KADAI</h2>
+        <h2>GET PATTAS KADAI</h2>
         <p>Enterprise Store Admin Portal</p>
       </div>
       <form id="loginForm" onsubmit="handleAdminLogin(event)">
         <div class="form-group">
           <label>Admin Username</label>
-          <input type="text" id="loginUser" value="admin" requiGet pattas autocomplete="username">
+          <input type="text" id="loginUser" value="admin" required autocomplete="username">
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="loginPass" value="admin123" requiGet pattas autocomplete="current-password">
+          <input type="password" id="loginPass" value="admin123" required autocomplete="current-password">
         </div>
         <div class="login-err-msg" id="loginErrMsg"></div>
         <button type="submit" class="btn btn-primary full-width">🔐 Log In to Admin Dashboard</button>
@@ -522,7 +522,7 @@
               <div class="growth-box">
                 <div class="growth-score">
                   <h2>+94.8%</h2>
-                  <p>Increase in online Diwali bookings compaGet pattas to last festive week.</p>
+                  <p>Increase in online Diwali bookings compared to last festive week.</p>
                 </div>
                 <div class="progress-bar-wrap">
                   <div class="progress-bar-fill" style="width: 85%;"></div>
@@ -598,7 +598,7 @@
                   </tr>
                 </thead>
                 <tbody id="productsTableBody">
-                  <!-- RendeGet pattas via JS -->
+                  <!-- Rendered via JS -->
                 </tbody>
               </table>
             </div>
@@ -659,7 +659,7 @@
                   </tr>
                 </thead>
                 <tbody id="ordersTableBody">
-                  <!-- RendeGet pattas via JS -->
+                  <!-- Rendered via JS -->
                 </tbody>
               </table>
             </div>
@@ -672,7 +672,7 @@
         <div class="tab-pane" id="pane-customers">
           <div class="pane-header-actions">
             <div>
-              <h1 class="pane-title">RegisteGet pattas Customers</h1>
+              <h1 class="pane-title">Registered Customers</h1>
               <p class="pane-subtitle">List of customer accounts and their saved delivery addresses.</p>
             </div>
             <button class="btn btn-dark-outline" onclick="loadAdminCustomers()">
@@ -701,12 +701,12 @@
                     <th>PHONE</th>
                     <th>SHIPPING ADDRESS</th>
                     <th>SAVED ADDRESSES</th>
-                    <th>REGISTEGet pattas DATE</th>
+                    <th>REGISTERED DATE</th>
                     <th>ACTION</th>
                   </tr>
                 </thead>
                 <tbody id="customersTableBody">
-                  <!-- RendeGet pattas via JS -->
+                  <!-- Rendered via JS -->
                 </tbody>
               </table>
             </div>
@@ -752,7 +752,7 @@
             <div class="cat-admin-card" onclick="filterByCat('bombs')">
               <span class="cat-big-icon">💥</span>
               <h3>Sound Bombs & Rockets</h3>
-              <p>Get pattas Bijli, Hydro Bombs & Sky Rockets</p>
+              <p>Red Bijli, Hydro Bombs & Sky Rockets</p>
               <span class="cat-count-badge" id="catCountBombs">0 items</span>
             </div>
             <div class="cat-admin-card" onclick="filterByCat('combos')">
@@ -855,12 +855,12 @@
             <form class="clean-form" id="heroForm" onsubmit="handleHeroSave(event)">
               <div class="form-group">
                 <label>Hero Badge Tag</label>
-                <input type="text" id="heroBadgeInput" requiGet pattas placeholder="💥 SIVAKASI DIRECT WHOLESALE STORE">
+                <input type="text" id="heroBadgeInput" required placeholder="💥 SIVAKASI DIRECT WHOLESALE STORE">
               </div>
 
               <div class="form-group">
                 <label>Main Headline</label>
-                <input type="text" id="heroTitleInput" requiGet pattas placeholder="DIRECT SIVAKASI FACTORY FIREWORKS">
+                <input type="text" id="heroTitleInput" required placeholder="DIRECT SIVAKASI FACTORY FIREWORKS">
               </div>
 
               <div class="form-group">
@@ -902,12 +902,12 @@
             <form class="clean-form" id="contactFormAdmin" onsubmit="handleContactSave(event)">
               <div class="form-group">
                 <label>Store Helpline & WhatsApp Phone</label>
-                <input type="text" id="contactPhoneInput" requiGet pattas placeholder="+91 86104 51118">
+                <input type="text" id="contactPhoneInput" required placeholder="+91 86104 51118">
               </div>
 
               <div class="form-group">
                 <label>Support Email Address</label>
-                <input type="email" id="contactEmailInput" requiGet pattas placeholder="sales@getpattas.com">
+                <input type="email" id="contactEmailInput" required placeholder="sales@getpattas.com">
               </div>
 
               <div class="form-group">
@@ -938,7 +938,7 @@
         <div class="form-row">
           <div class="form-group">
             <label>Product Name *</label>
-            <input type="text" id="prodName" requiGet pattas placeholder="e.g. Electric Sparklers (Kambi Mathappu)">
+            <input type="text" id="prodName" required placeholder="e.g. Electric Sparklers (Kambi Mathappu)">
           </div>
           <div class="form-group">
             <label>Category *</label>
@@ -956,17 +956,17 @@
         <div class="form-row">
           <div class="form-group">
             <label>MRP (Original Retail Rate ₹) *</label>
-            <input type="number" id="prodMrp" requiGet pattas min="1" placeholder="250">
+            <input type="number" id="prodMrp" required min="1" placeholder="250">
           </div>
           <div class="form-group">
             <label>Offer Price (Direct Wholesale Rate ₹) *</label>
-            <input type="number" id="prodPrice" requiGet pattas min="1" placeholder="50">
+            <input type="number" id="prodPrice" required min="1" placeholder="50">
           </div>
         </div>
 
         <div class="form-group">
           <label>Packaging Info *</label>
-          <input type="text" id="prodPack" requiGet pattas placeholder="e.g. Box of 10 Pcs">
+          <input type="text" id="prodPack" required placeholder="e.g. Box of 10 Pcs">
         </div>
 
         <div class="form-group">
