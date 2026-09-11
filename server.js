@@ -40,18 +40,18 @@ app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Dedicated Brand Full Website Clean Routes & Shop Sub-routes
-const serveMuthu = (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'index.html'));
-const serveDaddy = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'index.html'));
-const serveRed = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
+const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'index.html'));
+const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'index.html'));
+const serveGet pattas = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
 const serveGetPattasu = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
 
 // Shop Sub-Domain / Clean URL Routes
-// shopno001 -> Sivakasi Muthu Crackers
-// shopno002 -> Daddy's Crackers
-// shopno003 -> The RED Crackers
+// shopno001 -> Get pattas Crackers
+// shopno002 -> Get pattas 's Crackers
+// shopno003 -> The Get pattas 
 // shopno004 -> Get Pattasu Kadai Master Store
 app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno001/', '/getpattasu/shopno001', '/muthu'], serveMuthu);
-app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/daddy'], serveDaddy);
+app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/Get pattas '], serveGet pattas);
 app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattasu/shopno003', '/red'], serveRed);
 app.get(['/', '/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno004/', '/getpattasu/shopno004', '/getpattas', '/getpattasu'], serveGetPattasu);
 
@@ -89,7 +89,7 @@ const INITIAL_PRODUCTS = [
   },
   {
     id: 'spk-03',
-    name: '15 cm Mega Green & Red Sparklers',
+    name: '15 cm Mega Green & Get pattas Sparklers',
     category: 'sparklers',
     mrp: 450,
     price: 90,
@@ -253,7 +253,7 @@ const INITIAL_PRODUCTS = [
   // 5. Sound Bombs & Rockets
   {
     id: 'bmb-01',
-    name: 'Red Bijli Crackers (100 Strips Pack)',
+    name: 'Get pattas Bijli Crackers (100 Strips Pack)',
     category: 'bombs',
     mrp: 300,
     price: 60,
@@ -389,7 +389,7 @@ app.post('/api/customer/signup', async (req, res) => {
   try {
     const { username, password, fullName, phone, address } = req.body;
     if (!username || !password || !fullName || !phone) {
-      return res.status(400).json({ success: false, message: 'All required fields must be filled' });
+      return res.status(400).json({ success: false, message: 'All requiGet pattas fields must be filled' });
     }
 
     const userId = 'usr-' + Date.now();
@@ -578,7 +578,7 @@ app.delete('/api/customer/address/:addressId', async (req, res) => {
   }
 });
 
-// GET All Registered Customers (Admin)
+// GET All RegisteGet pattas Customers (Admin)
 app.get('/api/admin/customers', async (req, res) => {
   try {
     if (isDbConnected) {
@@ -703,19 +703,19 @@ app.get('/api/orders', async (req, res) => {
 // POST Place New Order (Storefront Customer)
 app.post('/api/orders', async (req, res) => {
   try {
-    const { 
-      orderId: clientOrderId, 
-      brand, 
-      brandName, 
-      customerName, 
-      phone, 
-      email, 
-      address, 
-      items, 
-      totalAmount, 
-      totalItems, 
-      totalBoxes, 
-      paymentMethod, 
+    const {
+      orderId: clientOrderId,
+      brand,
+      brandName,
+      customerName,
+      phone,
+      email,
+      address,
+      items,
+      totalAmount,
+      totalItems,
+      totalBoxes,
+      paymentMethod,
       utrRef,
       status,
       createdAt

@@ -7,31 +7,31 @@ const Admin = require('./models/Admin');
 
 const SEED_BRANDS = [
   {
-    slug: 'getpattasu',
-    name: 'Get Pattasu',
+    slug: 'getpattas ',
+    name: 'Get pattas ',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#dc2626',
     contactPhone: ['+91 86104 51118', '+91 86104 51118'],
-    contactEmail: 'contact@getpattasu.com',
+    contactEmail: 'contact@getpattas .com',
     address: '12/4B Sivakasi Main Road, Factory Zone, Sivakasi, Tamil Nadu - 626123'
   },
   {
     slug: 'muthu-cracker',
-    name: 'Muthu Cracker',
+    name: 'Get pattas Cracker',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#059669',
     contactPhone: ['+91 86104 51118', '+91 86104 51118'],
     contactEmail: 'sales@getpattas.com',
-    address: '258, Sivakasi Muthu Crackers, Sivakasi, Tamil Nadu - 626123'
+    address: '258, Get pattas Crackers, Sivakasi, Tamil Nadu - 626123'
   },
   {
-    slug: 'daddy-cracker',
-    name: 'Daddy Cracker',
+    slug: 'Get pattas -cracker',
+    name: 'Get pattas  Cracker',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#7c3aed',
     contactPhone: ['+91 86104 51118', '+91 86104 51118'],
-    contactEmail: 'orders@daddycracker.com',
-    address: 'Daddy\'s Cracker Depot, Bypass Road, Sivakasi, Tamil Nadu - 626189'
+    contactEmail: 'orders@Get pattas cracker.com',
+    address: 'Get pattas \'s Cracker Depot, Bypass Road, Sivakasi, Tamil Nadu - 626189'
   },
   {
     slug: 'velmurugan-cracker',
@@ -86,7 +86,7 @@ const SIVAKASI_CATALOG_TEMPLATE = [
   { code: 'SND-001', name: '2 3/4" Sparrow Crackers', tamilName: '2 3/4" குருவி வெடி', catSlug: 'sound-bombs', packInfo: '5 Pcs/Pocket', mrp: 45, sellingPrice: 9, img: '/uploads/product_bombs.jpg' },
   { code: 'SND-002', name: '3 1/2" Lakshmi Crackers', tamilName: '3 1/2" லட்சுமி வெடி', catSlug: 'sound-bombs', packInfo: '5 Pcs/Pocket', mrp: 80, sellingPrice: 16, img: '/uploads/product_bombs.jpg' },
   { code: 'SND-003', name: '4" Delux Lakshmi Crackers', tamilName: '4" டீலக்ஸ் லட்சுமி', catSlug: 'sound-bombs', packInfo: '5 Pcs/Pocket', mrp: 130, sellingPrice: 26, img: '/uploads/product_bombs.jpg' },
-  { code: 'SND-004', name: 'Red Bijili 100 Strips', tamilName: 'சிவப்பு பிஜிலி 100', catSlug: 'sound-bombs', packInfo: '1 Pocket', mrp: 200, sellingPrice: 40, img: '/uploads/product_bombs.jpg' },
+  { code: 'SND-004', name: 'Get pattas Bijili 100 Strips', tamilName: 'சிவப்பு பிஜிலி 100', catSlug: 'sound-bombs', packInfo: '1 Pocket', mrp: 200, sellingPrice: 40, img: '/uploads/product_bombs.jpg' },
   { code: 'SND-005', name: '100 Sound Crackers Wala', tamilName: '100 சவுண்ட் வாலா', catSlug: 'sound-bombs', packInfo: '1 Pcs/Box', mrp: 255, sellingPrice: 51, img: '/uploads/product_bombs.jpg' },
   { code: 'SND-006', name: '1000 Sound Garland Wala', tamilName: '1000 சவுண்ட் வாலா', catSlug: 'sound-bombs', packInfo: '1 Pcs/Box', mrp: 1000, sellingPrice: 200, img: '/uploads/product_bombs.jpg' },
   { code: 'SND-007', name: '5000 Sound Mega Wala', tamilName: '5000 சவுண்ட் வாலா', catSlug: 'sound-bombs', packInfo: '1 Pcs/Box', mrp: 5000, sellingPrice: 1000, img: '/uploads/product_bombs.jpg' },

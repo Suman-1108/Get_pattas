@@ -1,6 +1,6 @@
 /* ==========================================================================
-   GET PATTASU — MULTI-BRAND CRACKERS PLATFORM CENTRAL REST API
-   Shared by 4 Frontends (Get Pattasu, Muthu, Daddy, Velmurugan) & 1 Admin Panel
+   GET pattas  — MULTI-BRAND CRACKERS PLATFORM CENTRAL REST API
+   ShaGet pattas by 4 Frontends (Get pattas , Muthu, Get pattas , Velmurugan) & 1 Admin Panel
    ========================================================================== */
 
 require('dotenv').config();
@@ -39,17 +39,17 @@ const frontendDir = path.join(__dirname, '../../');
 app.use(express.static(frontendDir));
 app.use('/getpattas', express.static(path.join(frontendDir, 'getpattas')));
 
-app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno001/', '/getpattasu/shopno001', '/muthu'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno001', 'index.html')));
-app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/daddy'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno002', 'index.html')));
-app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattasu/shopno003', '/red'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno003', 'index.html')));
-app.get(['/', '/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno004/', '/getpattasu/shopno004', '/getpattas', '/getpattasu'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno004', 'index.html')));
-app.get(['/invoice', '/invoice/:bookingNo', '/getpattas/invoice', '/getpattasu/invoice'], (req, res) => res.sendFile(path.join(frontendDir, 'invoice.html')));
+app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno001/', '/getpattas /shopno001', '/muthu'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno001', 'index.html')));
+app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattas /shopno002', '/Get pattas '], (req, res) => res.sendFile(path.join(frontendDir, 'shopno002', 'index.html')));
+app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattas /shopno003', '/red'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno003', 'index.html')));
+app.get(['/', '/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno004/', '/getpattas /shopno004', '/getpattas', '/getpattas '], (req, res) => res.sendFile(path.join(frontendDir, 'shopno004', 'index.html')));
+app.get(['/invoice', '/invoice/:bookingNo', '/getpattas/invoice', '/getpattas /invoice'], (req, res) => res.sendFile(path.join(frontendDir, 'invoice.html')));
 
 // Health Check
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'Get Pattasu Multi-Brand Backend API',
+    service: 'Get pattas  Multi-Brand Backend API',
     databaseConnected: getIsConnected(),
     timestamp: new Date().toISOString()
   });
@@ -78,8 +78,8 @@ const startServer = async () => {
   }
 
   const server = app.listen(PORT, () => {
-    console.log(`🚀 Get Pattasu Multi-Brand API running on http://localhost:${PORT}`);
-    console.log(`📡 Brands: /api/brands/:slug (getpattasu | muthu-cracker | daddy-cracker | velmurugan-cracker)`);
+    console.log(`🚀 Get pattas  Multi-Brand API running on http://localhost:${PORT}`);
+    console.log(`📡 Brands: /api/brands/:slug (getpattas  | muthu-cracker | Get pattas -cracker | velmurugan-cracker)`);
     console.log(`📡 Categories: /api/categories?brand=slug`);
     console.log(`📡 Products: /api/products?brand=slug`);
     console.log(`🔐 Admin: /api/admin/login`);

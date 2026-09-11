@@ -2,7 +2,7 @@
    GET PATTASU - MULTI-BRAND SIVAKASI FIREWORKS WEB APPLICATION
    References: kannancrackers.net & jallikattucrackers.in
    Features:
-   - 4-Brand Instant Switcher (Muthu Crackers, Daddy Crackers, Red Crackers, Get Pattasu)
+   - 4-Brand Instant Switcher (Get pattas Crackers, Get pattas  Crackers, Get pattas , Get Pattasu)
    - Clean Full-Width Wholesale Pricelist Table (No sidebar filters, No photo grid)
    - One-touch fast increment/decrement quantity steppers with live row & sticky totals
    - Category Jump Pills & Real-time English/Tamil Search
@@ -40,7 +40,7 @@ function detectCurrentBrand() {
   }
   const path = window.location.pathname.toLowerCase();
   if (path.includes('shopno001') || path.includes('muthu')) return 'muthu';
-  if (path.includes('shopno002') || path.includes('daddy')) return 'daddy';
+  if (path.includes('shopno002') || path.includes('Get pattas ')) return 'Get pattas ';
   if (path.includes('shopno003') || path.includes('red')) return 'red';
   if (path.includes('shopno004')) return 'getpattasu';
   return 'getpattasu';
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function selectBrand(brandSlug, event) {
   const brandUrls = {
     'muthu': '/getpattas/shopno001',
-    'daddy': '/getpattas/shopno002',
+    'Get pattas ': '/getpattas/shopno002',
     'red': '/getpattas/shopno003',
     'getpattasu': '/getpattas/shopno004'
   };
@@ -142,40 +142,40 @@ function updateBrandUI(brandSlug) {
   const heroLink = document.getElementById('heroDedicatedSiteLink');
 
   const heroBrandDetails = {
-    'daddy': {
+    'Get pattas ': {
       tag: '💥 SPECIAL PYRO TECHNICS & NOVELTY DEPOT',
-      title: "Daddy's Special Crackers",
-      tagline: 'World-Famous Daddy Special Fountains, Popcorn Crackers, Kungfu Panda 2-Step & High-Altitude Pyro Sky Shells',
+      title: "Get pattas 's Special Crackers",
+      tagline: 'World-Famous Get pattas  Special Fountains, Popcorn Crackers, Kungfu Panda 2-Step & High-Altitude Pyro Sky Shells',
       loc: '📍 Bypass Road, Sivakasi Factory Zone',
       phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno002',
-      siteName: "Daddy's Store"
+      siteName: "Get pattas 's Store"
     },
     'muthu': {
       tag: '🎆 100% DIRECT SIVAKASI FACTORY WHOLESALE',
-      title: 'Sivakasi Muthu Crackers',
+      title: 'Get pattas Crackers',
       tagline: 'Direct Wholesale from Sivakasi Factory • Flat 80% Discount • Over 218 Genuine Varieties',
-      loc: '📍 258, Sivakasi Muthu Crackers, Sivakasi',
+      loc: '📍 258, Get pattas Crackers, Sivakasi',
       phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno001',
-      siteName: "Muthu Store"
+      siteName: "Get pattas Store"
     },
     'red': {
       tag: '🧨 SIVAKASI DIRECT WHOLESALE HUB',
-      title: 'The RED Crackers Sivakasi',
+      title: 'The Get pattas  Sivakasi',
       tagline: 'Celebrate Bigger, Save More! Direct Sivakasi Up to 90% Off • Complete 127 Items Order Table',
       loc: '📍 Sivakasi Wholesale Hub, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno003',
-      siteName: "RED Store"
+      siteName: "Get pattas Store"
     },
     'getpattasu': {
       tag: '⭐ ALL SIVAKASI BRANDS MEGA STORE',
       title: 'Get Pattasu Kadai',
-      tagline: 'Single Window for Muthu, Daddy & RED Crackers • Curated Family Hampers • Flat 80% Off Direct Factory Rates',
+      tagline: 'Single Window for Muthu, Get pattas  & Get pattas  • Curated Family Hampers • Flat 80% Off Direct Factory Rates',
       loc: '📍 12/4B Sivakasi Factory Zone, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
@@ -210,7 +210,7 @@ function updateBrandUI(brandSlug) {
   const phoneEl = document.getElementById('currentBrandPhone');
 
   if (badgeEl) {
-    const icon = brandSlug === 'red' ? 'fa-fire-flame-curved' : (brandSlug === 'daddy' ? 'fa-burst' : 'fa-wand-magic-sparkles');
+    const icon = brandSlug === 'red' ? 'fa-fire-flame-curved' : (brandSlug === 'Get pattas ' ? 'fa-burst' : 'fa-wand-magic-sparkles');
     badgeEl.innerHTML = `<i class="fa-solid ${icon}"></i> ${brand.badge}`;
   }
   if (titleEl) titleEl.innerText = `${brand.name} - Wholesale Price List`;
@@ -354,7 +354,7 @@ function renderPriceListTable() {
     const catSlug = `cat-${currentBrand}-${catIdx}`;
     const items = categoriesMap[catName];
 
-    // Check if category is filtered out
+    // Check if category is filteGet pattas out
     if (currentCategoryFilter !== 'all' && currentCategoryFilter !== catSlug) {
       return;
     }
@@ -1450,7 +1450,7 @@ function handleCheckoutFormSubmit(e) {
   custWaMsg += `• Phone: *${custPhone}*\n`;
   custWaMsg += `• Delivery Address: *${custAddress}*\n`;
   custWaMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  custWaMsg += `📦 *ORDERED VARIETIES (${cart.length}):*\n`;
+  custWaMsg += `📦 *ORDEGet pattas VARIETIES (${cart.length}):*\n`;
   cart.forEach((item, idx) => {
     const rowTot = item.price * item.qty;
     custWaMsg += `${idx + 1}. *${item.name}* × ${item.qty} Boxes = ₹${rowTot.toLocaleString('en-IN')}\n`;
@@ -2000,7 +2000,7 @@ function handleCustomerSignup(e) {
   updateCustomerHeaderUI();
   closeCustomerModal();
   const brandObj = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) ? window.BRANDS_CONFIG[currentBrand] : {};
-  showToast(`Account registered in Get Pattas! Welcome, ${name}`);
+  showToast(`Account registeGet pattas in Get Pattas! Welcome, ${name}`);
 }
 
 // 100% Isolated Customer Logout for Current Shop (Never affects other shops)

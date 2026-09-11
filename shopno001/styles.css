@@ -155,8 +155,18 @@ img {
 }
 
 @keyframes pulseDot {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 14px #fbbf24; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+    box-shadow: 0 0 14px #fbbf24;
+  }
 }
 
 .announcement-sep {
@@ -218,6 +228,7 @@ img {
   width: auto;
   max-width: 140px;
 }
+
 .brand-logo-img {
   width: 46px;
   height: 46px;
@@ -451,7 +462,8 @@ img {
 }
 
 .cart-nav-btn:hover i::before {
-  content: "\f217" !important; /* Dynamically swaps to fa-cart-plus on hover */
+  content: "\f217" !important;
+  /* Dynamically swaps to fa-cart-plus on hover */
 }
 
 /* Dynamic Icon Swap on Hover for Add to Cart & Checkout Action Buttons */
@@ -465,7 +477,8 @@ img {
 #comboBannerBtn:hover i::before,
 .btn-view-cart:hover .btn-icon i::before,
 .mobile-menu-actions .btn-primary:hover i.fa-cart-shopping::before {
-  content: "\f217" !important; /* fa-cart-plus on hover */
+  content: "\f217" !important;
+  /* fa-cart-plus on hover */
 }
 
 #comboBannerBtn:hover i,
@@ -484,7 +497,8 @@ img {
 }
 
 .btn-qty-plus:hover i::before {
-  content: "\f217" !important; /* Turns + into add-to-cart on hover */
+  content: "\f217" !important;
+  /* Turns + into add-to-cart on hover */
   font-size: 0.76rem;
 }
 
@@ -591,15 +605,50 @@ img {
 }
 
 /* Specific Category Accent Colors */
-.cat-pill-chakkars .cat-icon { background: #fef3c7; color: #d97706; }
-.cat-pill-pots .cat-icon { background: #fee2e2; color: #dc2626; }
-.cat-pill-rockets .cat-icon { background: #dbeafe; color: #2563eb; }
-.cat-pill-sparklers .cat-icon { background: #ecfdf5; color: #059669; }
-.cat-pill-fancy .cat-icon { background: #f5f3ff; color: #7c3aed; }
-.cat-pill-shots .cat-icon { background: #e0f2fe; color: #0284c7; }
-.cat-pill-kids .cat-icon { background: #fdf2f8; color: #db2777; }
-.cat-pill-combos .cat-icon { background: #fffbeb; color: #b45309; }
-.cat-pill-gifts .cat-icon { background: #ccfbf1; color: #0d9488; }
+.cat-pill-chakkars .cat-icon {
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.cat-pill-pots .cat-icon {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.cat-pill-rockets .cat-icon {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.cat-pill-sparklers .cat-icon {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.cat-pill-fancy .cat-icon {
+  background: #f5f3ff;
+  color: #7c3aed;
+}
+
+.cat-pill-shots .cat-icon {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.cat-pill-kids .cat-icon {
+  background: #fdf2f8;
+  color: #db2777;
+}
+
+.cat-pill-combos .cat-icon {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.cat-pill-gifts .cat-icon {
+  background: #ccfbf1;
+  color: #0d9488;
+}
 
 .cat-pill:hover {
   transform: translateY(-2px);
@@ -623,7 +672,7 @@ img {
   position: relative;
   min-height: 740px;
   background: linear-gradient(180deg, rgba(6, 12, 34, 0.78) 0%, rgba(8, 16, 44, 0.52) 40%, rgba(6, 11, 30, 0.95) 90%),
-              url('assets/get_pattas_hero_banner.jpg') center bottom / cover no-repeat;
+    url('assets/get_pattas_hero_banner.jpg') center bottom / cover no-repeat;
   color: #ffffff;
   padding: 4.5rem 0 2.5rem;
   overflow: hidden;
@@ -659,6 +708,7 @@ img {
 }
 
 @media (max-width: 768px) {
+
   /* Completely hide top category strip navigation in mobile view */
   .category-strip-nav {
     display: none !important;
@@ -678,6 +728,7 @@ img {
     color: #0f172a;
     flex-shrink: 0;
   }
+
   .customer-auth-btn .auth-text {
     max-width: 75px;
     white-space: nowrap;
@@ -701,7 +752,7 @@ img {
   width: 100%;
   height: 100%;
   background: radial-gradient(circle at 20% 35%, rgba(245, 158, 11, 0.18) 0%, transparent 60%),
-              radial-gradient(circle at 80% 20%, rgba(214, 40, 40, 0.22) 0%, transparent 55%);
+    radial-gradient(circle at 80% 20%, rgba(214, 40, 40, 0.22) 0%, transparent 55%);
   pointer-events: none;
   z-index: 1;
 }
@@ -1180,6 +1231,7 @@ img {
   .hero-headline {
     font-size: 2.8rem;
   }
+
   .hero-preview-cards-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1189,17 +1241,21 @@ img {
   .header-search-wrap {
     display: none;
   }
+
   .hero-content-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+
   .hero-headline {
     font-size: 2.3rem;
   }
+
   .cinematic-hero-section {
     padding: 3rem 0 2rem;
     min-height: auto;
   }
+
   .hero-preview-cards-grid {
     grid-template-columns: 1fr;
   }
@@ -2279,6 +2335,56 @@ img {
 .footer-logo {
   margin-bottom: 1.1rem;
   display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+}
+
+.footer-logo .brand-logo-img {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.footer-logo .brand-name {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.footer-logo .brand-name .brand-get {
+  color: #ffffff !important;
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.footer-logo .brand-name .highlight,
+body[data-brand] .footer-logo .brand-name .highlight {
+  color: #ffffff !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 900;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.footer-logo .brand-name .kadai-tag {
+  background: linear-gradient(135deg, #ea580c 0%, #d97706 100%);
+  color: #ffffff;
+  padding: 0.12rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  letter-spacing: 0.5px;
+}
+
+.footer-logo .brand-sub {
+  color: #94a3b8;
+  font-size: 0.68rem;
+  letter-spacing: 1.2px;
 }
 
 .footer-desc {
@@ -2417,7 +2523,7 @@ img {
   color: #64748b;
 }
 
-.footer-bottom-centered {
+.footer-bottom-centeGet pattas {
   text-align: center;
   justify-content: center;
 }
@@ -3635,14 +3741,17 @@ body[data-brand="muthu"] .brand-dedicated-hero {
   background: linear-gradient(135deg, #059669, #047857);
   color: #ffffff;
 }
-body[data-brand="daddy"] .brand-dedicated-hero {
+
+body[data-brand="Get pattas "] .brand-dedicated-hero {
   background: linear-gradient(135deg, #7c3aed, #6d28d9);
   color: #ffffff;
 }
+
 body[data-brand="red"] .brand-dedicated-hero {
   background: linear-gradient(135deg, #dc2626, #b91c1c);
   color: #ffffff;
 }
+
 body[data-brand="getpattasu"] .brand-dedicated-hero {
   background: linear-gradient(135deg, #d97706, #b45309);
   color: #ffffff;
@@ -4247,9 +4356,20 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 @keyframes pulseCelebrate {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
-  70% { transform: scale(1.06); box-shadow: 0 0 0 16px rgba(16, 185, 129, 0); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6);
+  }
+
+  70% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 16px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 .confirm-pill {
@@ -5451,7 +5571,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 /* ==========================================================================
-   BRAND SWITCHER SECTION (4 PROMINENT BRANDS: MUTHU, DADDY, RED, GET PATTASU)
+   BRAND SWITCHER SECTION (4 PROMINENT BRANDS: MUTHU, Get pattas , RED, GET PATTASU)
    ========================================================================== */
 .brand-switcher-section {
   padding: 2.5rem 0 1.5rem;
@@ -5518,7 +5638,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
   box-shadow: 0 10px 25px rgba(5, 150, 105, 0.15);
 }
 
-#brandBtn-daddy.active {
+#brandBtn-Get pattas .active {
   border-color: #7c3aed;
   background: linear-gradient(145deg, #ffffff 0%, #f5f3ff 100%);
   box-shadow: 0 10px 25px rgba(124, 58, 237, 0.15);
@@ -5559,7 +5679,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
   color: #ffffff;
 }
 
-#brandBtn-daddy.active .brand-card-pill {
+#brandBtn-Get pattas .active .brand-card-pill {
   background: #7c3aed;
   color: #ffffff;
 }
@@ -5605,10 +5725,21 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
   transition: transform 0.2s ease;
 }
 
-#brandBtn-muthu .brand-card-action { color: #059669; }
-#brandBtn-daddy .brand-card-action { color: #7c3aed; }
-#brandBtn-red .brand-card-action { color: #dc2626; }
-#brandBtn-getpattasu .brand-card-action { color: #d97706; }
+#brandBtn-Get pattas .brand-card-action {
+  color: #059669;
+}
+
+#brandBtn-Get pattas .brand-card-action {
+  color: #7c3aed;
+}
+
+#brandBtn-Get pattas .brand-card-action {
+  color: #dc2626;
+}
+
+#brandBtn-getpattasu .brand-card-action {
+  color: #d97706;
+}
 
 .brand-card-btn:hover .brand-card-action {
   transform: translateX(4px);
@@ -5934,6 +6065,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
   .cat-accordion-arrow {
     display: none !important;
   }
+
   .category-body-collapse,
   .category-table-block.is-collapsed .category-body-collapse {
     display: block !important;
@@ -5941,6 +6073,7 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
     opacity: 1 !important;
     visibility: visible !important;
   }
+
   .category-table-header {
     cursor: default;
   }
@@ -6392,7 +6525,9 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 @media (max-width: 480px) {
-  .th-mrp, .td-mrp {
+
+  .th-mrp,
+  .td-mrp {
     display: none;
   }
 
@@ -6457,9 +6592,20 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 @keyframes qrPulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 .upi-qr-body {
@@ -6556,9 +6702,9 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 
 /* ==========================================================================
    4-BRAND DISTINCT HERO BANNERS & FULL-PAGE COLOR THEMES
-   1. Daddy's Crackers: Royal Electric Purple (#7c3aed, #6d28d9, #f5f3ff)
-   2. Sivakasi Muthu Crackers: Emerald Forest Green (#059669, #047857, #ecfdf5)
-   3. The RED Crackers: Fiery Crimson Red (#dc2626, #b91c1c, #fef2f2)
+   1. Get pattas 's Crackers: Royal Electric Purple (#7c3aed, #6d28d9, #f5f3ff)
+   2. Get pattas Crackers: Emerald Forest Green (#059669, #047857, #ecfdf5)
+   3. The Get pattas : Fiery Crimson Get pattas (#dc2626, #b91c1c, #fef2f2)
    4. Get Pattasu: Festive Golden Amber & Crimson (#d97706, #b45309, #fffbeb)
    ========================================================================== */
 
@@ -6607,9 +6753,9 @@ body[data-brand="getpattasu"] .brand-dedicated-hero {
 }
 
 /* ----------------------------------------------------
-   THEME 1: DADDY'S CRACKERS (ROYAL ELECTRIC PURPLE)
+   THEME 1: Get pattas 'S CRACKERS (ROYAL ELECTRIC PURPLE)
    ---------------------------------------------------- */
-body[data-brand="daddy"] {
+body[data-brand="Get pattas "] {
   --primary-red: #7c3aed !important;
   --primary-red-dark: #4c1d95 !important;
   --primary-brand: #7c3aed !important;
@@ -6618,128 +6764,128 @@ body[data-brand="daddy"] {
   --brand-border: #a855f7 !important;
 }
 
-body[data-brand="daddy"] .brand-logo-img {
+body[data-brand="Get pattas "] .brand-logo-img {
   border-color: #7c3aed !important;
   box-shadow: 0 0 14px rgba(124, 58, 237, 0.4) !important;
 }
 
-body[data-brand="daddy"] .brand-name .highlight {
+body[data-brand="Get pattas "] .brand-name .highlight {
   color: #7c3aed !important;
 }
 
-body[data-brand="daddy"] .kadai-tag {
+body[data-brand="Get pattas "] .kadai-tag {
   background: linear-gradient(135deg, #7c3aed, #4c1d95) !important;
   border-color: #7c3aed !important;
 }
 
-body[data-brand="daddy"] .cart-badge {
+body[data-brand="Get pattas "] .cart-badge {
   background: #7c3aed !important;
   box-shadow: 0 0 8px rgba(124, 58, 237, 0.5) !important;
 }
 
-body[data-brand="daddy"] .nav-link.active,
-body[data-brand="daddy"] .nav-link:hover {
+body[data-brand="Get pattas "] .nav-link.active,
+body[data-brand="Get pattas "] .nav-link:hover {
   color: #7c3aed !important;
 }
 
-body[data-brand="daddy"] .brand-dedicated-hero {
+body[data-brand="Get pattas "] .brand-dedicated-hero {
   background: linear-gradient(135deg, #1e0b36 0%, #3b0764 35%, #581c87 65%, #7c3aed 100%) !important;
   border-bottom: 5px solid #a855f7 !important;
   box-shadow: 0 12px 36px rgba(124, 58, 237, 0.3) !important;
 }
 
-body[data-brand="daddy"] .hero-btn-shop {
+body[data-brand="Get pattas "] .hero-btn-shop {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
   border: 1px solid #a855f7 !important;
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.45) !important;
 }
 
-body[data-brand="daddy"] .hero-btn-shop:hover {
+body[data-brand="Get pattas "] .hero-btn-shop:hover {
   background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
   box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6) !important;
 }
 
-body[data-brand="daddy"] .active-brand-banner {
+body[data-brand="Get pattas "] .active-brand-banner {
   background: linear-gradient(135deg, #2e1065 0%, #4c1d95 60%, #1e1b4b 100%) !important;
   border-left: 5px solid #a855f7 !important;
   box-shadow: 0 8px 24px rgba(124, 58, 237, 0.2) !important;
 }
 
-body[data-brand="daddy"] .current-brand-badge {
+body[data-brand="Get pattas "] .current-brand-badge {
   background: #7c3aed !important;
   color: #ffffff !important;
   box-shadow: 0 0 10px rgba(124, 58, 237, 0.5) !important;
 }
 
-body[data-brand="daddy"] .category-table-header {
+body[data-brand="Get pattas "] .category-table-header {
   background: linear-gradient(90deg, #2e1065 0%, #581c87 50%, #7c3aed 100%) !important;
   border-bottom: 2px solid #a855f7 !important;
 }
 
-body[data-brand="daddy"] .net-price-highlight {
+body[data-brand="Get pattas "] .net-price-highlight {
   color: #7c3aed !important;
   font-weight: 800 !important;
 }
 
-body[data-brand="daddy"] .product-row.row-selected {
+body[data-brand="Get pattas "] .product-row.row-selected {
   background-color: #f5f3ff !important;
   border-left: 4px solid #7c3aed !important;
 }
 
-body[data-brand="daddy"] .product-row.row-selected .row-total-val {
+body[data-brand="Get pattas "] .product-row.row-selected .row-total-val {
   color: #6d28d9 !important;
   font-weight: 800 !important;
 }
 
-body[data-brand="daddy"] .btn-qty-minus:hover,
-body[data-brand="daddy"] .btn-qty-plus:hover {
+body[data-brand="Get pattas "] .btn-qty-minus:hover,
+body[data-brand="Get pattas "] .btn-qty-plus:hover {
   background: #7c3aed !important;
   color: #ffffff !important;
   box-shadow: 0 0 10px rgba(124, 58, 237, 0.4) !important;
 }
 
-body[data-brand="daddy"] .btn-sticky-checkout {
+body[data-brand="Get pattas "] .btn-sticky-checkout {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
   box-shadow: 0 6px 20px rgba(124, 58, 237, 0.5) !important;
 }
 
-body[data-brand="daddy"] .btn-sticky-checkout:hover {
+body[data-brand="Get pattas "] .btn-sticky-checkout:hover {
   background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
 }
 
-body[data-brand="daddy"] .category-pill-btn.active {
+body[data-brand="Get pattas "] .category-pill-btn.active {
   background: #7c3aed !important;
   border-color: #7c3aed !important;
   box-shadow: 0 4px 14px rgba(124, 58, 237, 0.3) !important;
 }
 
-body[data-brand="daddy"] .category-pill-btn.active .pill-badge {
+body[data-brand="Get pattas "] .category-pill-btn.active .pill-badge {
   background: #4c1d95 !important;
   color: #ffffff !important;
 }
 
-body[data-brand="daddy"] .table-search-box input:focus,
-body[data-brand="daddy"] .category-jump-select:focus {
+body[data-brand="Get pattas "] .table-search-box input:focus,
+body[data-brand="Get pattas "] .category-jump-select:focus {
   border-color: #7c3aed !important;
   box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2) !important;
 }
 
-body[data-brand="daddy"] .upi-qr-display-box {
+body[data-brand="Get pattas "] .upi-qr-display-box {
   border-color: #a855f7 !important;
   background: linear-gradient(145deg, #ffffff 0%, #f5f3ff 100%) !important;
 }
 
-body[data-brand="daddy"] .upi-copy-btn {
+body[data-brand="Get pattas "] .upi-copy-btn {
   background: #7c3aed !important;
 }
 
-body[data-brand="daddy"] .btn-primary {
+body[data-brand="Get pattas "] .btn-primary {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
   border-color: #7c3aed !important;
 }
 
 /* ----------------------------------------------------
-   THEME 2: SIVAKASI MUTHU CRACKERS (EMERALD GREEN)
+   THEME 2: Get pattas Crackers (EMERALD GREEN)
    ---------------------------------------------------- */
 body[data-brand="muthu"] {
   --primary-red: #059669 !important;
@@ -6871,7 +7017,7 @@ body[data-brand="muthu"] .btn-primary {
 }
 
 /* ----------------------------------------------------
-   THEME 3: THE RED CRACKERS (FIERY CRIMSON RED)
+   THEME 3: THE Get pattas  (FIERY CRIMSON RED)
    ---------------------------------------------------- */
 body[data-brand="red"] {
   --primary-red: #dc2626 !important;
@@ -7162,6 +7308,7 @@ body[data-brand="getpattasu"] .btn-primary {
 
 /* ---------- TABLET PORTRAIT (≤860px) ---------- */
 @media (max-width: 860px) {
+
   /* Keep brand logo readable */
   .logo-text {
     max-width: 160px;
@@ -7226,6 +7373,7 @@ body[data-brand="getpattasu"] .btn-primary {
 
 /* ---------- MOBILE (≤600px) ---------- */
 @media (max-width: 600px) {
+
   /* Header */
   .header-container {
     padding: 0.45rem 0.75rem;
@@ -7991,6 +8139,7 @@ body[data-brand="getpattasu"] .btn-primary {
 
 /* ---------- PRINT HIDE INTERACTIVE ELEMENTS ---------- */
 @media print {
+
   .main-header,
   .sticky-order-bar,
   .cart-drawer,
@@ -8081,50 +8230,60 @@ body[data-brand="muthu"] .cart-nav-btn {
   background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
   border-color: #047857 !important;
 }
+
 body[data-brand="muthu"] .cart-nav-btn:hover {
   background: linear-gradient(135deg, #047857 0%, #064e3b 100%) !important;
   box-shadow: 0 4px 16px rgba(5, 150, 105, 0.4) !important;
 }
+
 body[data-brand="muthu"] .nav-icon-btn:hover,
 body[data-brand="muthu"] .customer-auth-btn:hover {
   color: #059669 !important;
   border-color: #a7f3d0 !important;
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.15) !important;
 }
+
 body[data-brand="muthu"] .header-search-bar:focus-within {
   border-color: #059669 !important;
   box-shadow: 0 0 16px rgba(5, 150, 105, 0.22) !important;
 }
+
 body[data-brand="muthu"] .action-count-badge {
   background: #059669 !important;
 }
+
 body[data-brand="muthu"] .cart-count-pill {
   background: #f59e0b !important;
   color: #0f172a !important;
 }
 
-body[data-brand="daddy"] .cart-nav-btn {
+body[data-brand="Get pattas "] .cart-nav-btn {
   background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%) !important;
   border-color: #6d28d9 !important;
 }
-body[data-brand="daddy"] .cart-nav-btn:hover {
+
+body[data-brand="Get pattas "] .cart-nav-btn:hover {
   background: linear-gradient(135deg, #6d28d9 0%, #4c1d95 100%) !important;
   box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4) !important;
 }
-body[data-brand="daddy"] .nav-icon-btn:hover,
-body[data-brand="daddy"] .customer-auth-btn:hover {
+
+body[data-brand="Get pattas "] .nav-icon-btn:hover,
+body[data-brand="Get pattas "] .customer-auth-btn:hover {
   color: #7c3aed !important;
   border-color: #ddd6fe !important;
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15) !important;
 }
-body[data-brand="daddy"] .header-search-bar:focus-within {
+
+body[data-brand="Get pattas "] .header-search-bar:focus-within {
   border-color: #7c3aed !important;
   box-shadow: 0 0 16px rgba(124, 58, 237, 0.22) !important;
 }
-body[data-brand="daddy"] .action-count-badge {
+
+body[data-brand="Get pattas "] .action-count-badge {
   background: #7c3aed !important;
 }
-body[data-brand="daddy"] .cart-count-pill {
+
+body[data-brand="Get pattas "] .cart-count-pill {
   background: #f59e0b !important;
   color: #0f172a !important;
 }
@@ -8133,23 +8292,28 @@ body[data-brand="red"] .cart-nav-btn {
   background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%) !important;
   border-color: #b91c1c !important;
 }
+
 body[data-brand="red"] .cart-nav-btn:hover {
   background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%) !important;
   box-shadow: 0 4px 16px rgba(220, 38, 38, 0.4) !important;
 }
+
 body[data-brand="red"] .nav-icon-btn:hover,
 body[data-brand="red"] .customer-auth-btn:hover {
   color: #dc2626 !important;
   border-color: #fecaca !important;
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15) !important;
 }
+
 body[data-brand="red"] .header-search-bar:focus-within {
   border-color: #dc2626 !important;
   box-shadow: 0 0 16px rgba(220, 38, 38, 0.22) !important;
 }
+
 body[data-brand="red"] .action-count-badge {
   background: #dc2626 !important;
 }
+
 body[data-brand="red"] .cart-count-pill {
   background: #f59e0b !important;
   color: #0f172a !important;
@@ -8162,31 +8326,37 @@ body[data-brand="getpattasu"] .cart-nav-btn {
   color: #ffffff !important;
   box-shadow: 0 4px 14px rgba(234, 88, 12, 0.35) !important;
 }
+
 body[data-brand="getpattasu"] .cart-nav-btn:hover {
   background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
   box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5) !important;
   transform: translateY(-2px);
 }
+
 body[data-brand="getpattasu"] .nav-icon-btn:hover,
 body[data-brand="getpattasu"] .customer-auth-btn:hover {
   color: #ea580c !important;
   border-color: #fed7aa !important;
   box-shadow: 0 4px 12px rgba(234, 88, 12, 0.18) !important;
 }
+
 body[data-brand="getpattasu"] .header-search-bar:focus-within {
   border-color: #ea580c !important;
   box-shadow: 0 0 16px rgba(234, 88, 12, 0.25) !important;
 }
+
 body[data-brand="getpattasu"] .action-count-badge {
   background: #ea580c !important;
   color: #ffffff !important;
 }
+
 body[data-brand="getpattasu"] .cart-count-pill {
   background: #ffffff !important;
   color: #c2410c !important;
   border: 2px solid #ea580c !important;
   font-weight: 900 !important;
 }
+
 body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
   background: linear-gradient(135deg, #ea580c, #c2410c) !important;
 }
@@ -8197,9 +8367,10 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
 }
 
 @media print {
-  body.printing-invoice-active > *:not(#printableInvoiceArea) {
+  body.printing-invoice-active>*:not(#printableInvoiceArea) {
     display: none !important;
   }
+
   body.printing-invoice-active #printableInvoiceArea {
     display: block !important;
     position: static !important;
@@ -8296,6 +8467,7 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
     max-width: 440px !important;
     margin: auto !important;
   }
+
   .c-auth-form input,
   .c-auth-form textarea {
     font-size: 16px !important;
@@ -8330,7 +8502,9 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
   color: #475569 !important;
 }
 
-.swal2-confirm, .swal2-cancel, .swal2-deny {
+.swal2-confirm,
+.swal2-cancel,
+.swal2-deny {
   border-radius: 10px !important;
   font-weight: 700 !important;
   font-size: 0.92rem !important;
@@ -8339,7 +8513,9 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
   transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 
-.swal2-confirm:hover, .swal2-cancel:hover, .swal2-deny:hover {
+.swal2-confirm:hover,
+.swal2-cancel:hover,
+.swal2-deny:hover {
   transform: translateY(-2px) !important;
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18) !important;
 }
@@ -8451,6 +8627,7 @@ body[data-brand="getpattasu"] .mobile-menu-actions .btn-primary {
     opacity: 0;
     transform: translateY(-8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);

@@ -8,15 +8,15 @@
   --primary-purple-dark: #7e22ce;
   --primary-purple-light: #f3e8ff;
   --primary-purple-gradient: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
-  
+
   --bg-app: #f8fafc;
   --bg-sidebar: #ffffff;
   --bg-card: #ffffff;
-  
+
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border-light: #e2e8f0;
-  
+
   --color-pink: #db2777;
   --color-blue: #2563eb;
   --color-orange: #ea580c;
@@ -24,21 +24,23 @@
   --color-indigo: #4f46e5;
   --color-green: #16a34a;
   --color-red: #ef4444;
-  
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 20px;
-  
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.04);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.06);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.06);
   --shadow-purple: 0 4px 16px rgba(147, 51, 234, 0.3);
-  
+
   --transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -116,7 +118,9 @@ body {
   margin-bottom: 0.4rem;
 }
 
-.form-group input, .form-group select, .form-group textarea {
+.form-group input,
+.form-group select,
+.form-group textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   border: 1px solid var(--border-light);
@@ -129,7 +133,9 @@ body {
   transition: var(--transition);
 }
 
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
   border-color: var(--primary-purple);
   box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.12);
 }
@@ -262,7 +268,7 @@ body {
   border-radius: 20px;
 }
 
-.menu-item .menu-badge.badge-red {
+.menu-item .menu-badge.badge-Get pattas {
   background: #fee2e2;
   color: #ef4444;
 }
@@ -619,6 +625,7 @@ body {
   border-color: #1e293b;
   box-shadow: 0 4px 12px rgba(30, 41, 59, 0.25);
 }
+
 .admin-brand-pill.active[data-brand="all"] .pill-badge {
   background: rgba(255, 255, 255, 0.25);
   color: #ffffff;
@@ -630,6 +637,7 @@ body {
   border-color: #d97706;
   box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
 }
+
 .admin-brand-pill.active[data-brand="getpattasu"] .pill-badge {
   background: rgba(255, 255, 255, 0.3);
   color: #ffffff;
@@ -641,18 +649,20 @@ body {
   border-color: #059669;
   box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
 }
+
 .admin-brand-pill.active[data-brand="muthu"] .pill-badge {
   background: rgba(255, 255, 255, 0.3);
   color: #ffffff;
 }
 
-.admin-brand-pill.active[data-brand="daddy"] {
+.admin-brand-pill.active[data-brand="Get pattas "] {
   background: linear-gradient(135deg, #8b5cf6, #7c3aed);
   color: #ffffff;
   border-color: #7c3aed;
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
 }
-.admin-brand-pill.active[data-brand="daddy"] .pill-badge {
+
+.admin-brand-pill.active[data-brand="Get pattas "] .pill-badge {
   background: rgba(255, 255, 255, 0.3);
   color: #ffffff;
 }
@@ -663,6 +673,7 @@ body {
   border-color: #dc2626;
   box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
 }
+
 .admin-brand-pill.active[data-brand="red"] .pill-badge {
   background: rgba(255, 255, 255, 0.3);
   color: #ffffff;
@@ -691,8 +702,15 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .pane-header {
@@ -833,15 +851,44 @@ body {
   justify-content: center;
 }
 
-.bg-purple { background: #f3e8ff; }
-.bg-pink { background: #fce7f3; }
-.bg-blue { background: #dbeafe; }
-.bg-orange { background: #ffedd5; }
-.bg-teal { background: #ccfbf1; }
-.bg-indigo { background: #e0e7ff; }
-.bg-purple-light { background: #f3e8ff; color: #9333ea; }
-.bg-pink-light { background: #fce7f3; color: #db2777; }
-.bg-green-light { background: #dcfce7; border: 1px solid #bbf7d0; }
+.bg-purple {
+  background: #f3e8ff;
+}
+
+.bg-pink {
+  background: #fce7f3;
+}
+
+.bg-blue {
+  background: #dbeafe;
+}
+
+.bg-orange {
+  background: #ffedd5;
+}
+
+.bg-teal {
+  background: #ccfbf1;
+}
+
+.bg-indigo {
+  background: #e0e7ff;
+}
+
+.bg-purple-light {
+  background: #f3e8ff;
+  color: #9333ea;
+}
+
+.bg-pink-light {
+  background: #fce7f3;
+  color: #db2777;
+}
+
+.bg-green-light {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
 
 .stat-meta {
   display: flex;
@@ -1020,12 +1067,10 @@ body {
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  background: conic-gradient(
-    #9333ea 0% 35%,
-    #ea580c 35% 60%,
-    #0d9488 60% 80%,
-    #db2777 80% 100%
-  );
+  background: conic-gradient(#9333ea 0% 35%,
+      #ea580c 35% 60%,
+      #0d9488 60% 80%,
+      #db2777 80% 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1217,9 +1262,17 @@ body {
   color: #475569;
 }
 
-.text-purple { color: var(--primary-purple); }
-.text-green { color: #16a34a; }
-.text-orange { color: #ea580c; }
+.text-purple {
+  color: var(--primary-purple);
+}
+
+.text-green {
+  color: #16a34a;
+}
+
+.text-orange {
+  color: #ea580c;
+}
 
 /* ==========================================================================
    Product Registry View 2 Components (Matching Screenshot 2)
@@ -1613,19 +1666,40 @@ body {
   transition: var(--transition);
 }
 
-.status-btn.btn-pnd.active { background: #fef3c7; color: #b45309; border-color: #f59e0b; }
-.status-btn.btn-prc.active { background: #e0f2fe; color: #0369a1; border-color: #38bdf8; }
-.status-btn.btn-dlv.active { background: #dcfce7; color: #15803d; border-color: #22c55e; }
-.status-btn.btn-ccl.active { background: #fee2e2; color: #b91c1c; border-color: #ef4444; }
+.status-btn.btn-pnd.active {
+  background: #fef3c7;
+  color: #b45309;
+  border-color: #f59e0b;
+}
+
+.status-btn.btn-prc.active {
+  background: #e0f2fe;
+  color: #0369a1;
+  border-color: #38bdf8;
+}
+
+.status-btn.btn-dlv.active {
+  background: #dcfce7;
+  color: #15803d;
+  border-color: #22c55e;
+}
+
+.status-btn.btn-ccl.active {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: #ef4444;
+}
 
 /* Responsive Media Queries */
 @media (max-width: 1200px) {
   .metrics-row-6 {
     grid-template-columns: repeat(3, 1fr);
   }
+
   .dashboard-middle-grid {
     grid-template-columns: 1fr;
   }
+
   .dashboard-bottom-grid {
     grid-template-columns: 1fr;
   }
@@ -1636,12 +1710,18 @@ body {
     width: 70px;
     padding: 1rem 0.5rem;
   }
-  .sidebar-brand .brand-info, .menu-label, .menu-badge, .user-details {
+
+  .sidebar-brand .brand-info,
+  .menu-label,
+  .menu-badge,
+  .user-details {
     display: none;
   }
+
   .app-workspace {
     margin-left: 70px;
   }
+
   .menu-item {
     justify-content: center;
     padding: 0.8rem;
@@ -1652,6 +1732,7 @@ body {
   .app-layout {
     flex-direction: column;
   }
+
   .app-sidebar {
     width: 100%;
     height: auto;
@@ -1665,9 +1746,11 @@ body {
     background: #0f172a;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
+
   .sidebar-brand {
     display: none;
   }
+
   .sidebar-menu {
     display: flex;
     flex-direction: row;
@@ -1676,37 +1759,47 @@ body {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
+
   .sidebar-user {
     display: none;
   }
+
   .app-workspace {
     margin-left: 0 !important;
     width: 100%;
   }
+
   .workspace-topbar {
     padding: 0.75rem 1rem;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
+
   .topbar-title {
     font-size: 1.1rem;
   }
+
   .topbar-actions {
     gap: 0.5rem;
   }
+
   .metrics-row-6 {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
+
   .quick-actions-row {
     grid-template-columns: 1fr;
   }
+
   .inventory-summary-cards {
     grid-template-columns: 1fr;
   }
+
   .topbar-search {
     display: none;
   }
+
   .table-responsive,
   .products-table-wrapper,
   .orders-table-wrapper {
@@ -1714,12 +1807,14 @@ body {
     -webkit-overflow-scrolling: touch;
     width: 100%;
   }
+
   .filter-bar,
   .orders-filter-row {
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
   }
+
   .modal-dialog {
     width: 95vw !important;
     max-width: 95vw !important;
@@ -1732,19 +1827,24 @@ body {
     grid-template-columns: 1fr 1fr;
     gap: 0.5rem;
   }
+
   .metric-card {
     padding: 0.75rem;
   }
+
   .metric-value {
     font-size: 1.25rem;
   }
+
   .workspace-content {
     padding: 0.75rem 0.5rem;
   }
+
   .card {
     padding: 0.85rem;
     border-radius: 12px;
   }
+
   .menu-item {
     padding: 0.4rem 0.6rem;
     font-size: 0.75rem;

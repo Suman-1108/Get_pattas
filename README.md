@@ -1,4 +1,4 @@
-# 🎆 Get Pattasu — Multi-Brand Sivakasi Fireworks Wholesale E-Commerce Platform
+# 🎆 Get pattas  — Multi-Brand Sivakasi Fireworks Wholesale E-Commerce Platform
 
 > **Direct Factory Consignment & Wholesale Cracker Ordering System**  
 > Supports **4 Dedicated Brand Storefronts**, **Centralized Admin Dashboard**, **Automated WhatsApp Order Dispatch**, and **Digital Wholesale Tax Invoice Generation**.
@@ -8,9 +8,9 @@
 ## 🌟 Key Highlights
 
 - 🏪 **4 Distinct Brand Storefronts**:
-  - **Shop 001**: Sivakasi Muthu Crackers (`/shopno001`)
-  - **Shop 002**: Daddy Crackers Sivakasi (`/shopno002`)
-  - **Shop 003**: Red Crackers Sivakasi (`/shopno003`)
+  - **Shop 001**: Get pattas Crackers (`/shopno001`)
+  - **Shop 002**: Get pattas  Crackers Sivakasi (`/shopno002`)
+  - **Shop 003**: Get pattas  Sivakasi (`/shopno003`)
   - **Shop 004**: Get Pattas Wholesale Depot (`/shopno004` or `/`)
 - 📋 **Wholesale Price List Engine**:
   - Full-width interactive catalog with real-time English and Tamil search.
@@ -30,7 +30,7 @@
   - **Store Desk WhatsApp**: Instant notification to the depot manager for parcel lorry receipt (LR) dispatch and logistics tracking.
 - 🔐 **Centralized Admin Dashboard** (`/admin.html`):
   - View, filter, and track all multi-brand wholesale bookings in real-time.
-  - Real-time cross-tab synchronization powered by `BroadcastChannel` and REST API.
+  - Real-time cross-tab synchronization poweGet pattas by `BroadcastChannel` and REST API.
 - ⚡ **Dual Execution Modes**:
   - **Offline/Standalone**: Double-click `index.html` in any shop directory to run directly via `file:///`.
   - **Full-Stack Client-Server**: Run the Node.js Express backend with MongoDB and REST API endpoints.
@@ -40,7 +40,7 @@
 ## 📂 Project Structure
 
 ```
-get-pattasu/
+get-pattas /
 ├── .env.example                # Example environment variables template
 ├── .gitignore                  # Git ignore rules for node_modules, .env, and OS files
 ├── README.md                   # Project documentation
@@ -52,7 +52,7 @@ get-pattasu/
 ├── admin.js                    # Admin panel controller & sync engine
 ├── admin.css                   # Admin dashboard styles
 │
-├── shopno001/                  # Shop 001 — Sivakasi Muthu Crackers
+├── shopno001/                  # Shop 001 — Get pattas Crackers
 │   ├── index.html
 │   ├── styles.css
 │   ├── app.js
@@ -60,7 +60,7 @@ get-pattasu/
 │   ├── invoice.html
 │   └── html2pdf.bundle.min.js
 │
-├── shopno002/                  # Shop 002 — Sivakasi Daddy Crackers
+├── shopno002/                  # Shop 002 — Sivakasi Get pattas  Crackers
 │   ├── index.html
 │   ├── styles.css
 │   ├── app.js
@@ -68,7 +68,7 @@ get-pattasu/
 │   ├── invoice.html
 │   └── html2pdf.bundle.min.js
 │
-├── shopno003/                  # Shop 003 — Sivakasi Red Crackers
+├── shopno003/                  # Shop 003 — Sivakasi Get pattas 
 │   ├── index.html
 │   ├── styles.css
 │   ├── app.js
@@ -123,7 +123,7 @@ get-pattasu/
 1. **Clone the repository**:
    ```bash
    git clone <your-repository-url>
-   cd "get pattasu"
+   cd "get pattas "
    ```
 
 2. **Configure Environment Variables**:
@@ -135,7 +135,7 @@ get-pattasu/
    Edit `.env` to set your MongoDB connection string and port:
    ```env
    PORT=5000
-   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/get_pattasu_multibrand
+   MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/get_pattas _multibrand
    JWT_SECRET=your_secret_key
    ```
 
@@ -159,9 +159,9 @@ Once the server is running, you can access the storefronts and dashboard at:
 
 | Portal / Storefront | URL Route | Description |
 | :--- | :--- | :--- |
-| **Shop 001** | `http://localhost:5000/shopno001` | Sivakasi Muthu Crackers |
-| **Shop 002** | `http://localhost:5000/shopno002` | Sivakasi Daddy Crackers |
-| **Shop 003** | `http://localhost:5000/shopno003` | Sivakasi Red Crackers |
+| **Shop 001** | `http://localhost:5000/shopno001` | Get pattas Crackers |
+| **Shop 002** | `http://localhost:5000/shopno002` | Sivakasi Get pattas  Crackers |
+| **Shop 003** | `http://localhost:5000/shopno003` | Sivakasi Get pattas  |
 | **Shop 004** | `http://localhost:5000/shopno004` (or `/`) | Get Pattas Wholesale Depot |
 | **Digital Invoice** | `http://localhost:5000/invoice` | Online Invoice Viewer (`?bn=GP-...`) |
 | **Admin Panel** | `http://localhost:5000/admin.html` | Multi-Brand Central Dashboard |
@@ -192,7 +192,7 @@ Once the server is running, you can access the storefronts and dashboard at:
 
 > **IMPORTANT COMPLIANCE STATEMENT (Per Supreme Court of India Guidelines)**:  
 > In accordance with the 2018 Supreme Court of India directives regarding the sale and distribution of firecrackers:
-> - All products featured comply with authorized **Green Fireworks** specifications with verified CSIR-NEERI formulation standards.
+> - All products featuGet pattas comply with authorized **Green Fireworks** specifications with verified CSIR-NEERI formulation standards.
 > - Online bookings generated through this platform function as **wholesale consignments / estimates** for direct factory transport from Sivakasi, Tamil Nadu.
 > - Commercial buyers and site operators must hold valid state permits, explosive licenses, and comply with all applicable local jurisdiction transport laws.
 

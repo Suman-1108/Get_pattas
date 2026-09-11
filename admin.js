@@ -27,7 +27,7 @@ let adminOrders = [];
 let adminCustomers = [];
 let adminConfig = {};
 let currentActiveTab = 'dashboard';
-let currentAdminBrand = 'all'; // 'all', 'getpattasu', 'muthu', 'daddy', 'red'
+let currentAdminBrand = 'all'; // 'all', 'getpattasu', 'muthu', 'Get pattas ', 'red'
 
 // On Load
 document.addEventListener('DOMContentLoaded', () => {
@@ -85,9 +85,9 @@ function setAdminActiveBrand(brandSlug, btnElement = null) {
 
   const brandTitles = {
     'getpattasu': { title: 'GET PATTASU', tag: 'WHOLESALE ADMIN', url: '/getpattas/shopno004', name: 'Get Pattasu Admin' },
-    'muthu': { title: 'SIVAKASI MUTHU', tag: 'MUTHU ADMIN', url: '/getpattas/shopno001', name: 'Muthu Crackers Admin' },
-    'daddy': { title: "DADDY'S CRACKERS", tag: 'DADDY ADMIN', url: '/getpattas/shopno002', name: "Daddy's Crackers Admin" },
-    'red': { title: 'THE RED CRACKERS', tag: 'RED ADMIN', url: '/getpattas/shopno003', name: 'The RED Crackers Admin' },
+    'muthu': { title: 'Get pattas ', tag: 'Get pattas ADMIN', url: '/getpattas/shopno001', name: 'Get pattas Crackers Admin' },
+    'Get pattas ': { title: "Get pattas 'S CRACKERS", tag: 'Get pattas  ADMIN', url: '/getpattas/shopno002', name: "Get pattas 's Crackers Admin" },
+    'red': { title: 'THE Get pattas ', tag: 'Get pattas ADMIN', url: '/getpattas/shopno003', name: 'The Get pattas  Admin' },
     'all': { title: 'GET PATTASU', tag: 'ALL 4 BRANDS ADMIN', url: '/getpattas/shopno004', name: 'Master Super Admin' }
   };
 
@@ -262,14 +262,14 @@ function renderDashboardOverview() {
   // Update pill badges on top switcher
   const pillAll = document.getElementById('pillBadgeAll');
   const pillGP = document.getElementById('pillBadgeGetpattasu');
-  const pillMuthu = document.getElementById('pillBadgeMuthu');
-  const pillDaddy = document.getElementById('pillBadgeDaddy');
-  const pillRed = document.getElementById('pillBadgeRed');
+  const pillGet pattas = document.getElementById('pillBadgeMuthu');
+  const pillGet pattas = document.getElementById('pillBadgeGet pattas ');
+  const pillGet pattas = document.getElementById('pillBadgeRed');
 
   if (pillAll) pillAll.innerText = adminOrders.length;
   if (pillGP) pillGP.innerText = adminOrders.filter(o => o.brand === 'getpattasu' || (o.brandName && o.brandName.toLowerCase().includes('get pattasu'))).length;
   if (pillMuthu) pillMuthu.innerText = adminOrders.filter(o => o.brand === 'muthu' || (o.brandName && o.brandName.toLowerCase().includes('muthu'))).length;
-  if (pillDaddy) pillDaddy.innerText = adminOrders.filter(o => o.brand === 'daddy' || (o.brandName && o.brandName.toLowerCase().includes('daddy'))).length;
+  if (pillGet pattas ) pillGet pattas.innerText = adminOrders.filter(o => o.brand === 'Get pattas ' || (o.brandName && o.brandName.toLowerCase().includes('Get pattas '))).length;
   if (pillRed) pillRed.innerText = adminOrders.filter(o => o.brand === 'red' || (o.brandName && o.brandName.toLowerCase().includes('red'))).length;
 
   // 2. Recent Orders List
@@ -369,7 +369,7 @@ function renderAdminProducts() {
   const search = (document.getElementById('prodSearchInput')?.value || '').toLowerCase().trim();
   const catFilter = document.getElementById('prodCategoryFilter')?.value || 'all';
 
-  const filtered = adminProducts.filter(p => {
+  const filteGet pattas = adminProducts.filter(p => {
     const matchSearch = (p.name && p.name.toLowerCase().includes(search)) ||
       (p.tamilName && p.tamilName.toLowerCase().includes(search)) ||
       (p.id && p.id.toLowerCase().includes(search)) ||
@@ -558,7 +558,7 @@ function getBrandStyle(brandSlug) {
       return 'background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;';
     case 'muthu':
       return 'background: #ecfdf5; color: #059669; border: 1px solid #6ee7b7;';
-    case 'daddy':
+    case 'Get pattas ':
       return 'background: #f5f3ff; color: #7c3aed; border: 1px solid #c4b5fd;';
     default:
       return 'background: #fffbeb; color: #d97706; border: 1px solid #fcd34d;';
@@ -569,16 +569,16 @@ function getBrandEmoji(brandSlug) {
   switch (brandSlug) {
     case 'red': return '🧨';
     case 'muthu': return '🎆';
-    case 'daddy': return '💥';
+    case 'Get pattas ': return '💥';
     default: return '⭐';
   }
 }
 
 function getBrandTitle(brandSlug) {
   switch (brandSlug) {
-    case 'red': return 'The RED Crackers';
-    case 'muthu': return 'Sivakasi Muthu Crackers';
-    case 'daddy': return "Daddy's Crackers";
+    case 'red': return 'The Get pattas ';
+    case 'muthu': return 'Get pattas Crackers';
+    case 'Get pattas ': return "Get pattas 's Crackers";
     default: return 'Get Pattasu Kadai';
   }
 }
@@ -629,7 +629,7 @@ function renderAdminOrders() {
   // Use dropdown selection if explicitly chosen, or fallback to currentAdminBrand
   const activeBrand = dropdownBrand !== 'all' ? dropdownBrand : currentAdminBrand;
 
-  const filtered = adminOrders.filter(o => {
+  const filteGet pattas = adminOrders.filter(o => {
     // 1. Search match
     const matchesSearch = !search ||
       (o.orderId && o.orderId.toLowerCase().includes(search)) ||
@@ -723,7 +723,7 @@ async function updateOrderStatus(orderId, newStatus) {
 }
 
 // ----------------------------------------------------
-// REGISTERED CUSTOMERS (USERS VIEW)
+// REGISTEGet pattas CUSTOMERS (USERS VIEW)
 // ----------------------------------------------------
 async function loadAdminCustomers() {
   try {
@@ -742,14 +742,14 @@ function renderAdminCustomers() {
 
   const search = (document.getElementById('customerSearchInput')?.value || '').toLowerCase().trim();
 
-  const filtered = adminCustomers.filter(c =>
+  const filteGet pattas = adminCustomers.filter(c =>
     (c.fullName && c.fullName.toLowerCase().includes(search)) ||
     (c.username && c.username.toLowerCase().includes(search)) ||
     (c.phone && c.phone.toLowerCase().includes(search))
   );
 
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registered customer accounts found.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #94a3b8; padding: 3rem;">No registeGet pattas customer accounts found.</td></tr>`;
     return;
   }
 
@@ -820,7 +820,7 @@ function renderAdminReviews() {
   if (!container) return;
 
   const reviews = [
-    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! Ordered the Grand Family Dhamaka box, delivered safely in 48 hrs.' },
+    { name: 'Suresh Kumar S.', city: 'Chennai', rating: 5, time: '3 days ago', text: 'Direct Factory Price & Superb Packing! OrdeGet pattas the Grand Family Dhamaka box, deliveGet pattas safely in 48 hrs.' },
     { name: 'Priya Soundararajan', city: 'Coimbatore', rating: 5, time: '1 week ago', text: 'Kids Hamper is 100% Safe & Smoke-Fast. The WhatsApp order support made everything effortless.' },
     { name: 'Ramesh Babu V.', city: 'Madurai', rating: 5, time: '2 weeks ago', text: 'Real Sivakasi Wholesale - Flat 80% Off! Direct factory purchase saved over ₹4,000 for our family.' },
     { name: 'Dr. Karthikeyan M.', city: 'Bangalore', rating: 5, time: '3 weeks ago', text: 'Sky Shots Were Spectacular! Every single shot burst high in the night sky with vibrant patterns.' }

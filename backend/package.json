@@ -1,7 +1,7 @@
 {
   "name": "get-pattasu-backend",
   "version": "1.0.0",
-  "description": "Multi-Brand Crackers Platform Backend API (Get Pattasu, Muthu Cracker, Daddy Cracker, Velmurugan Cracker)",
+  "description": "Multi-Brand Crackers Platform Backend API (Get Pattasu, Get pattas Cracker, Get pattas  Cracker, Velmurugan Cracker)",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

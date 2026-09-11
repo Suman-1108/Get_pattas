@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 
 const brandSchema = new mongoose.Schema({
-  slug: { 
-    type: String, 
-    required: true, 
+  slug: {
+    type: String,
+    required: true,
     unique: true,
-    enum: ['getpattasu', 'muthu-cracker', 'daddy-cracker', 'velmurugan-cracker']
+    enum: ['getpattasu', 'muthu-cracker', 'Get pattas -cracker', 'velmurugan-cracker']
   },
   name: { type: String, required: true },
   logoUrl: { type: String, default: '' },
