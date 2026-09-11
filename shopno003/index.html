@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store - Shop 003</title>
+  <meta name="description"
+    content="The RED Crackers Sivakasi - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Up to 90% OFF on 127 items: Sparklers, Colour Matches, One Sound, Multi Sound Wala, Bombs, Ground Chakkars, Fancy Pipes, Peacock Fountains, and Gift Boxes.">
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=21">
+</head>
+
+<body data-brand="red">
+
+  <!-- Background Sparks Canvas -->
+  <canvas id="sparksCanvas"></canvas>
+
+  <!-- Top Slim Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="announcement-inner">
+      <span class="announcement-pulse-dot"></span>
+      <span class="announcement-text">
+        🎉 Diwali Special Offers • Best Prices • Premium Crackers
+      </span>
+      <span class="announcement-sep">•</span>
+      <span class="announcement-extra">
+        <i class="fa-solid fa-truck-fast"></i> Direct Sivakasi Factory Wholesale • Flat 80% Off
+      </span>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="main-header" id="mainHeader">
+    <div class="header-container">
+      <!-- Bold Premium GET PATTAS Logo -->
+      <a href="index.html" class="brand-logo" title="Get Pattas - Sivakasi Direct Fireworks">
+        <img src="assets/logo.jpg" alt="Get Pattas Kadai Logo" class="brand-logo-img navbar-logo-img">
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="nav-menu" id="navMenu">
+        <div class="mobile-menu-header">
+          <div class="mobile-menu-brand">
+            <img src="assets/logo.jpg" alt="Get Pattas" class="brand-logo-img mobile-menu-logo-img">
+          </div>
+          <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close Menu">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <a href="index.html" class="nav-link active" onclick="closeMobileMenu();">Home</a>
+        <a href="#products" class="nav-link" onclick="closeMobileMenu();">Crackers</a>
+        <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Combo Packs</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('gift-boxes'); closeMobileMenu();">Gift
+          Boxes</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('aerial-shots'); closeMobileMenu();">New
+          Arrivals</a>
+        <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Offers</a>
+        <a href="#contact" class="nav-link" onclick="closeMobileMenu();">Contact</a>
+
+        <div class="mobile-menu-actions">
+          <button class="btn btn-primary full-width" onclick="closeMobileMenu(); openCustomerModal();"
+            style="background: linear-gradient(135deg, #dc2626, #b91c1c); font-weight: 700;" id="mobileAuthBtn">
+            <span><i class="fa-solid fa-user"></i> Login</span>
+          </button>
+          <button class="btn btn-primary full-width" onclick="closeMobileMenu(); proceedToCheckoutModal();"
+            style="background: linear-gradient(135deg, #dc2626, #b91c1c); font-weight: 700;">
+            <span><i class="fa-solid fa-cart-shopping"></i> View Estimate & Checkout</span>
+          </button>
+          <a href="https://wa.me/919566159113?text=Hi%20Get%20Pattas!%20I%20want%20to%20order%20crackers."
+            target="_blank" class="btn btn-whatsapp full-width" onclick="closeMobileMenu()">
+            <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</span>
+          </a>
+        </div>
+      </nav>
+
+      <!-- Large Rounded Search Bar in Center/Right -->
+      <div class="header-search-wrap">
+        <div class="header-search-bar">
+          <i class="fa-solid fa-magnifying-glass search-icon-lead"></i>
+          <input type="text" id="headerGlobalSearch" placeholder="Search crackers, combo packs & fireworks..."
+            oninput="handleHeaderSearch(this.value)" autocomplete="off">
+          <button type="button" class="search-clear-btn" id="headerSearchClear" onclick="clearHeaderSearch()"
+            style="display: none;" aria-label="Clear search">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Action Icons: Cart, Account, Mobile Toggle -->
+      <div class="header-actions">
+        <!-- Shopping Cart Icon -->
+        <button class="nav-icon-btn cart-nav-btn" id="cartTrigger" onclick="toggleCartDrawer()"
+          aria-label="View Shopping Cart" title="View Shopping Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="action-count-badge cart-count-pill" id="cartCountBadge">0</span>
+        </button>
+
+        <!-- Account / Login Icon -->
+        <button class="customer-auth-btn" id="customerAuthBtn" onclick="openCustomerModal()"
+          aria-label="Customer Account">
+          <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
+          <span class="auth-text" id="customerBtnText">Login</span>
+        </button>
+
+        <!-- Mobile Menu Hamburger -->
+        <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Navigation">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category Bar Below Navbar -->
+  <nav class="category-strip-nav" aria-label="Cracker Categories">
+    <div class="category-strip-container">
+      <a href="#products" class="cat-pill cat-pill-chakkars" onclick="filterCategoryBySlug('ground-chakkars')">
+        <span class="cat-icon"><i class="fa-solid fa-compact-disc"></i></span>
+        <span class="cat-name">Chakkars</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-pots" onclick="filterCategoryBySlug('flower-pots')">
+        <span class="cat-icon"><i class="fa-solid fa-mountain"></i></span>
+        <span class="cat-name">Flower Pots</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-rockets" onclick="filterCategoryBySlug('rockets')">
+        <span class="cat-icon"><i class="fa-solid fa-rocket"></i></span>
+        <span class="cat-name">Rockets</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-sparklers" onclick="filterCategoryBySlug('sparklers')">
+        <span class="cat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="cat-name">Sparklers</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-fancy" onclick="filterCategoryBySlug('fancy-novelties')">
+        <span class="cat-icon"><i class="fa-solid fa-burst"></i></span>
+        <span class="cat-name">Fancy Crackers</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-shots" onclick="filterCategoryBySlug('aerial-shots')">
+        <span class="cat-icon"><i class="fa-solid fa-meteor"></i></span>
+        <span class="cat-name">Multi Colour Shots</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-kids" onclick="filterCategoryBySlug('kids-specials')">
+        <span class="cat-icon"><i class="fa-solid fa-face-smile"></i></span>
+        <span class="cat-name">Kids Special</span>
+      </a>
+      <a href="#offers" class="cat-pill cat-pill-combos">
+        <span class="cat-icon"><i class="fa-solid fa-box-open"></i></span>
+        <span class="cat-name">Combo Packs</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-gifts" onclick="filterCategoryBySlug('gift-boxes')">
+        <span class="cat-icon"><i class="fa-solid fa-gift"></i></span>
+        <span class="cat-name">Gift Boxes</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu Backdrop -->
+  <div class="mobile-menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
+
+  <!-- Hero Section: Full-Width Image Only -->
+  <section class="cinematic-hero-section hero-image-only hero-desktop" id="hero">
+    <picture>
+      <source media="(max-width: 768px)" srcset="assets/mobile.jpg">
+      <img src="assets/get_pattas_hero_orange.jpeg" alt="Get Pattas Kadai - Sivakasi Premium Fireworks"
+        class="hero-full-img">
+    </picture>
+  </section>
+
+  <!-- Full-Width Wholesale Price List Section -->
+  <section class="products-section wholesale-table-section" id="products">
+    <div class="container">
+      <!-- Active Brand Header Strip -->
+      <div class="active-brand-banner" id="activeBrandBanner"
+        style="background: linear-gradient(135deg, #7f1d1d 0%, #0f172a 100%);">
+        <div class="brand-banner-info">
+          <span class="current-brand-badge" id="currentBrandBadge" style="background: #dc2626;"><i
+              class="fa-solid fa-fire-flame-curved"></i> GET PATTAS (SHOP 003)</span>
+          <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas - The RED Crackers Wholesale Price List</h2>
+          <p class="current-brand-tagline" id="currentBrandTagline">Celebrate Bigger, Save More! Up to 90% Off • Touch
+            '+' to increase quantity</p>
+        </div>
+        <div class="brand-banner-meta">
+          <div class="meta-pill"><span><i class="fa-solid fa-phone"></i> Direct Booking:</span> <strong
+              id="currentBrandPhone">+91 95661 59113</strong></div>
+          <div class="meta-pill"><span><i class="fa-solid fa-truck-fast"></i> Min Order:</span> <strong>₹3,000</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls & Search Bar -->
+      <div class="table-controls-bar">
+        <div class="table-search-box">
+          <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" id="catalogSearch"
+            placeholder="Search RED crackers by English or தமிழ் பெயர் (e.g. 7 CM, குருவி, 120 Sky Shots)..."
+            oninput="handleTableSearch(this.value)">
+          <button type="button" class="search-clear-btn" id="searchClearBtn" onclick="clearTableSearch()"
+            style="display: none;"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="category-jump-wrapper">
+          <select id="categoryJumpSelect" onchange="handleCategoryJump(this.value)" class="category-jump-select"
+            aria-label="Jump to Category">
+            <option value="all">Jump to All Categories</option>
+          </select>
+          <button type="button" class="btn-clear-cart-table" onclick="clearAllCartItems()"
+            title="Reset all selected quantities"><i class="fa-solid fa-rotate-right"></i> Reset Quantities</button>
+        </div>
+      </div>
+
+      <!-- Category Navigation Pills Horizontal Scroll -->
+      <div class="category-pills-scroll" id="categoryPillsScroll">
+        <!-- Dynamically populated by JS -->
+      </div>
+
+      <!-- Full-Width Responsive Cracker Price List Table -->
+      <div class="table-responsive-wrapper">
+        <div id="priceListContainer" class="pricelist-container">
+          <!-- Injected dynamically via JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Bottom Order Estimate Bar -->
+  <div class="sticky-order-bar" id="stickyOrderBar">
+    <div class="sticky-bar-container">
+      <div class="sticky-info-col">
+        <div class="sticky-main-numbers">
+          <span class="sticky-items-count"><strong id="stickyTotalItems">0</strong> Items</span>
+          <span class="sticky-boxes-count">(<span id="stickyTotalBoxes">0</span> Boxes)</span>
+          <span class="sticky-divider">•</span>
+          <span class="sticky-net-price">Net: <strong id="stickyNetTotal">₹0</strong></span>
+          <span class="sticky-mrp-savings" id="stickyMrpSavings" style="display: none;">(Saved ₹0)</span>
+        </div>
+        <div class="sticky-min-order-status" id="stickyMinOrderStatus">
+          <span class="min-order-tag">⚠️ Minimum order value: ₹3,000</span>
+        </div>
+      </div>
+
+      <div class="sticky-actions-col">
+        <button type="button" class="btn-sticky-whatsapp" onclick="sendWhatsAppDirectOrder()">
+          <span class="btn-icon"><i class="fa-brands fa-whatsapp"></i></span>
+          <span class="btn-text">WhatsApp Order</span>
+        </button>
+        <button type="button" class="btn-sticky-checkout" onclick="proceedToCheckoutModal()">
+          <span class="btn-icon"><i class="fa-solid fa-cart-shopping"></i></span>
+          <span class="btn-text">View Estimate & Checkout</span>
+          <span class="btn-arrow">➔</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Slide-out Cart Drawer Overlay & Sidebar -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-drawer-header">
+      <div class="cart-title">
+        <span>My Cart</span>
+        <span class="cart-item-count" id="cartDrawerCount">0 items</span>
+      </div>
+      <button class="close-cart-btn" onclick="toggleCartDrawer()" aria-label="Close Cart"><i
+          class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="cart-drawer-body" id="cartDrawerBody"></div>
+
+    <div class="cart-drawer-footer">
+      <div class="cart-summary-box">
+        <div class="summary-line">
+          <span>Subtotal</span>
+          <span id="summaryMRP">₹0</span>
+        </div>
+        <div class="summary-line">
+          <span>Shipping</span>
+          <span id="summaryDelivery" class="green-text">Fast</span>
+        </div>
+        <div class="summary-line total-line">
+          <span>Grand Total</span>
+          <span id="summaryTotal">₹0</span>
+        </div>
+      </div>
+
+      <div class="cart-actions">
+        <button class="btn btn-checkout-proceed full-width" onclick="proceedToCheckoutModal()">
+          <span>➔ ➔ PROCEED TO CHECKOUT</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multi-Step Checkout Modal with UPI QR Scan Code Option -->
+  <div class="checkout-modal-overlay" id="checkoutModalOverlay" onclick="closeCheckoutModal(event)">
+    <div class="checkout-modal-card" onclick="event.stopPropagation()">
+      <div class="checkout-modal-header">
+        <div class="checkout-brand-title">
+          <img src="assets/logo.jpg" alt="Get Pattas"
+            style="height: 32px; width: auto; vertical-align: middle; margin-right: 8px; border-radius: 4px;">
+          <h3>Get Pattas (Shop 003) Checkout</h3>
+        </div>
+        <div class="checkout-header-right">
+          <span class="need-help-tag">Direct Desk: <strong>+91 95661 59113</strong></span>
+          <button class="modal-close-btn" onclick="closeCheckoutModal(true)" aria-label="Close Checkout"><i
+              class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+
+      <form id="checkoutMainForm" class="checkout-grid-container" onsubmit="handleCheckoutFormSubmit(event)">
+        <!-- Left Column: Delivery, Shipping, Payment -->
+        <div class="checkout-left-col">
+          <div class="checkout-section">
+            <label class="checkout-label">EMAIL ADDRESS</label>
+            <input type="email" id="coEmail" class="checkout-input" placeholder="Enter email address" required>
+          </div>
+
+          <div class="checkout-section">
+            <div class="section-label-row">
+              <label class="checkout-label">DELIVERY ADDRESS</label>
+              <button type="button" class="link-btn" onclick="saveAddressFromCheckout()"><i
+                  class="fa-solid fa-floppy-disk"></i> Save Address</button>
+            </div>
+
+            <div class="co-form-row">
+              <div class="co-form-group">
+                <input type="text" id="coFirstName" class="checkout-input" placeholder="First name">
+              </div>
+              <div class="co-form-group">
+                <input type="text" id="coLastName" class="checkout-input" placeholder="Last name *" required>
+              </div>
+            </div>
+
+            <div class="co-form-group">
+              <input type="text" id="coStreet" class="checkout-input" placeholder="Street Address *" required>
+            </div>
+
+            <div class="co-form-row-3">
+              <div class="co-form-group">
+                <input type="text" id="coCity" class="checkout-input" placeholder="City *" required>
+              </div>
+              <div class="co-form-group">
+                <select id="coState" class="checkout-select" required>
+                  <option value="Tamil Nadu" selected>Tamil Nadu</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Other">Other State</option>
+                </select>
+              </div>
+              <div class="co-form-group">
+                <input type="text" id="coPincode" class="checkout-input" placeholder="PIN code *" required>
+              </div>
+            </div>
+
+            <div class="co-form-group">
+              <input type="tel" id="coPhone" class="checkout-input" placeholder="WhatsApp / Phone number *" required>
+            </div>
+          </div>
+
+          <!-- Order Placement Section (Replaced Payment Options) -->
+          <div class="checkout-section order-placement-section">
+            <div class="order-placement-card">
+              <div class="op-header">
+                <span class="op-badge"><i class="fa-solid fa-truck-fast"></i> DIRECT SIVAKASI FACTORY DISPATCH</span>
+                <h4>Zero Advance Payment Needed</h4>
+                <p>Click <strong>Order to be placed</strong> below. Your official wholesale <strong>Booking
+                    Number</strong> will be generated instantly and confirmed directly with our Sivakasi dispatch desk
+                  via WhatsApp.</p>
+              </div>
+
+              <button type="submit" class="btn btn-order-placed full-width" id="btnPlaceOrder"
+                style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);">
+                <span class="btn-op-icon"><i class="fa-solid fa-circle-check"></i></span>
+                <span class="btn-op-text">Order to be placed</span>
+                <span class="btn-op-badge">Instant Booking</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary Sidebar -->
+        <div class="checkout-right-col">
+          <div class="checkout-summary-card">
+            <h4>Order Summary</h4>
+            <div class="co-items-preview-list" id="coItemsPreviewList"></div>
+
+            <div class="co-financials-table">
+              <div class="co-financial-row">
+                <span>Subtotal</span>
+                <span id="coSubtotal">₹0</span>
+              </div>
+              <div class="co-financial-row">
+                <span>Shipping</span>
+                <span class="green-text">Fast</span>
+              </div>
+              <div class="co-financial-row grand-total-row">
+                <span>Total</span>
+                <span class="co-total-val">INR <strong id="coGrandTotal">₹0</strong></span>
+              </div>
+            </div>
+
+            <div class="co-trust-badge">
+              <span class="trust-icon"><i class="fa-solid fa-shield-halved"></i></span>
+              <span>100% Genuine Sivakasi Green Fireworks • Direct Factory Delivery</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Customer Account & Authentication Modal (Shop 003 Isolated) -->
+  <div class="customer-modal-overlay" id="customerModalOverlay" onclick="closeCustomerModal(event)">
+    <div class="customer-modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeCustomerModal(true)" aria-label="Close Modal"><i
+          class="fa-solid fa-xmark"></i></button>
+
+      <!-- Tab Buttons for Unauthenticated State -->
+      <div id="customerAuthViews">
+        <div class="customer-auth-tabs">
+          <button class="c-tab-btn active" id="cTabLogin" onclick="switchCustomerAuthTab('login')"><i
+              class="fa-solid fa-key"></i> Log In</button>
+          <button class="c-tab-btn" id="cTabSignup" onclick="switchCustomerAuthTab('signup')"><i
+              class="fa-solid fa-user-plus"></i> Sign Up</button>
+        </div>
+
+        <!-- Customer Login Form -->
+        <form id="customerLoginForm" class="c-auth-form" onsubmit="handleCustomerLogin(event)">
+          <h3>Welcome Back!</h3>
+          <p>Log in to your <strong>Get Pattas (Shop 003)</strong> account.</p>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" id="custLoginUser" placeholder="Enter username" required>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="custLoginPass" placeholder="Enter password" required
+              autocomplete="current-password">
+          </div>
+          <div class="auth-err-msg" id="custLoginErr"></div>
+          <button type="submit" class="btn btn-primary full-width"><i class="fa-solid fa-right-to-bracket"></i> Log In
+            Now</button>
+        </form>
+
+        <!-- Customer Registration Form -->
+        <form id="customerSignupForm" class="c-auth-form" style="display: none;" onsubmit="handleCustomerSignup(event)">
+          <h3>Create Shop 003 Account</h3>
+          <p>Register your account for direct factory order tracking and checkout.</p>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" id="custRegUser" placeholder="Choose username" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="custRegPass" placeholder="Create password" required
+                autocomplete="new-password">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" id="custRegName" placeholder="e.g. Ramesh Kumar" required>
+            </div>
+            <div class="form-group">
+              <label>WhatsApp / Phone Number</label>
+              <input type="tel" id="custRegPhone" placeholder="e.g. 9566159113" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Default Shipping Address</label>
+            <textarea id="custRegAddress" rows="2" placeholder="House No, Street, City, Pincode" required></textarea>
+          </div>
+          <div class="auth-err-msg" id="custRegErr"></div>
+          <button type="submit" class="btn btn-primary full-width"><i class="fa-solid fa-user-check"></i> Register
+            Account</button>
+        </form>
+      </div>
+
+      <!-- Authenticated Customer Profile & Address Book View -->
+      <div id="customerProfileView" style="display: none;">
+        <div class="customer-profile-banner">
+          <div class="cust-avatar"><i class="fa-solid fa-user"
+              style="font-size: 1.8rem; color: var(--primary-red); margin-top: 5px;"></i></div>
+          <div class="cust-info">
+            <h3 id="custProfileName">Customer Name</h3>
+            <span class="cust-tag" id="custProfileUser">@username</span>
+            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 95661
+              59113</div>
+            <div style="margin-top: 4px;"><span class="meta-pill"
+                style="font-size: 0.72rem; padding: 2px 8px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-weight: 700;">SHOP
+                003 ACCOUNT</span></div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="handleCustomerLogout()"><i
+              class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+
+        <div class="address-book-wrapper">
+          <div class="address-book-title-row"
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+            <h4 style="margin: 0; font-size: 0.95rem; color: #0f172a;"><i class="fa-solid fa-location-dot"></i> My Saved
+              Delivery Addresses</h4>
+            <button type="button" class="btn btn-primary btn-sm" onclick="showAddressForm()"><i
+                class="fa-solid fa-plus"></i> Add Address</button>
+          </div>
+
+          <!-- Add / Edit Address Form Overlay Inline -->
+          <form id="addressCrudForm" class="address-crud-form"
+            style="display: none; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; margin-bottom: 12px; background: #f8fafc;"
+            onsubmit="handleSaveAddress(event)">
+            <input type="hidden" id="addrEditId">
+            <h5 id="addrFormTitle" style="margin: 0 0 8px 0; font-size: 0.9rem;">Add New Delivery Address</h5>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Address Label (e.g. Home, Office)</label>
+                <input type="text" id="addrLabelInput" placeholder="Home" required>
+              </div>
+              <div class="form-group">
+                <label>City / Town</label>
+                <input type="text" id="addrCityInput" placeholder="Chennai / Sivakasi" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Street Address & Landmark</label>
+              <textarea id="addrTextInput" rows="2" placeholder="Door No, Street Name, Landmark" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Pincode</label>
+                <input type="text" id="addrPincodeInput" placeholder="626123" required>
+              </div>
+              <div class="form-group checkbox-align">
+                <label><input type="checkbox" id="addrDefaultInput" checked> Set as Default Address</label>
+              </div>
+            </div>
+            <div class="form-actions-inline"
+              style="display: flex; gap: 8px; justify-content: flex-end; margin-top: 8px;">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="hideAddressForm()">Cancel</button>
+              <button type="submit" class="btn btn-primary btn-sm"><i class="fa-solid fa-floppy-disk"></i> Save
+                Address</button>
+            </div>
+          </form>
+
+          <div class="address-cards-list" id="addressListContainer">
+            <!-- Dynamic Address Cards -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Confirmation Modal -->
+  <div class="order-confirm-overlay" id="orderConfirmModalOverlay" onclick="closeOrderConfirmModal(event)">
+    <div class="order-confirm-card" onclick="event.stopPropagation()">
+      <button class="modal-close-btn" onclick="closeOrderConfirmModal(true)" aria-label="Close Modal"><i
+          class="fa-solid fa-xmark"></i></button>
+
+      <div class="order-confirm-header">
+        <div class="confirm-celebration-badge" style="background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <span class="confirm-pill" style="background: rgba(220, 38, 38, 0.12); color: #dc2626;">WHOLESALE ORDER
+          CONFIRMED 🎉</span>
+        <h3 id="ocStoreTitle">The RED Crackers Sivakasi</h3>
+        <p class="confirm-sub">Your Sivakasi fireworks wholesale booking has been registered successfully!</p>
+      </div>
+
+      <!-- Booking Number Box -->
+      <div class="booking-number-box">
+        <span class="bn-label">OFFICIAL BOOKING NUMBER</span>
+        <div class="bn-value-row">
+          <strong id="ocBookingNumber">GP-RED-12345</strong>
+          <button type="button" class="btn-copy-bn" onclick="copyBookingNumber()" title="Copy Booking Number">
+            <i class="fa-regular fa-copy"></i> <span id="copyBnText">Copy</span>
+          </button>
+        </div>
+        <span class="bn-hint">Quote this booking number for all order verification & parcel LR inquiries.</span>
+      </div>
+
+      <!-- Order Details Summary -->
+      <div class="order-confirm-details">
+        <div class="oc-detail-row">
+          <span>Customer:</span>
+          <strong id="ocCustomerName">Customer Name</strong>
+        </div>
+        <div class="oc-detail-row">
+          <span>Phone / WhatsApp:</span>
+          <strong id="ocCustomerPhone">+91 95661 59113</strong>
+        </div>
+        <div class="oc-detail-row">
+          <span>Delivery Address:</span>
+          <span id="ocCustomerAddress" class="oc-addr-val">Direct Sivakasi Transport</span>
+        </div>
+        <div class="oc-detail-row oc-total-highlight">
+          <span>Total Booking Amount:</span>
+          <strong id="ocTotalAmount">₹0</strong>
+        </div>
+        <div class="oc-detail-row">
+          <span>Total Quantity:</span>
+          <span id="ocTotalBoxes">0 Boxes</span>
+        </div>
+      </div>
+
+      <!-- Direct Actions: PDF Download & Customer WhatsApp Confirmation -->
+      <div class="oc-action-buttons-group">
+        <!-- 1. Download PDF Invoice Button -->
+        <button type="button" class="btn-oc-action btn-oc-pdf" onclick="downloadOrderInvoicePDF()"
+          id="btnDownloadInvoicePDF">
+          <i class="fa-solid fa-file-pdf"></i>
+          <div class="btn-oc-text">
+            <strong>Download Invoice (PDF)</strong>
+            <span>Official Wholesale Bill with Seal & Items</span>
+          </div>
+        </button>
+
+        <!-- 2. Send Customer WhatsApp Confirmation Button -->
+        <a id="ocCustomerWhatsAppBtn" href="#" target="_blank" class="btn-oc-action btn-oc-customer-wa">
+          <i class="fa-brands fa-whatsapp"></i>
+          <div class="btn-oc-text">
+            <strong>Send to Customer WhatsApp</strong>
+            <span>Order breakdown & invoice link to customer</span>
+          </div>
+        </a>
+
+        <!-- Sub-actions: Store Desk WhatsApp & Print Invoice -->
+        <div class="oc-sub-actions-row">
+          <a id="ocWhatsAppBtn" href="#" target="_blank" class="btn-oc-sub btn-oc-store-wa"
+            title="Send booking to Store Desk WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i> Store Desk WhatsApp
+          </a>
+          <button type="button" class="btn-oc-sub btn-oc-print" onclick="printOrderInvoice()"
+            title="Print Invoice directly">
+            <i class="fa-solid fa-print"></i> Print Invoice
+          </button>
+        </div>
+      </div>
+
+      <div class="oc-actions-footer">
+        <button type="button" class="btn btn-secondary full-width" onclick="closeOrderConfirmModal(true)"
+          style="padding: 0.75rem; font-weight: 700;">
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="html2pdf.bundle.min.js"></script>
+  <script src="catalogData.js?v=2"></script>
+  <script src="app.js?v=22"></script>
+</body>
+
+</html>

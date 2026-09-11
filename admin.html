@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get Pattasu Kadai - Enterprise Store Admin Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css?v=2">
+</head>
+<body>
+
+  <!-- Admin Login Overlay -->
+  <div class="admin-login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="assets/logo.jpg" alt="Get Pattasu Kadai Logo">
+        <h2>GET PATTASU KADAI</h2>
+        <p>Enterprise Store Admin Portal</p>
+      </div>
+      <form id="loginForm" onsubmit="handleAdminLogin(event)">
+        <div class="form-group">
+          <label>Admin Username</label>
+          <input type="text" id="loginUser" value="admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPass" value="admin123" required autocomplete="current-password">
+        </div>
+        <div class="login-err-msg" id="loginErrMsg"></div>
+        <button type="submit" class="btn btn-primary full-width">🔐 Log In to Admin Dashboard</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Enterprise Portal Layout -->
+  <div class="app-layout" id="adminApp" style="display: none;">
+    
+    <!-- Left Navigation Sidebar -->
+    <aside class="app-sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.jpg" alt="Get Pattasu Kadai" class="brand-logo-img" id="adminSidebarLogo">
+        <div class="brand-info">
+          <span class="brand-title" id="adminSidebarTitle">GET PATTASU</span>
+          <span class="brand-tag" id="adminSidebarTag">WHOLESALE ADMIN</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-menu">
+        <button class="menu-item active" data-tab="dashboard" onclick="switchAdminTab('dashboard', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>
+          </span>
+          <span class="menu-label">Dashboard</span>
+        </button>
+
+        <button class="menu-item" data-tab="products" onclick="switchAdminTab('products', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </span>
+          <span class="menu-label">Products</span>
+          <span class="menu-badge" id="sideBadgeProducts">0</span>
+        </button>
+
+        <button class="menu-item" data-tab="inventory" onclick="switchAdminTab('inventory', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          </span>
+          <span class="menu-label">Inventory</span>
+        </button>
+
+        <button class="menu-item" data-tab="categories" onclick="switchAdminTab('categories', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </span>
+          <span class="menu-label">Categories</span>
+        </button>
+
+        <button class="menu-item" data-tab="orders" onclick="switchAdminTab('orders', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          </span>
+          <span class="menu-label">Orders</span>
+          <span class="menu-badge badge-red" id="sideBadgeOrders">0</span>
+        </button>
+
+        <button class="menu-item" data-tab="reviews" onclick="switchAdminTab('reviews', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+          </span>
+          <span class="menu-label">Reviews</span>
+        </button>
+
+        <button class="menu-item" data-tab="analytics" onclick="switchAdminTab('analytics', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </span>
+          <span class="menu-label">Analytics</span>
+        </button>
+
+        <button class="menu-item" data-tab="customers" onclick="switchAdminTab('customers', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </span>
+          <span class="menu-label">Users</span>
+          <span class="menu-badge" id="sideBadgeUsers">0</span>
+        </button>
+
+        <button class="menu-item" data-tab="hero" onclick="switchAdminTab('hero', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+          </span>
+          <span class="menu-label">Index Banners</span>
+        </button>
+
+        <button class="menu-item" data-tab="contact" onclick="switchAdminTab('contact', this)">
+          <span class="menu-icon">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+          </span>
+          <span class="menu-label">Marketing & Contact</span>
+        </button>
+      </nav>
+
+      <!-- Bottom Profile Bar -->
+      <div class="sidebar-user-pill">
+        <div class="user-avatar-circle" id="adminUserAvatar" style="background: linear-gradient(135deg, #ea580c, #dc2626);">GP</div>
+        <div class="user-details">
+          <span class="user-name" id="adminUserName">Get Pattasu Admin</span>
+          <span class="user-role">Super Admin</span>
+        </div>
+        <button class="btn-sidebar-logout" onclick="handleAdminLogout()" title="Logout">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <div class="app-workspace">
+      
+      <!-- Top Sticky Navigation Bar -->
+      <header class="app-topbar">
+        <div class="topbar-search">
+          <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="globalAdminSearch" placeholder="Search for products, categories..." oninput="handleGlobalSearch(this.value)">
+        </div>
+
+        <div class="topbar-actions">
+          <a href="index.html" target="_blank" class="topbar-link-btn" id="topbarStoreLink" title="View Customer Storefront">
+            <span>🌐 View Store</span>
+          </a>
+
+          <div class="sync-status-indicator" title="Connected to Customer Storefront">
+            <span class="sync-dot"></span>
+            <span>Syncing data...</span>
+          </div>
+
+          <button class="icon-action-btn" title="Toggle Dark Theme" onclick="toggleAdminTheme()">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+
+          <button class="icon-action-btn notification-btn" title="Notifications">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+            <span class="notif-badge">1</span>
+          </button>
+
+          <div class="topbar-user-profile">
+            <div class="topbar-user-avatar" id="topbarAvatar" style="background: linear-gradient(135deg, #ea580c, #dc2626);">GP</div>
+            <div class="topbar-user-info">
+              <span class="topbar-user-name" id="topbarUserName">Get Pattasu Admin</span>
+              <span class="topbar-user-sub">Super Admin</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Prominent Multi-Brand Switcher Bar in Admin -->
+      <div class="admin-brand-switcher-bar">
+        <div class="admin-brand-switcher-label">
+          <span class="switcher-icon">🏢</span>
+          <span>SELECT BRAND:</span>
+        </div>
+        <div class="admin-brand-pills-row">
+          <button class="admin-brand-pill active" data-brand="all" onclick="setAdminActiveBrand('all', this)" title="Show All 4 Brands">
+            <span class="pill-emoji">🌐</span>
+            <span class="pill-text">All 4 Brands (Master)</span>
+            <span class="pill-badge" id="pillBadgeAll">0</span>
+          </button>
+          <button class="admin-brand-pill" data-brand="getpattasu" onclick="setAdminActiveBrand('getpattasu', this)" title="Get Pattasu Kadai Store">
+            <span class="pill-emoji">⭐</span>
+            <span class="pill-text">Get Pattasu Kadai</span>
+            <span class="pill-badge" id="pillBadgeGetpattasu">0</span>
+          </button>
+          <button class="admin-brand-pill" data-brand="muthu" onclick="setAdminActiveBrand('muthu', this)" title="Sivakasi Muthu Crackers Store">
+            <span class="pill-emoji">🎆</span>
+            <span class="pill-text">Sivakasi Muthu Crackers</span>
+            <span class="pill-badge" id="pillBadgeMuthu">0</span>
+          </button>
+          <button class="admin-brand-pill" data-brand="daddy" onclick="setAdminActiveBrand('daddy', this)" title="Daddy's Crackers Store">
+            <span class="pill-emoji">💥</span>
+            <span class="pill-text">Daddy's Crackers</span>
+            <span class="pill-badge" id="pillBadgeDaddy">0</span>
+          </button>
+          <button class="admin-brand-pill" data-brand="red" onclick="setAdminActiveBrand('red', this)" title="The RED Crackers Store">
+            <span class="pill-emoji">🧨</span>
+            <span class="pill-text">The RED Crackers</span>
+            <span class="pill-badge" id="pillBadgeRed">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tab Views Container -->
+      <main class="workspace-content">
+        
+        <!-- ============================================================ -->
+        <!-- VIEW 1: DASHBOARD OVERVIEW (Matching Screenshot 1)           -->
+        <!-- ============================================================ -->
+        <div class="tab-pane active" id="pane-dashboard">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Dashboard</h1>
+              <p class="pane-subtitle">Welcome back! Here's what's happening with your store today.</p>
+            </div>
+          </div>
+
+          <!-- Top Metric Metric Cards (6 Cards Grid) -->
+          <div class="metrics-row-6">
+            <!-- 1. Total Sales -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-purple">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#9333ea" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Total Sales</span>
+                <h3 class="stat-num" id="statDashSales">₹0</h3>
+              </div>
+            </div>
+
+            <!-- 2. Total Orders -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-pink">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#db2777" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Total Orders</span>
+                <h3 class="stat-num" id="statDashOrders">0</h3>
+              </div>
+            </div>
+
+            <!-- 3. Total Customers -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-blue">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#2563eb" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Total Customers</span>
+                <h3 class="stat-num" id="statDashCustomers">0</h3>
+              </div>
+            </div>
+
+            <!-- 4. Products -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-orange">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#ea580c" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Products</span>
+                <h3 class="stat-num" id="statDashProducts">9</h3>
+              </div>
+            </div>
+
+            <!-- 5. Revenue -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-teal">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#0d9488" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Revenue</span>
+                <h3 class="stat-num" id="statDashRevenue">₹0</h3>
+              </div>
+            </div>
+
+            <!-- 6. Coupons Used -->
+            <div class="stat-card">
+              <div class="stat-icon-box bg-indigo">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="#4f46e5" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>
+              </div>
+              <div class="stat-meta">
+                <span class="stat-label">Coupons Used</span>
+                <h3 class="stat-num">14</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions Cards -->
+          <div class="quick-actions-row">
+            <button class="quick-action-card" onclick="openAddProductModal()">
+              <div class="qa-icon-circle bg-purple-light">
+                <span>+</span>
+              </div>
+              <div class="qa-texts">
+                <h4>Add Product</h4>
+                <p>Create new inventory item</p>
+              </div>
+            </button>
+
+            <button class="quick-action-card" onclick="switchAdminTab('categories')">
+              <div class="qa-icon-circle bg-pink-light">
+                <span>📁</span>
+              </div>
+              <div class="qa-texts">
+                <h4>Add Category</h4>
+                <p>Add category or subcategory</p>
+              </div>
+            </button>
+          </div>
+
+          <!-- Middle Dashboard Grid (Charts & Orders) -->
+          <div class="dashboard-middle-grid">
+            <!-- Sales Overview Card -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h4>Sales Overview</h4>
+                <select class="dash-select">
+                  <option>This Week</option>
+                  <option>This Month</option>
+                  <option>This Year</option>
+                </select>
+              </div>
+              <div class="sales-chart-wrapper">
+                <div class="chart-y-axis">
+                  <span>₹10k</span>
+                  <span>₹8k</span>
+                  <span>₹6k</span>
+                  <span>₹4k</span>
+                  <span>₹2k</span>
+                  <span>₹0</span>
+                </div>
+                <div class="chart-graphic-area">
+                  <svg class="sales-svg-chart" viewBox="0 0 500 160" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="chartGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stop-color="#9333ea" stop-opacity="0.25"/>
+                        <stop offset="100%" stop-color="#9333ea" stop-opacity="0.0"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0 140 Q 80 130 160 110 T 320 60 T 500 40 L 500 160 L 0 160 Z" fill="url(#chartGrad)"/>
+                    <path d="M 0 140 Q 80 130 160 110 T 320 60 T 500 40" fill="none" stroke="#9333ea" stroke-width="3" stroke-linecap="round"/>
+                  </svg>
+                  <div class="chart-x-axis">
+                    <span>1 Sept</span>
+                    <span>2 Sept</span>
+                    <span>3 Sept</span>
+                    <span>4 Sept</span>
+                    <span>5 Sept</span>
+                    <span>6 Sept</span>
+                    <span>7 Sept</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sales by Category Card -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h4>Sales by Category</h4>
+              </div>
+              <div class="donut-chart-container">
+                <div class="donut-circle">
+                  <span class="donut-center-text">100%<br><small>Direct Sivakasi</small></span>
+                </div>
+                <div class="donut-legend">
+                  <div class="legend-item"><span class="dot-color" style="background: #9333ea;"></span> <span>Sparklers (35%)</span></div>
+                  <div class="legend-item"><span class="dot-color" style="background: #ea580c;"></span> <span>Flower Pots (25%)</span></div>
+                  <div class="legend-item"><span class="dot-color" style="background: #0d9488;"></span> <span>Sky Shots (20%)</span></div>
+                  <div class="legend-item"><span class="dot-color" style="background: #db2777;"></span> <span>Combos (20%)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Recent Orders Card -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h4>Recent Orders</h4>
+                <a href="#" class="view-all-link" onclick="switchAdminTab('orders'); return false;">View All</a>
+              </div>
+              <div class="recent-orders-list" id="dashRecentOrdersList">
+                <!-- Dynamically Populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Dashboard Row -->
+          <div class="dashboard-bottom-grid">
+            <!-- Top Selling Products Card -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h4>Top Selling Products</h4>
+                <a href="#" class="view-all-link" onclick="switchAdminTab('products'); return false;">View All</a>
+              </div>
+              <div class="table-responsive">
+                <table class="simple-dash-table">
+                  <thead>
+                    <tr>
+                      <th>PRODUCT</th>
+                      <th>CATEGORY</th>
+                      <th>SOLD</th>
+                      <th>REVENUE</th>
+                      <th>STATUS</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dashTopProductsTable">
+                    <!-- Populated via JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Customer Growth Card -->
+            <div class="dash-card">
+              <div class="dash-card-header">
+                <h4>Customer Growth</h4>
+                <span class="badge-pill-light">This Month</span>
+              </div>
+              <div class="growth-box">
+                <div class="growth-score">
+                  <h2>+94.8%</h2>
+                  <p>Increase in online Diwali bookings compared to last festive week.</p>
+                </div>
+                <div class="progress-bar-wrap">
+                  <div class="progress-bar-fill" style="width: 85%;"></div>
+                </div>
+                <div class="growth-stats-row">
+                  <div><span>Target:</span> <strong>5,000 Orders</strong></div>
+                  <div><span>Achieved:</span> <strong class="text-purple">85% Complete</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 2: PRODUCTS REGISTRY (Matching Screenshot 2)            -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-products">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Product Registry</h1>
+              <p class="pane-subtitle">Manage cracker stock, wholesale rates, MRP discounts, and product images.</p>
+            </div>
+            <div class="header-btns-group">
+              <button class="btn btn-dark-outline" onclick="downloadAdminPriceList()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Bulk Upload</span>
+              </button>
+              <button class="btn btn-purple-solid" onclick="openAddProductModal()">
+                <span>+ Add Product</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Product Filter & Search Bar -->
+          <div class="table-filter-bar">
+            <div class="table-search-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="prodSearchInput" placeholder="Search products by name, SKU, category..." oninput="renderAdminProducts()">
+            </div>
+            <div class="table-filter-dropdowns">
+              <select id="prodCategoryFilter" onchange="renderAdminProducts()">
+                <option value="all">All Categories</option>
+                <option value="sparklers">✨ Sparklers</option>
+                <option value="flowerpots">🪔 Flower Pots</option>
+                <option value="chakkars">🌀 Ground Chakkars</option>
+                <option value="skyshots">🚀 Sky Shots</option>
+                <option value="bombs">💥 Sound Bombs</option>
+                <option value="combos">🎁 Gift Combos</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product Registry Table (Matching Screenshot 2) -->
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="registry-table">
+                <thead>
+                  <tr>
+                    <th>PRODUCT NAME</th>
+                    <th>CODE</th>
+                    <th>CATEGORY</th>
+                    <th>PRICE</th>
+                    <th>STOCK</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 3: ORDERS MANAGEMENT                                    -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-orders">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Orders Management</h1>
+              <p class="pane-subtitle">Live customer orders placed via website & WhatsApp checkout.</p>
+            </div>
+            <button class="btn btn-dark-outline" onclick="loadAdminOrders()">
+              <span>🔄 Refresh Orders</span>
+            </button>
+          </div>
+
+          <div class="table-filter-bar" style="display: flex; gap: 1rem; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+            <div class="table-search-box" style="flex: 1; min-width: 260px;">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="orderSearchInput" placeholder="Search by customer name, phone, order ID..." oninput="renderAdminOrders()">
+            </div>
+            <div class="brand-filter-box">
+              <select id="adminBrandFilter" onchange="renderAdminOrders()" style="padding: 0.65rem 1.1rem; border-radius: 8px; border: 2px solid #cbd5e1; font-weight: 700; color: #0f172a; background: #ffffff; cursor: pointer;">
+                <option value="all">🌐 All 4 Brands Orders</option>
+                <option value="red">🧨 The RED Crackers</option>
+                <option value="muthu">🎆 Sivakasi Muthu Crackers</option>
+                <option value="daddy">💥 Daddy's Crackers</option>
+                <option value="getpattasu">⭐ Get Pattasu Kadai</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="registry-table">
+                <thead>
+                  <tr>
+                    <th>ORDER ID</th>
+                    <th>BRAND STORE</th>
+                    <th>CUSTOMER</th>
+                    <th>PHONE</th>
+                    <th>ITEMS ORDERED</th>
+                    <th>TOTAL BILL</th>
+                    <th>PAYMENT</th>
+                    <th>STATUS</th>
+                    <th>DATE</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 4: USERS / CUSTOMERS                                    -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-customers">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Registered Customers</h1>
+              <p class="pane-subtitle">List of customer accounts and their saved delivery addresses.</p>
+            </div>
+            <button class="btn btn-dark-outline" onclick="loadAdminCustomers()">
+              <span>🔄 Refresh Users</span>
+            </button>
+          </div>
+
+          <div class="table-filter-bar">
+            <div class="table-search-box">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="customerSearchInput" placeholder="Search by name, username, phone..." oninput="renderAdminCustomers()">
+            </div>
+          </div>
+
+          <div class="table-card">
+            <div class="table-responsive">
+              <table class="registry-table">
+                <thead>
+                  <tr>
+                    <th>CUSTOMER NAME</th>
+                    <th>USERNAME</th>
+                    <th>PHONE</th>
+                    <th>SHIPPING ADDRESS</th>
+                    <th>SAVED ADDRESSES</th>
+                    <th>REGISTERED DATE</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="customersTableBody">
+                  <!-- Rendered via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 5: CATEGORIES                                           -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-categories">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Store Categories</h1>
+              <p class="pane-subtitle">Organize firecrackers into customer catalog categories.</p>
+            </div>
+          </div>
+
+          <div class="categories-grid-cards">
+            <div class="cat-admin-card" onclick="filterByCat('sparklers')">
+              <span class="cat-big-icon">✨</span>
+              <h3>Electric Sparklers</h3>
+              <p>Kambi Mathappu, 10cm, 15cm & Crackling Sparklers</p>
+              <span class="cat-count-badge" id="catCountSparklers">0 items</span>
+            </div>
+            <div class="cat-admin-card" onclick="filterByCat('flowerpots')">
+              <span class="cat-big-icon">🪔</span>
+              <h3>Flower Pots (Poo Thotti)</h3>
+              <p>Special, Giant, Deluxe & Color Changing Pots</p>
+              <span class="cat-count-badge" id="catCountFlowerpots">0 items</span>
+            </div>
+            <div class="cat-admin-card" onclick="filterByCat('chakkars')">
+              <span class="cat-big-icon">🌀</span>
+              <h3>Ground Chakkars</h3>
+              <p>Zamin Chakra, Special Big & Wheel Spinners</p>
+              <span class="cat-count-badge" id="catCountChakkars">0 items</span>
+            </div>
+            <div class="cat-admin-card" onclick="filterByCat('skyshots')">
+              <span class="cat-big-icon">🚀</span>
+              <h3>Sky Shots & Aerial Shells</h3>
+              <p>12-Shot, 30-Shot & 50-Shot Crackling Aerial Fireworks</p>
+              <span class="cat-count-badge" id="catCountSkyshots">0 items</span>
+            </div>
+            <div class="cat-admin-card" onclick="filterByCat('bombs')">
+              <span class="cat-big-icon">💥</span>
+              <h3>Sound Bombs & Rockets</h3>
+              <p>Red Bijli, Hydro Bombs & Sky Rockets</p>
+              <span class="cat-count-badge" id="catCountBombs">0 items</span>
+            </div>
+            <div class="cat-admin-card" onclick="filterByCat('combos')">
+              <span class="cat-big-icon">🎁</span>
+              <h3>Diwali Gift Combos</h3>
+              <p>Grand Family Dhamaka Box & Kids Sparkler Hampers</p>
+              <span class="cat-count-badge" id="catCountCombos">0 items</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 6: INVENTORY & STOCK                                    -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-inventory">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Inventory & Stock Status</h1>
+              <p class="pane-subtitle">Live stock monitoring and warehouse replenishment tracking.</p>
+            </div>
+          </div>
+
+          <div class="inventory-summary-cards">
+            <div class="inv-card bg-green-light">
+              <span class="inv-label">IN STOCK ITEMS</span>
+              <h2 id="invInStockCount">9 Items</h2>
+              <span class="inv-sub">Ready for immediate dispatch</span>
+            </div>
+            <div class="inv-card bg-orange-light">
+              <span class="inv-label">LOW STOCK ALERTS</span>
+              <h2>0 Items</h2>
+              <span class="inv-sub">Threshold below 10 units</span>
+            </div>
+            <div class="inv-card bg-purple-light">
+              <span class="inv-label">WAREHOUSE LOCATION</span>
+              <h2>Sivakasi Factory Zone</h2>
+              <span class="inv-sub">Direct wholesale fulfillment</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 7: REVIEWS                                              -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-reviews">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Google Customer Reviews</h1>
+              <p class="pane-subtitle">Verified customer feedback and ratings displayed on storefront.</p>
+            </div>
+          </div>
+
+          <div class="reviews-moderation-grid" id="adminReviewsList">
+            <!-- Dynamically Populated -->
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 8: ANALYTICS                                            -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-analytics">
+          <div class="pane-header-actions">
+            <div>
+              <h1 class="pane-title">Store Analytics & Revenue</h1>
+              <p class="pane-subtitle">Detailed financial reports and festival sales trends.</p>
+            </div>
+          </div>
+
+          <div class="analytics-metrics-grid">
+            <div class="dash-card">
+              <h4>Average Order Value</h4>
+              <h2 class="text-purple" id="analyticsAOV">₹1,850</h2>
+              <p class="card-sub">Based on completed customer orders</p>
+            </div>
+            <div class="dash-card">
+              <h4>Total Orders Processed</h4>
+              <h2 class="text-green" id="analyticsTotalOrders">0</h2>
+              <p class="card-sub">WhatsApp & Web Gateway Orders</p>
+            </div>
+            <div class="dash-card">
+              <h4>Wholesale Discount Offered</h4>
+              <h2 class="text-orange">Flat 80% OFF</h2>
+              <p class="card-sub">Direct factory price subsidy</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 9: INDEX BANNERS & TITLES                               -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-hero">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Index Banners & Headlines</h1>
+              <p class="pane-subtitle">Update main storefront banner photo, headline, and subtext live in real-time.</p>
+            </div>
+          </div>
+
+          <div class="form-card-container">
+            <form class="clean-form" id="heroForm" onsubmit="handleHeroSave(event)">
+              <div class="form-group">
+                <label>Hero Badge Tag</label>
+                <input type="text" id="heroBadgeInput" required placeholder="💥 SIVAKASI DIRECT WHOLESALE STORE">
+              </div>
+
+              <div class="form-group">
+                <label>Main Headline</label>
+                <input type="text" id="heroTitleInput" required placeholder="DIRECT SIVAKASI FACTORY FIREWORKS">
+              </div>
+
+              <div class="form-group">
+                <label>Subtitle Description</label>
+                <textarea id="heroSubInput" rows="3" required placeholder="Buy genuine 100% Green Certified Crackers online at direct wholesale prices with flat 80% discount and doorstep delivery."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Hero Banner Image</label>
+                <div class="image-upload-box">
+                  <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" id="heroImagePreview" alt="Hero Banner Preview">
+                  <div class="upload-controls">
+                    <input type="file" id="heroFileInput" accept="image/*" onchange="previewImageUpload(this, 'heroImagePreview')">
+                    <small>Recommended Size: 1920x800px (JPG/PNG/WebP)</small>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-purple-solid">💾 Save Banner Changes</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- VIEW 10: MARKETING & STORE INFO                              -->
+        <!-- ============================================================ -->
+        <div class="tab-pane" id="pane-contact">
+          <div class="pane-header">
+            <div>
+              <h1 class="pane-title">Store Contact & Marketing</h1>
+              <p class="pane-subtitle">Update customer helpline numbers, support email, and factory store address.</p>
+            </div>
+          </div>
+
+          <div class="form-card-container">
+            <form class="clean-form" id="contactFormAdmin" onsubmit="handleContactSave(event)">
+              <div class="form-group">
+                <label>Store Helpline & WhatsApp Phone</label>
+                <input type="text" id="contactPhoneInput" required placeholder="+91 98765 43210">
+              </div>
+
+              <div class="form-group">
+                <label>Support Email Address</label>
+                <input type="email" id="contactEmailInput" required placeholder="sales@getpattas.com">
+              </div>
+
+              <div class="form-group">
+                <label>Factory Store Address (Sivakasi)</label>
+                <textarea id="contactAddressInput" rows="3" required placeholder="12/4B Sivakasi Main Road, Near Factory Zone, Sivakasi, Tamil Nadu - 626123"></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-purple-solid">💾 Save Contact Info</button>
+            </form>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Add/Edit Product Modal -->
+  <div class="admin-modal-overlay" id="productModal">
+    <div class="admin-modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Product</h3>
+        <button class="modal-close" onclick="closeProductModal()">✕</button>
+      </div>
+      <form id="productForm" onsubmit="handleProductSave(event)">
+        <input type="hidden" id="prodEditId">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Product Name *</label>
+            <input type="text" id="prodName" required placeholder="e.g. Electric Sparklers (Kambi Mathappu)">
+          </div>
+          <div class="form-group">
+            <label>Category *</label>
+            <select id="prodCategory" required>
+              <option value="sparklers">✨ Sparklers</option>
+              <option value="flowerpots">🪔 Flower Pots</option>
+              <option value="chakkars">🌀 Ground Chakkars</option>
+              <option value="skyshots">🚀 Sky Shots</option>
+              <option value="bombs">💥 Sound Bombs</option>
+              <option value="combos">🎁 Gift Combos</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>MRP (Original Retail Rate ₹) *</label>
+            <input type="number" id="prodMrp" required min="1" placeholder="250">
+          </div>
+          <div class="form-group">
+            <label>Offer Price (Direct Wholesale Rate ₹) *</label>
+            <input type="number" id="prodPrice" required min="1" placeholder="50">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Packaging Info *</label>
+          <input type="text" id="prodPack" required placeholder="e.g. Box of 10 Pcs">
+        </div>
+
+        <div class="form-group">
+          <label>Product Photo</label>
+          <div class="image-upload-preview">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" id="prodImgPreview" alt="Product Image Preview">
+            <input type="text" id="prodImgUrl" placeholder="Image URL (assets/product_sparklers.jpg)" style="margin-bottom: 8px;">
+            <input type="file" id="prodFileInput" accept="image/*" onchange="uploadProductPhoto(this)">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark-outline" onclick="closeProductModal()">Cancel</button>
+          <button type="submit" class="btn btn-purple-solid">💾 Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="catalogData.js?v=2"></script>
+  <script src="admin.js?v=3"></script>
+</body>
+</html>
