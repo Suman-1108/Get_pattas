@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Get Pattas Kadai | Sivakasi Direct Fireworks & Wholesale Crackers Store</title>
+    <meta name="description"
+        content="Get Pattas Kadai - Direct Sivakasi wholesale firecrackers with flat 80% discount. CSIR-NEERI certified green fireworks, combo boxes, sparklers, flower pots and sky shots with safe all-India delivery. Call 8610451118.">
+    <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css?v=33">
+</head>
+
+<body data-brand="getpattasu">
+
+    <!-- Background Sparks Canvas -->
+    <canvas id="sparksCanvas"></canvas>
+
+    <!-- Top Announcement Bar -->
+    <div class="top-announcement-bar">
+        <div class="announcement-inner">
+            <span class="announcement-pulse-dot"></span>
+            <span class="announcement-text">
+                🎉 Diwali Special Offers • Direct Sivakasi Factory Rates • Flat 80% Off
+            </span>
+            <span class="announcement-sep">•</span>
+            <span class="announcement-extra">
+                <i class="fa-solid fa-truck-fast"></i> 100% CSIR-NEERI Certified Green Crackers • Helpline: +91 86104
+                51118
+            </span>
+        </div>
+    </div>
+
+    <!-- Main Navbar -->
+    <header class="main-header" id="mainHeader">
+        <div class="header-container">
+            <!-- Brand Logo -->
+            <a href="index.html" class="brand-logo" title="Get Pattas Kadai - Sivakasi Direct Fireworks">
+                <img src="assets/logo.jpg" alt="Get Pattas Kadai Logo" class="brand-logo-img navbar-logo-img">
+            </a>
+
+            <!-- Desktop Navigation Menu -->
+            <nav class="nav-menu" id="navMenu">
+                <div class="mobile-menu-header">
+                    <div class="mobile-menu-brand">
+                        <img src="assets/logo.jpg" alt="Get Pattas" class="brand-logo-img mobile-menu-logo-img">
+                    </div>
+                    <button class="mobile-close-btn" onclick="toggleMobileMenu()" aria-label="Close Menu">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <a href="#hero" class="nav-link active" onclick="closeMobileMenu();">Home</a>
+                <a href="#about" class="nav-link" onclick="closeMobileMenu();">About Us</a>
+                <a href="#safety" class="nav-link" onclick="closeMobileMenu();">Safety First</a>
+                <a href="#reviews" class="nav-link" onclick="closeMobileMenu();">Google Reviews</a>
+                <a href="#contact" class="nav-link" onclick="closeMobileMenu();">Contact</a>
+
+                <div class="mobile-menu-actions">
+                    <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas!%20I%20want%20to%20know%20more%20about%20crackers%20booking."
+                        target="_blank" class="btn btn-whatsapp full-width" onclick="closeMobileMenu()">
+                        <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</span>
+                    </a>
+                    <a href="tel:+918610451118" class="btn btn-primary full-width"
+                        style="background: linear-gradient(135deg, var(--primary-red), #b91c1c); font-weight: 700;">
+                        <span><i class="fa-solid fa-phone"></i> Call +91 86104 51118</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Action Area: WhatsApp Helpline & Call Buttons -->
+            <div class="header-actions">
+                <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas!%20I%20want%20to%20order%20crackers."
+                    target="_blank" class="landing-nav-action-btn">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 1.15rem;"></i>
+                    <span>WhatsApp Help</span>
+                </a>
+
+                <!-- Mobile Menu Hamburger -->
+                <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Navigation">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="mobile-menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
+
+    <!-- Hero Section -->
+    <section class="cinematic-hero-section hero-image-only hero-desktop" id="hero">
+        <picture>
+            <source media="(max-width: 768px)" srcset="assets/mobile.jpg">
+            <img src="assets/getpattas_banner_main.jpeg" alt="Get Pattas Kadai - Sivakasi Premium Fireworks"
+                class="hero-full-img">
+        </picture>
+    </section>
+
+    <!-- Hero Highlight Pills -->
+    <section class="landing-hero-content">
+        <div class="container">
+            <div class="hero-feature-pills">
+                <div class="hero-pill-item">
+                    <i class="fa-solid fa-fire-flame-curved"></i>
+                    <span>Direct Sivakasi Factory Price</span>
+                </div>
+                <div class="hero-pill-item">
+                    <i class="fa-solid fa-percent"></i>
+                    <span>Flat 80% Wholesale Discount</span>
+                </div>
+                <div class="hero-pill-item">
+                    <i class="fa-solid fa-leaf"></i>
+                    <span>100% Green Certified (CSIR-NEERI)</span>
+                </div>
+                <div class="hero-pill-item">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>Safe Doorstep Delivery All India</span>
+                </div>
+                <div class="hero-pill-item">
+                    <i class="fa-solid fa-star" style="color: #f59e0b;"></i>
+                    <span>4.9★ Rated by 10,000+ Families</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section: Centered Header, Elegant Photo & Paragraph Story Flow -->
+    <section class="about-section" id="about">
+        <div class="container">
+
+            <!-- Section Header: Centered -->
+            <div class="section-header text-center about-header-center">
+                <span class="section-tag"><i class="fa-solid fa-sparkles"></i> About Get Pattasu</span>
+                <h2 class="section-title hide-on-desktop">Direct From Sivakasi Factory To Your Doorstep</h2>
+                <p class="section-subtitle hide-on-desktop">Sivakasi's premier direct-from-factory fireworks
+                    manufacturer with 15+ years of pyro excellence</p>
+            </div>
+
+            <div class="about-dual-grid">
+
+                <!-- Left Side: Balanced Proportionate About Image -->
+                <div class="about-image-column">
+                    <div class="about-image-card">
+                        <img src="assets/about_getpattas.jpeg"
+                            alt="Get Pattas Kadai - Sivakasi Factory Direct Fireworks">
+                    </div>
+                </div>
+
+                <!-- Right Side: Single Cohesive Story Paragraph -->
+                <div class="about-text-content">
+                    <p class="about-single-paragraph">
+                        Welcome to <strong>Get Pattas Kadai</strong>, Sivakasi’s trusted direct-from-factory fireworks
+                        manufacturer dedicated to bringing festive joy, authentic celebration, and brilliant
+                        illumination to homes across India. We specialize in 100% eco-friendly <strong>CSIR-NEERI & PESO
+                            Certified Green Crackers</strong>, manufactured using superior-grade pyrotechnic
+                        compositions that produce 30–35% less smoke and zero hazardous chemicals like Barium Nitrate. By
+                        eliminating retail middlemen, commission agents, and distributor markups, we deliver genuine
+                        Sivakasi factory wholesale rates with up to <strong>Flat 80% Discount</strong> across our
+                        complete cracker collection—including sparklers, flower pots, ground chakkars, aerial sky shots,
+                        sound crackers, and bumper family gift hampers. Every order is carefully packed in export-grade
+                        5-ply waterproof corrugated packaging and dispatched via reliable logistics directly to your
+                        city for a completely safe, joyful, and memorable Diwali celebration.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Safety Guidelines Section -->
+    <section class="safety-section" id="safety">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Safety First</span>
+                <h2 class="section-title">Get Pattas Kadai - Safe Celebration Guide</h2>
+                <p class="section-sub">Follow these essential safety precautions for a joyful & injury-free Diwali
+                    celebration with your family.</p>
+            </div>
+
+            <div class="safety-grid">
+                <div class="safety-card do">
+                    <div class="safety-header">
+                        <span class="safety-icon"><i class="fa-solid fa-circle-check"
+                                style="color: #16a34a;"></i></span>
+                        <h3>DO's</h3>
+                    </div>
+                    <ul>
+                        <li>Always burst crackers in an open space clear of combustible materials and dry leaves.</li>
+                        <li>Keep a bucket of water and sand nearby for emergency response and used sparkler dips.</li>
+                        <li>Store crackers in a cool, dry place inside sealed cardboard or wooden containers.</li>
+                        <li>Supervise children at all times while lighting sparklers, chakkars, and flower pots.</li>
+                        <li>Wear snug cotton clothing and proper protective footwear while bursting fireworks.</li>
+                        <li>Light aerial shells and rockets from a secure flat ground or sturdy launcher.</li>
+                    </ul>
+                </div>
+
+                <div class="safety-card dont">
+                    <div class="safety-header">
+                        <span class="safety-icon"><i class="fa-solid fa-circle-xmark"
+                                style="color: #dc2626;"></i></span>
+                        <h3>DON'Ts</h3>
+                    </div>
+                    <ul>
+                        <li>Never attempt to reignite or inspect a cracker that failed to burst initially.</li>
+                        <li>Never light crackers while holding them in your hands or inside glass/metal containers.</li>
+                        <li>Do not light fireworks near electrical transformers, vehicles, or LPG gas cylinders.</li>
+                        <li>Avoid wearing synthetic, nylon, silk, or loose flowing clothes near open flames.</li>
+                        <li>Never throw lit crackers towards people, animals, buildings, or passing traffic.</li>
+                        <li>Do not store crackers in pockets or close to hot kitchen areas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Google Reviews Section (Ultra-Attractive & Verified) -->
+    <section class="reviews-section" id="reviews">
+        <div class="container">
+            <div class="reviews-header">
+                <div class="google-badge-pill">
+                    <i class="fa-brands fa-google" style="color: #4285F4; font-size: 1.25rem;"></i>
+                    <span>Google Customer Reviews</span>
+                    <span class="verified-tick-badge"><i class="fa-solid fa-circle-check"></i> Verified</span>
+                </div>
+
+                <h2 class="reviews-main-heading">Loved by Over 10,000+ Happy Families</h2>
+                <p class="reviews-sub-heading">Genuine 5-Star feedback from customers enjoying authentic Sivakasi direct
+                    crackers with safe doorstep delivery.</p>
+
+                <div class="reviews-rating-bar">
+                    <div class="rating-score-box">
+                        <span class="rating-big-num">4.9</span>
+                        <div class="rating-stars-col">
+                            <div class="stars-gold">★★★★★</div>
+                            <span class="rating-text">Excellent • 1,480+ Reviews</span>
+                        </div>
+                    </div>
+                    <div class="rating-features-pills">
+                        <span class="rf-pill"><i class="fa-solid fa-leaf" style="color: #16a34a;"></i> 100% Green
+                            Certified</span>
+                        <span class="rf-pill"><i class="fa-solid fa-box-archive" style="color: #d97706;"></i> Factory
+                            Sealed Packaging</span>
+                        <span class="rf-pill"><i class="fa-solid fa-truck-fast" style="color: #2563eb;"></i> Express
+                            Delivery</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-carousel-wrapper">
+                <button class="review-nav-btn prev-btn" onclick="slideReviewPrev()"
+                    aria-label="Previous Review">‹</button>
+                <button class="review-nav-btn next-btn" onclick="slideReviewNext()" aria-label="Next Review">›</button>
+
+                <div class="reviews-slider-container">
+                    <div class="reviews-track" id="reviewsTrack">
+                        <!-- Card 1 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #ef4444, #b91c1c);">SK</div>
+                                    <div class="user-info">
+                                        <h4>Suresh Kumar S.</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Chennai • <span
+                                                class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">3 days ago</span>
+                            </div>
+                            <h5 class="review-headline">"Direct Factory Price & Superb Packing!"</h5>
+                            <p class="review-text">"Ordered the Grand Family Festival Dhamaka pack. Delivered safely to
+                                Chennai within 48 hours. Excellent cracker quality, especially the 30-shot sky shells
+                                and electric sparklers. Highly trustworthy store!"</p>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #3b82f6, #1d4ed8);">PS</div>
+                                    <div class="user-info">
+                                        <h4>Priya Soundararajan</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Coimbatore •
+                                            <span class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">1 week ago</span>
+                            </div>
+                            <h5 class="review-headline">"Kids Hamper is 100% Safe & Smoke-Free"</h5>
+                            <p class="review-text">"Bought the Kids Special Hamper. Beautiful bright colors with very
+                                low smoke. The WhatsApp order support made everything effortless. Thank you Get Pattas
+                                Kadai team!"</p>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #10b981, #047857);">RB</div>
+                                    <div class="user-info">
+                                        <h4>Ramesh Babu V.</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Madurai • <span
+                                                class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">2 weeks ago</span>
+                            </div>
+                            <h5 class="review-headline">"Real Sivakasi Wholesale - Flat 80% Off"</h5>
+                            <p class="review-text">"Compared local retail prices with Get Pattas Kadai, saved over
+                                ₹4,000 for my family Diwali purchase. Direct from Sivakasi factory is the best
+                                decision!"</p>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #f59e0b, #b45309);">DK</div>
+                                    <div class="user-info">
+                                        <h4>Dr. Karthikeyan M.</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Bangalore •
+                                            <span class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">3 weeks ago</span>
+                            </div>
+                            <h5 class="review-headline">"Sky Shots Were Spectacular!"</h5>
+                            <p class="review-text">"The 30 Multi-Color Crackling Sky Shells were breathtaking! Every
+                                single shot burst high in the night sky with vibrant patterns. Everyone in our colony
+                                was asking where we bought them."</p>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">AR</div>
+                                    <div class="user-info">
+                                        <h4>Anitha Rajendran</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Trichy • <span
+                                                class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">1 month ago</span>
+                            </div>
+                            <h5 class="review-headline">"Flawless Delivery & Prompt WhatsApp Updates"</h5>
+                            <p class="review-text">"Right after ordering, got tracking details immediately. Parcel
+                                arrived in a sturdy sealed box with clear safety instructions. Will definitely be a
+                                returning customer every Diwali!"</p>
+                        </div>
+
+                        <!-- Card 6 -->
+                        <div class="review-card">
+                            <div class="review-card-top">
+                                <div class="review-user">
+                                    <div class="user-avatar"
+                                        style="background: linear-gradient(135deg, #ec4899, #be185d);">VR</div>
+                                    <div class="user-info">
+                                        <h4>Venkatesh R.</h4>
+                                        <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Salem • <span
+                                                class="verified-buyer"><i class="fa-solid fa-check"></i> Verified
+                                                Order</span></span>
+                                    </div>
+                                </div>
+                                <div class="google-source-tag">
+                                    <i class="fa-brands fa-google" style="color: #ea4335; font-size: 1rem;"></i>
+                                    <span>Google</span>
+                                </div>
+                            </div>
+                            <div class="card-stars-row">
+                                <span class="stars-gold">★★★★★</span>
+                                <span class="review-date">1 month ago</span>
+                            </div>
+                            <h5 class="review-headline">"Original Sivakasi Fireworks Quality"</h5>
+                            <p class="review-text">"The Flower Pots and Ground Chakkars lasted so long and were so
+                                bright! No duds at all. Top quality genuine manufacturing. 5 Stars without a doubt!"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reviews-cta-block">
+                <button type="button" class="btn-write-review" onclick="openReviewModal(event)">
+                    <i class="fa-brands fa-google" style="color: #4285F4; font-size: 1.1rem;"></i>
+                    <span>✍️ Write a Review on Google</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="contact-wrapper">
+                <div class="contact-info-col">
+                    <span class="section-tag">Direct Store Support</span>
+                    <h2 class="contact-heading">Contact Get Pattas Kadai</h2>
+                    <p class="contact-text">
+                        Our Sivakasi store team is available 7 days a week to help you choose the best cracker packs,
+                        check order dispatch, or handle bulk wholesale gift bookings.
+                    </p>
+
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
+                            <div class="info-content">
+                                <h4>Get Pattas Kadai & Factory Store</h4>
+                                <p class="store-address-text">12/4B Sivakasi Main Road, Near Factory Zone, Sivakasi,
+                                    Tamil Nadu - 626123</p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
+                            <div class="info-content">
+                                <h4>Phone & WhatsApp Direct Booking</h4>
+                                <p><strong class="store-phone-text">+91 86104 51118</strong> (Available 8 AM - 10 PM)
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="info-card">
+                            <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
+                            <div class="info-content">
+                                <h4>Wholesale & Support Email</h4>
+                                <p class="store-email-text">sales@getpattas.com</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="whatsapp-direct-box">
+                        <div class="wa-box-header">
+                            <span class="wa-icon"><i class="fa-brands fa-whatsapp"></i></span>
+                            <div>
+                                <h4>Direct WhatsApp Kadai Order</h4>
+                                <p>Send your item list directly to our Sivakasi store manager</p>
+                            </div>
+                        </div>
+                        <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas%20Kadai,%20I%20would%20like%20to%20enquire%20about%20crackers%20booking."
+                            target="_blank" class="btn btn-whatsapp full-width">
+                            <span>Chat on WhatsApp (+91 86104 51118)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="contact-form-col">
+                    <form class="contact-form" id="contactForm" onsubmit="handleFormSubmit(event)">
+                        <h3 class="form-title">Send Us an Enquiry</h3>
+                        <p class="form-sub">Have a question or custom cracker list? Send us your requirement.</p>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="formName">Full Name *</label>
+                                <input type="text" id="formName" required placeholder="e.g. Ramesh Kumar">
+                            </div>
+                            <div class="form-group">
+                                <label for="formPhone">WhatsApp / Mobile Number *</label>
+                                <input type="tel" id="formPhone" required placeholder="e.g. 8610451118">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="formEmail">Email Address</label>
+                                <input type="email" id="formEmail" placeholder="e.g. ramesh@gmail.com">
+                            </div>
+                            <div class="form-group">
+                                <label for="formCity">City / Delivery Location *</label>
+                                <input type="text" id="formCity" required
+                                    placeholder="e.g. Chennai, Madurai, Coimbatore">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="formMessage">Your Order Requirement / Message</label>
+                            <textarea id="formMessage" rows="4"
+                                placeholder="Tell us which cracker varieties or combo packs you need from Get Pattas Kadai..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary full-width">
+                            <span><i class="fa-solid fa-paper-plane"></i> Submit Enquiry to Kadai</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Col 1: Brand & Certification -->
+                <div class="footer-col brand-col">
+                    <a href="#hero" class="brand-logo footer-logo">
+                        <img src="assets/moblie_getpattas_banner_main.jpeg" alt="Get Pattas Kadai Logo"
+                            class="brand-logo-img">
+                        <div class="logo-text">
+                            <span class="brand-name"><span class="brand-get">GET</span> <span
+                                    class="highlight">PATTASU</span> <span class="kadai-tag">KADAI</span></span>
+                            <span class="brand-sub">Sivakasi Factory Wholesale</span>
+                        </div>
+                    </a>
+                    <p class="footer-desc">
+                        <strong>Get Pattas Kadai</strong> is Sivakasi's premier direct online crackers store. We
+                        manufacture and supply 100% certified green fireworks directly from Sivakasi to homes across
+                        India at direct factory rates with flat 80% discount.
+                    </p>
+                    <div class="footer-badges-strip">
+                        <span class="f-badge"><i class="fa-solid fa-leaf"></i> CSIR-NEERI Certified</span>
+                        <span class="f-badge"><i class="fa-solid fa-shield-halved"></i> 100% Genuine Sivakasi</span>
+                        <span class="f-badge"><i class="fa-solid fa-truck-fast"></i> Safe Transport Logistics</span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="footer-col links-col">
+                    <h4 class="footer-heading">Quick Links</h4>
+                    <ul class="footer-links">
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#about">About Get Pattasu</a></li>
+                        <li><a href="#safety">Safety Guidelines</a></li>
+                        <li><a href="#reviews">Google Reviews</a></li>
+                        <li><a href="#contact">Contact Store</a></li>
+                        <li><a href="#"
+                                onclick="document.getElementById('privacyModalOverlay').classList.add('active'); return false;">Privacy
+                                Policy</a></li>
+                        <li><a href="#"
+                                onclick="document.getElementById('termsModalOverlay').classList.add('active'); return false;">Terms
+                                & Conditions</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Direct Kadai Helpline -->
+                <div class="footer-col helpline-col">
+                    <h4 class="footer-heading">Sivakasi Store Desk</h4>
+                    <div class="footer-contact-card">
+                        <div class="f-contact-item">
+                            <span class="f-icon"><i class="fa-solid fa-location-dot"></i></span>
+                            <span>12/4B Sivakasi Main Road, Factory Zone, Sivakasi - 626123</span>
+                        </div>
+                        <div class="f-contact-item">
+                            <span class="f-icon"><i class="fa-solid fa-phone"></i></span>
+                            <span><strong>+91 86104 51118</strong> (8 AM - 10 PM)</span>
+                        </div>
+                        <div class="f-contact-item">
+                            <span class="f-icon"><i class="fa-solid fa-envelope"></i></span>
+                            <span>sales@getpattas.com</span>
+                        </div>
+                    </div>
+                    <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas%20Kadai,%20I%20want%20to%20order%20crackers"
+                        target="_blank" class="footer-wa-btn">
+                        <span><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Bottom Credits: Get Pattas Kadai & Made by Kaira Technologies -->
+            <div class="footer-bottom footer-bottom-centered">
+                <p class="footer-copy-text">© 2026 <strong>Get Pattas Kadai</strong>. All Rights Reserved.</p>
+                <a href="https://www.kairatechnologies.in/" target="_blank" rel="noopener noreferrer"
+                    class="kaira-credit-link">
+                    <span>Made by</span>
+                    <strong class="kaira-brand-highlight">Kaira Technologies</strong>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Privacy Policy Modal -->
+    <div class="checkout-modal-overlay" id="privacyModalOverlay"
+        onclick="if(event.target===this) this.classList.remove('active')">
+        <div class="policy-modal-card">
+            <div class="policy-modal-header">
+                <h3><i class="fa-solid fa-lock"></i> Privacy Policy & Data Security</h3>
+                <button type="button" class="policy-modal-close-btn"
+                    onclick="document.getElementById('privacyModalOverlay').classList.remove('active')"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="policy-modal-body">
+                <p><strong>1. Information Collection:</strong> When you place an enquiry or booking with <strong>Get
+                        Pattas Kadai</strong> (Sivakasi), we collect your name, phone number (WhatsApp/Calling),
+                    delivery address, and pincode. This information is required to coordinate safe logistics, parcel
+                    tracking, and order confirmations.</p>
+
+                <p><strong>2. Usage of Personal Data:</strong> Your contact details are used exclusively for:
+                <ul>
+                    <li>Direct order verification via WhatsApp or phone call.</li>
+                    <li>Booking regional transport parcel service directly from Sivakasi to your destination city/hub.
+                    </li>
+                    <li>Sending festive discounts, price-drop alerts, and invoice PDFs.</li>
+                </ul>
+                </p>
+
+                <p><strong>3. 100% Data Confidentiality:</strong> We respect your privacy. <strong>Get Pattas
+                        Kadai</strong> never sells, trades, or leases customer databases to third-party marketing
+                    companies.</p>
+
+                <p><strong>4. Payment & Transaction Security:</strong> We do not store your credit card or bank
+                    credentials. All online payments and UPI transfers are handled securely through RBI-compliant
+                    encrypted payment gateways (Razorpay, UPI QR, Net Banking).</p>
+
+                <p><strong>5. Cookies & Local Storage:</strong> Our website uses local browser storage solely to retain
+                    your preferences and saved delivery addresses for your convenience during Diwali shopping.</p>
+
+                <p><strong>6. Contact For Privacy Concerns:</strong> For any data removal or privacy queries, contact
+                    our store compliance desk at <a href="mailto:privacy@getpattas.com"
+                        style="color: #dc2626; font-weight: 600;">privacy@getpattas.com</a> or call <strong>+91 86104
+                        51118</strong>.</p>
+            </div>
+            <div class="policy-modal-footer">
+                <button type="button" class="btn-close-policy"
+                    onclick="document.getElementById('privacyModalOverlay').classList.remove('active')">Close
+                    Policy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Terms & Conditions Modal -->
+    <div class="checkout-modal-overlay" id="termsModalOverlay"
+        onclick="if(event.target===this) this.classList.remove('active')">
+        <div class="policy-modal-card">
+            <div class="policy-modal-header">
+                <h3><i class="fa-solid fa-file-lines"></i> Terms & Conditions (Sivakasi Direct)</h3>
+                <button type="button" class="policy-modal-close-btn"
+                    onclick="document.getElementById('termsModalOverlay').classList.remove('active')"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="policy-modal-body">
+                <p><strong>1. Legal Compliance & Supreme Court Guidelines:</strong> All crackers sold by <strong>Get
+                        Pattas Kadai</strong> are 100% authentic <strong>CSIR-NEERI Certified Green Crackers</strong>
+                    manufactured in Sivakasi in full compliance with the Supreme Court of India directives and PESO
+                    (Petroleum and Explosives Safety Organization) standards.</p>
+
+                <p><strong>2. Age Restriction (18+ Only):</strong> You must be at least <strong>18 years of age</strong>
+                    to purchase or order fireworks. By submitting an order, you confirm you are 18 or older. Minors must
+                    strictly light crackers only under adult supervision.</p>
+
+                <p><strong>3. Dispatch & Transport Logistics:</strong>
+                <ul>
+                    <li>Fireworks parcels are dispatched via approved logistics/transport carriers from Sivakasi to your
+                        nearest town or city transport hub/godown.</li>
+                    <li>Customer will receive a lorry receipt (LR copy) and tracking details via WhatsApp immediately
+                        after dispatch.</li>
+                    <li>Peak festival dispatches (10-15 days before Diwali) may experience carrier delays. Customers are
+                        advised to place pre-orders early.</li>
+                </ul>
+                </p>
+
+                <p><strong>4. Pricing & 80% Wholesale Discount:</strong> All catalogue rates displayed are direct
+                    Sivakasi factory wholesale rates with up to 80% discount off standard MRP. Prices are inclusive of
+                    GST.</p>
+
+                <p><strong>5. Cancellation & Return Policy:</strong>
+                <ul>
+                    <li>Due to safety regulations governing explosive materials, returns or exchanges after dispatch are
+                        strictly prohibited.</li>
+                    <li>Orders can only be cancelled within 12 hours of placing the order before packing and dispatch.
+                    </li>
+                    <li>In the rare event of transit damage or missing items, inform us with an unboxing video within 24
+                        hours of delivery for replacement or credit.</li>
+                </ul>
+                </p>
+
+                <p><strong>6. Safety & Usage Disclaimer:</strong> Always follow the safety instructions printed on the
+                    cracker boxes. Keep buckets of water nearby, wear cotton clothes, and burst crackers in open outdoor
+                    areas. <strong>Get Pattas Kadai</strong> is not liable for accidents caused by negligent handling.
+                </p>
+            </div>
+            <div class="policy-modal-footer">
+                <button type="button" class="btn-close-policy"
+                    onclick="document.getElementById('termsModalOverlay').classList.remove('active')">I Understand &
+                    Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Write Google Review Modal -->
+    <div class="checkout-modal-overlay" id="reviewModalOverlay"
+        onclick="if(event.target===this) this.classList.remove('active')">
+        <div class="policy-modal-card" style="max-width: 520px;">
+            <div class="policy-modal-header">
+                <div style="display: flex; align-items: center; gap: 0.6rem;">
+                    <i class="fa-brands fa-google" style="color: #4285F4; font-size: 1.4rem;"></i>
+                    <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;">Rate Get Pattas Kadai</h3>
+                </div>
+                <button type="button" class="policy-modal-close-btn"
+                    onclick="document.getElementById('reviewModalOverlay').classList.remove('active')"><i
+                        class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form class="policy-modal-body" style="padding: 20px 24px;" onsubmit="handleReviewSubmit(event)">
+                <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.2rem;">Share your festival experience with
+                    fellow Diwali shoppers across India!</p>
+
+                <div
+                    style="text-align: center; margin-bottom: 1.5rem; background: #fffbeb; padding: 1rem; border-radius: 12px; border: 1px solid #fef3c7;">
+                    <div style="font-size: 0.85rem; font-weight: 600; color: #b45309; margin-bottom: 0.4rem;">SELECT
+                        YOUR RATING</div>
+                    <div style="font-size: 1.8rem; letter-spacing: 6px; cursor: pointer; color: #f59e0b;"
+                        id="interactiveStars">
+                        ★★★★★
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label
+                        style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #0f172a;">Your
+                        Name *</label>
+                    <input type="text" id="revName" required placeholder="e.g. Anand V."
+                        style="width: 100%; padding: 0.65rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 8px;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label
+                        style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #0f172a;">City
+                        / Location</label>
+                    <input type="text" id="revCity" placeholder="e.g. Chennai, Tamil Nadu"
+                        style="width: 100%; padding: 0.65rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 8px;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #0f172a;">Your
+                        Review / Feedback *</label>
+                    <textarea id="revMsg" rows="3" required
+                        placeholder="Tell us about the cracker quality, packaging, and delivery..."
+                        style="width: 100%; padding: 0.65rem 0.8rem; border: 1px solid #cbd5e1; border-radius: 8px;"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary full-width" style="padding: 0.85rem; font-weight: 700;">
+                    <i class="fa-solid fa-star"></i> Submit Google Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts -->
+    <script src="catalogData.js?v=2"></script>
+    <script src="app.js?v=32"></script>
+</body>
+
+</html>

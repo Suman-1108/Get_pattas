@@ -350,7 +350,7 @@ let memoryConfig = {
   heroSubtitle: 'Buy genuine 100% Green Certified Crackers online at direct wholesale prices with flat 80% discount and doorstep delivery.',
   heroBadge: '💥 SIVAKASI DIRECT WHOLESALE STORE',
   heroImage: 'assets/hero_banner.jpg',
-  storePhone: '+91 98765 43210',
+  storePhone: '+91 86104 51118',
   storeEmail: 'sales@getpattas.com',
   storeAddress: '12/4B Sivakasi Main Road, Near Factory Zone, Sivakasi, Tamil Nadu - 626123'
 };
@@ -728,7 +728,7 @@ app.post('/api/orders', async (req, res) => {
       brand: brand || 'getpattasu',
       brandName: brandName || 'Get Pattasu Kadai',
       customerName: customerName || 'Valued Customer',
-      phone: phone || '9876543210',
+      phone: phone || '8610451118',
       email: email || '',
       address: address || 'Store Pickup / WhatsApp Order',
       items: items || [],

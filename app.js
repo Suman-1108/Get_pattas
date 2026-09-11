@@ -70,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSparksCanvas();
   initReviewsSlider();
   initCheckoutAutoSave();
+  initNavScrollSpy();
 
   // 5. BroadcastChannel real-time event listener
   if (syncChannel) {
@@ -79,6 +80,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
   }
+
+  // 6. Escape key to clear search inputs
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const activeId = document.activeElement ? document.activeElement.id : '';
+      if (activeId === 'headerGlobalSearch' || activeId === 'catalogSearch') {
+        clearTableSearch();
+      }
+    }
+  });
 });
 
 // ==========================================
@@ -94,7 +105,7 @@ function selectBrand(brandSlug, event) {
 
   const targetUrl = brandUrls[brandSlug] || '/getpattas/shopno004';
   const currentPath = window.location.pathname.toLowerCase();
-  const isCurrentPage = currentPath.endsWith(targetUrl) || 
+  const isCurrentPage = currentPath.endsWith(targetUrl) ||
     (brandSlug === 'getpattasu' && (currentPath.endsWith('/') || currentPath.endsWith('index.html') || currentPath.includes('shopno004')));
 
   if (!isCurrentPage) {
@@ -136,7 +147,7 @@ function updateBrandUI(brandSlug) {
       title: "Daddy's Special Crackers",
       tagline: 'World-Famous Daddy Special Fountains, Popcorn Crackers, Kungfu Panda 2-Step & High-Altitude Pyro Sky Shells',
       loc: '📍 Bypass Road, Sivakasi Factory Zone',
-      phone: '+91 94431 22889',
+      phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno002',
       siteName: "Daddy's Store"
@@ -146,7 +157,7 @@ function updateBrandUI(brandSlug) {
       title: 'Sivakasi Muthu Crackers',
       tagline: 'Direct Wholesale from Sivakasi Factory • Flat 80% Discount • Over 218 Genuine Varieties',
       loc: '📍 258, Sivakasi Muthu Crackers, Sivakasi',
-      phone: '+91 96003 33302',
+      phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno001',
       siteName: "Muthu Store"
@@ -156,7 +167,7 @@ function updateBrandUI(brandSlug) {
       title: 'The RED Crackers Sivakasi',
       tagline: 'Celebrate Bigger, Save More! Direct Sivakasi Up to 90% Off • Complete 127 Items Order Table',
       loc: '📍 Sivakasi Wholesale Hub, Tamil Nadu',
-      phone: '+91 95661 59113',
+      phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno003',
       siteName: "RED Store"
@@ -166,7 +177,7 @@ function updateBrandUI(brandSlug) {
       title: 'Get Pattasu Kadai',
       tagline: 'Single Window for Muthu, Daddy & RED Crackers • Curated Family Hampers • Flat 80% Off Direct Factory Rates',
       loc: '📍 12/4B Sivakasi Factory Zone, Tamil Nadu',
-      phone: '+91 96003 33302',
+      phone: '+91 86104 51118',
       min: '₹3,000',
       page: '/getpattas/shopno004',
       siteName: "Get Pattasu Master Store"
@@ -273,7 +284,7 @@ function renderPriceListTable() {
   let filteredProducts = products;
   if (currentSearchQuery.trim()) {
     const q = currentSearchQuery.toLowerCase().trim();
-    filteredProducts = products.filter(p => 
+    filteredProducts = products.filter(p =>
       p.name.toLowerCase().includes(q) ||
       (p.tamilName && p.tamilName.toLowerCase().includes(q)) ||
       (p.code && p.code.toLowerCase().includes(q)) ||
@@ -309,7 +320,7 @@ function renderPriceListTable() {
         <span>✨ All Categories</span>
         <span class="pill-badge">${filteredProducts.length}</span>
       </button>`;
-    
+
     categoryNames.forEach((catName, idx) => {
       const catSlug = `cat-${currentBrand}-${idx}`;
       const isActive = currentCategoryFilter === catSlug;
@@ -607,25 +618,30 @@ function clearAllCartItems() {
 // SEARCH & CATEGORY NAVIGATION
 // ==========================================
 function handleTableSearch(val) {
-  currentSearchQuery = val;
+  currentSearchQuery = val || '';
+  const isNotEmpty = Boolean(val && val.trim());
   const clearBtn = document.getElementById('searchClearBtn');
   if (clearBtn) {
-    clearBtn.style.display = val.trim() ? 'block' : 'none';
+    clearBtn.style.display = isNotEmpty ? 'flex' : 'none';
+  }
+  const headerClearBtn = document.getElementById('headerSearchClear');
+  if (headerClearBtn) {
+    headerClearBtn.style.display = isNotEmpty ? 'flex' : 'none';
+  }
+  const headerInput = document.getElementById('headerGlobalSearch');
+  if (headerInput && headerInput.value !== val) {
+    headerInput.value = val;
   }
   renderPriceListTable();
 }
 
 function handleHeaderSearch(val) {
   const tableSearchInput = document.getElementById('catalogSearch');
-  if (tableSearchInput) {
+  if (tableSearchInput && tableSearchInput.value !== val) {
     tableSearchInput.value = val;
   }
-  const clearBtn = document.getElementById('headerSearchClear');
-  if (clearBtn) {
-    clearBtn.style.display = val.trim() ? 'block' : 'none';
-  }
   handleTableSearch(val);
-  if (val.trim()) {
+  if (val && val.trim()) {
     const productsEl = document.getElementById('products');
     if (productsEl) {
       const topOffset = productsEl.getBoundingClientRect().top + window.pageYOffset - 120;
@@ -634,34 +650,6 @@ function handleHeaderSearch(val) {
       }
     }
   }
-}
-
-function clearHeaderSearch() {
-  const headerInput = document.getElementById('headerGlobalSearch');
-  if (headerInput) headerInput.value = '';
-  const clearBtn = document.getElementById('headerSearchClear');
-  if (clearBtn) clearBtn.style.display = 'none';
-  clearTableSearch();
-}
-
-function filterCategoryBySlug(slug) {
-  handleCategoryJump(slug);
-}
-
-function addQuickItem(id, name, price, mrp) {
-  // Find match in current products or fallback
-  let foundId = id;
-  if (window.ALL_BRANDS_PRODUCTS && window.ALL_BRANDS_PRODUCTS[currentBrand]) {
-    const list = window.ALL_BRANDS_PRODUCTS[currentBrand];
-    const match = list.find(p => p.id === id || p.name.toLowerCase().includes(name.toLowerCase().split(' ')[0]));
-    if (match) foundId = match.id;
-  }
-  changeQty(foundId, 1);
-  showToast(`Added ${name} to cart!`);
-}
-
-function openWishlistToast() {
-  showToast('❤️ Wishlist saved! Explore & add your favorite Diwali crackers.');
 }
 
 function clearTableSearch() {
@@ -677,19 +665,102 @@ function clearTableSearch() {
   renderPriceListTable();
 }
 
-function handleCategoryJump(catSlug) {
-  if (catSlug === 'all') {
-    filterByCategory('all');
-    return;
+function clearHeaderSearch() {
+  clearTableSearch();
+}
+
+function resolveCategorySlug(slug) {
+  if (!slug || slug === 'all') return 'all';
+  if (/^cat-[a-zA-Z0-9]+-\d+$/.test(slug)) return slug;
+
+  const products = (window.ALL_BRANDS_PRODUCTS && window.ALL_BRANDS_PRODUCTS[currentBrand]) ? window.ALL_BRANDS_PRODUCTS[currentBrand] : [];
+  const categoryNames = [...new Set(products.map(p => p.category))];
+
+  const slugKeywords = {
+    'sparklers': ['sparkler', 'மத்தாப்பு', 'colour matches', 'குச்சி'],
+    'flower-pots': ['flower', 'பூச்சட்டி', 'koti', 'கோட்டி', 'fountain', 'பவுண்டன்'],
+    'ground-chakkars': ['chakkar', 'சக்கரம்', 'wheel', 'வீல்'],
+    'rockets': ['rocket', 'ராக்கெட்', 'bijili', 'பிஜிலி'],
+    'aerial-shots': ['aerial', 'sky', 'வான', 'shot', 'ஷாட்ஸ்', 'shell', 'pipe', 'பைப்', 'pyro'],
+    'one-sound-crackers': ['one sound', 'ஒன் சவுண்ட்', 'sound & bombs', 'sound cracker', 'thunder', 'bomb', 'பாம்', 'வெடி'],
+    'multi-sound-walas': ['wala', 'வாலா', 'garland', 'சரவெடி', 'multi sound', 'மல்டி சவுண்ட்', 'sound cracker', 'சவுண்ட் வெடி'],
+    'kids-special': ['kid', 'கிட்ஸ்', 'novelty', 'நாவல்டி', 'gun', 'துப்பாக்கி', 'pencil', 'பென்சில்'],
+    'gift-boxes': ['gift', 'கிப்ட்', 'box', 'பாக்ஸ்', 'family', 'காம்போ', 'hamper']
+  };
+
+  const kws = slugKeywords[slug] || [slug.replace(/-/g, ' ')];
+  let matchedIndex = -1;
+  for (const kw of kws) {
+    matchedIndex = categoryNames.findIndex(cat => cat.toLowerCase().includes(kw.toLowerCase()));
+    if (matchedIndex !== -1) break;
   }
-  mobileOpenCategories.add(catSlug);
-  filterByCategory(catSlug);
-  const targetEl = document.getElementById(catSlug);
-  if (targetEl) {
-    const yOffset = -75;
-    const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+  if (matchedIndex !== -1) {
+    return `cat-${currentBrand}-${matchedIndex}`;
+  }
+
+  return 'all';
+}
+
+function filterCategoryBySlug(slug) {
+  closeMobileMenu();
+  const resolvedSlug = resolveCategorySlug(slug);
+  if (resolvedSlug !== 'all') {
+    handleCategoryJump(resolvedSlug);
+  } else {
+    const searchTerm = slug.replace(/-/g, ' ');
+    currentCategoryFilter = 'all';
+    handleTableSearch(searchTerm);
+    const tableSearchInput = document.getElementById('catalogSearch');
+    if (tableSearchInput) tableSearchInput.value = searchTerm;
+    const productsEl = document.getElementById('products');
+    if (productsEl) {
+      const yOffset = -85;
+      const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }
+}
+
+function showAllCrackers() {
+  closeMobileMenu();
+  filterByCategory('all');
+  const selectEl = document.getElementById('categoryJumpSelect');
+  if (selectEl) selectEl.value = 'all';
+  const productsEl = document.getElementById('products');
+  if (productsEl) {
+    const yOffset = -85;
+    const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
     window.scrollTo({ top: y, behavior: 'smooth' });
   }
+}
+
+function handleCategoryJump(catSlug) {
+  const resolved = resolveCategorySlug(catSlug);
+  if (resolved === 'all') {
+    filterByCategory('all');
+    const selectEl = document.getElementById('categoryJumpSelect');
+    if (selectEl) selectEl.value = 'all';
+    const productsEl = document.getElementById('products');
+    if (productsEl) {
+      const yOffset = -85;
+      const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+    return;
+  }
+  mobileOpenCategories.add(resolved);
+  filterByCategory(resolved);
+  const selectEl = document.getElementById('categoryJumpSelect');
+  if (selectEl) selectEl.value = resolved;
+  setTimeout(() => {
+    const targetEl = document.getElementById(resolved) || document.getElementById('products');
+    if (targetEl) {
+      const yOffset = -85;
+      const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
+  }, 50);
 }
 
 function filterByCategory(catSlug) {
@@ -788,22 +859,22 @@ function sendWhatsAppDirectOrder(existingOrder = null) {
       const existing = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
       existing.unshift(waOrderRecord);
       localStorage.setItem('admin_orders_sync', JSON.stringify(existing));
-    } catch (e) {}
+    } catch (e) { }
 
     try {
       fetch(`${API_BASE}/api/orders`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(waOrderRecord)
-      }).catch(() => {});
-    } catch (e) {}
+      }).catch(() => { });
+    } catch (e) { }
 
     if (syncChannel) {
       syncChannel.postMessage({ type: 'ORDER_PLACED', order: waOrderRecord });
     }
   }
 
-  const phoneNum = (brand.phone || '9600333302').replace(/[^0-9]/g, '');
+  const phoneNum = (brand.phone || '8610451118').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${phoneNum}?text=${encodeURIComponent(message)}`;
   window.open(waUrl, '_blank');
 }
@@ -930,7 +1001,18 @@ function openCheckoutModal() {
   cart.forEach(item => { checkNetTotal += item.price * item.qty; });
   if (checkNetTotal < 3000) {
     const diff = 3000 - checkNetTotal;
-    alert(`⚠️ Minimum order value is ₹3,000.\nPlease add ₹${diff.toLocaleString('en-IN')} more to reach the minimum order!`);
+    const brandColor = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]?.themeColor) || '#ea580c';
+    if (window.Swal) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Minimum Order Value: ₹3,000',
+        html: `Your current cart total is <b>₹${checkNetTotal.toLocaleString('en-IN')}</b>.<br>Please add <b>₹${diff.toLocaleString('en-IN')}</b> more to meet the factory minimum wholesale order!`,
+        confirmButtonColor: brandColor,
+        confirmButtonText: '<i class="fas fa-plus-circle"></i> Add More Items'
+      });
+    } else {
+      alert(`⚠️ Minimum order value is ₹3,000.\nPlease add ₹${diff.toLocaleString('en-IN')} more to reach the minimum order!`);
+    }
     const tableEl = document.getElementById('products') || document.getElementById('priceListContainer');
     if (tableEl) tableEl.scrollIntoView({ behavior: 'smooth' });
     return;
@@ -941,6 +1023,8 @@ function openCheckoutModal() {
   const coModal = document.getElementById('checkoutModalOverlay');
   if (coModal) {
     populateCheckoutSummary();
+    populateCheckoutSavedAddresses();
+    initCheckoutAutoSave();
     coModal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
@@ -995,7 +1079,7 @@ function populateCheckoutSummary() {
 function updateCheckoutQrCode(amount) {
   const qrImg = document.getElementById('coUpiQrImage');
   const qrAmountEl = document.getElementById('coQrAmountText');
-  const upiId = '9600333302@upi';
+  const upiId = '8610451118@upi';
   const upiUrl = `upi://pay?pa=${upiId}&pn=GetPattasuKadai&am=${amount}&cu=INR&tn=DiwaliWholesaleOrder`;
 
   if (qrAmountEl) qrAmountEl.innerText = `₹${amount.toLocaleString('en-IN')}`;
@@ -1016,7 +1100,7 @@ function handlePaymentOptionChange(val) {
 }
 
 function copyMerchantUpiId() {
-  const upiId = '9600333302@upi';
+  const upiId = '8610451118@upi';
   navigator.clipboard?.writeText(upiId).then(() => {
     showToast('UPI ID copied: ' + upiId);
   }).catch(() => {
@@ -1024,50 +1108,161 @@ function copyMerchantUpiId() {
   });
 }
 
+function clearCheckoutAddressForm() {
+  const street = document.getElementById('coStreet');
+  const apt = document.getElementById('coApartment');
+  const city = document.getElementById('coCity');
+  const pincode = document.getElementById('coPincode');
+  const select = document.getElementById('coSavedAddressSelect');
+
+  if (street) street.value = '';
+  if (apt) apt.value = '';
+  if (city) city.value = '';
+  if (pincode) pincode.value = '';
+  if (select) select.value = 'NEW';
+
+  if (street) {
+    street.focus();
+    street.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+  showToast('✏️ Ready for new address! Fill in street & city below.');
+}
+
 function initCheckoutAutoSave() {
   try {
     const saved = localStorage.getItem(getShopStorageKey('checkout_saved_address'));
     if (saved) {
       const data = JSON.parse(saved);
-      if (document.getElementById('coEmail') && data.email) document.getElementById('coEmail').value = data.email;
-      if (document.getElementById('coFirstName') && data.firstName) document.getElementById('coFirstName').value = data.firstName;
-      if (document.getElementById('coLastName') && data.lastName) document.getElementById('coLastName').value = data.lastName;
-      if (document.getElementById('coStreet') && data.street) document.getElementById('coStreet').value = data.street;
-      if (document.getElementById('coCity') && data.city) document.getElementById('coCity').value = data.city;
-      if (document.getElementById('coState') && data.state) document.getElementById('coState').value = data.state;
-      if (document.getElementById('coPincode') && data.pincode) document.getElementById('coPincode').value = data.pincode;
-      if (document.getElementById('coPhone') && data.phone) document.getElementById('coPhone').value = data.phone;
+      applyAddressToCheckoutForm(data);
     }
   } catch (e) { }
+  populateCheckoutSavedAddresses();
 }
 
-function saveAddressFromCheckout(silent = false) {
+function applyAddressToCheckoutForm(data) {
+  if (!data) return;
+  if (document.getElementById('coEmail') && data.email) document.getElementById('coEmail').value = data.email;
+  if (document.getElementById('coFirstName') && data.firstName) document.getElementById('coFirstName').value = data.firstName;
+  if (document.getElementById('coLastName') && data.lastName) document.getElementById('coLastName').value = data.lastName;
+  if (document.getElementById('coStreet')) document.getElementById('coStreet').value = data.street || data.addressLine || data.address || '';
+  if (document.getElementById('coApartment') && data.apartment) document.getElementById('coApartment').value = data.apartment;
+  if (document.getElementById('coCity') && data.city) document.getElementById('coCity').value = data.city;
+  if (document.getElementById('coState') && data.state) document.getElementById('coState').value = data.state;
+  if (document.getElementById('coPincode') && data.pincode) document.getElementById('coPincode').value = data.pincode;
+  if (document.getElementById('coPhone') && data.phone) document.getElementById('coPhone').value = data.phone;
+}
+
+function populateCheckoutSavedAddresses() {
+  const wrapper = document.getElementById('coSavedAddressWrapper');
+  const select = document.getElementById('coSavedAddressSelect');
+  if (!wrapper || !select) return;
+
+  const key = getShopStorageKey('get_pattasu_addresses');
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(key) || '[]');
+  } catch (err) { list = []; }
+
+  if (!list || list.length === 0) {
+    wrapper.style.display = 'none';
+    return;
+  }
+
+  wrapper.style.display = 'block';
+  select.innerHTML = '<option value="">-- Choose from saved addresses (' + list.length + ') --</option>' +
+    list.map(function (a) {
+      return '<option value="' + a.id + '" ' + (a.isDefault ? 'selected' : '') + '>' +
+        (a.label || 'Address') + ': ' + (a.street || a.address || '') + (a.city ? ' (' + a.city + ')' : '') + (a.isDefault ? ' ★ Default' : '') +
+        '</option>';
+    }).join('') +
+    '<option value="NEW">+ Add New Address...</option>';
+}
+
+function handleCheckoutAddressSelect(addrId) {
+  if (!addrId) return;
+  if (addrId === 'NEW') {
+    clearCheckoutAddressForm();
+    return;
+  }
+
+  const key = getShopStorageKey('get_pattasu_addresses');
+  let list = [];
+  try {
+    list = JSON.parse(localStorage.getItem(key) || '[]');
+  } catch (err) { list = []; }
+
+  const addr = list.find(function (a) { return a.id === addrId; });
+  if (!addr) return;
+
+  applyAddressToCheckoutForm(addr);
+  showToast('📍 Selected: ' + (addr.label || 'Delivery Address'));
+}
+
+function saveAddressFromCheckout(silent) {
+  silent = Boolean(silent);
   const fName = document.getElementById('coFirstName')?.value.trim() || '';
   const lName = document.getElementById('coLastName')?.value.trim() || '';
-  const fullName = (fName + ' ' + lName).trim() || fName || lName || 'Festival Customer';
-  const phone = document.getElementById('coPhone')?.value.trim() || '';
+  const fullName = (fName + ' ' + lName).trim() || fName || lName || (currentCustomer?.name || 'Valued Customer');
+  const phone = document.getElementById('coPhone')?.value.trim() || (currentCustomer?.phone || '');
   const street = document.getElementById('coStreet')?.value.trim() || '';
+  const apt = document.getElementById('coApartment')?.value.trim() || '';
   const city = document.getElementById('coCity')?.value.trim() || '';
   const state = document.getElementById('coState')?.value || 'Tamil Nadu';
   const pincode = document.getElementById('coPincode')?.value.trim() || '';
   const email = document.getElementById('coEmail')?.value.trim() || '';
 
+  if (!street && !city) {
+    if (!silent) showToast('⚠️ Please enter street address and city to save.');
+    return false;
+  }
+
+  const fullStreet = apt ? (street + ', ' + apt) : street;
+  const formattedAddress = fullStreet + ', ' + city + ' - ' + pincode + ', ' + state;
+
   const addressData = {
-    email,
+    id: 'addr_' + Date.now(),
+    email: email,
     firstName: fName,
     lastName: lName,
     name: fullName,
-    street,
-    city,
-    state,
-    pincode,
-    phone,
-    address: street || city || 'Direct Delivery'
+    label: 'Delivery Address',
+    street: fullStreet,
+    city: city,
+    state: state,
+    pincode: pincode,
+    phone: phone,
+    address: formattedAddress,
+    isDefault: true
   };
 
   try {
     localStorage.setItem(getShopStorageKey('checkout_saved_address'), JSON.stringify(addressData));
-  } catch (e) {}
+
+    // Also sync to customer's saved address book
+    const key = getShopStorageKey('get_pattasu_addresses');
+    let list = [];
+    try {
+      list = JSON.parse(localStorage.getItem(key) || '[]');
+    } catch (err) { list = []; }
+
+    // Un-default other addresses
+    list.forEach(function (a) { a.isDefault = false; });
+
+    // Check if this address matches an existing entry
+    const existingIdx = list.findIndex(function (a) {
+      return a.street && a.street.toLowerCase() === fullStreet.toLowerCase() &&
+        a.city && a.city.toLowerCase() === city.toLowerCase();
+    });
+    if (existingIdx >= 0) {
+      list[existingIdx] = Object.assign({}, list[existingIdx], addressData);
+    } else {
+      list.unshift(addressData);
+    }
+    localStorage.setItem(key, JSON.stringify(list));
+  } catch (e) { }
+
+  populateCheckoutSavedAddresses();
+  renderSavedAddresses();
 
   if (!silent) {
     showToast('💾 Default delivery address saved successfully!');
@@ -1079,28 +1274,39 @@ function saveAddressFromCheckout(silent = false) {
 // SHOP BRAND NAMING & CODE HELPERS (GLOBAL SCOPE)
 // ==========================================
 function getShopInvoiceTitle(brandKey) {
-  const b = (brandKey || '').toLowerCase();
-  if (b.includes('1') || b.includes('muthu')) return 'Sivakasi Muthu Crackers (Shop 001)';
-  if (b.includes('2') || b.includes('daddy')) return 'Daddy Crackers Sivakasi (Shop 002)';
-  if (b.includes('3') || b.includes('red')) return 'Red Crackers Sivakasi (Shop 003)';
-  if (b.includes('4') || b.includes('pattas')) return 'Get Pattas Wholesale Crackers (Shop 004)';
-  return 'Get Pattas Wholesale Crackers';
+  if (typeof window !== 'undefined') {
+    const p = (window.location.pathname + window.location.search).toLowerCase();
+    if (p.includes('004')) return 'Get Pattas - Wholesale Shop-004';
+    if (p.includes('003')) return 'Get Pattas - Wholesale Shop-003';
+    if (p.includes('002')) return 'Get Pattas - Wholesale Shop-002';
+  }
+  return 'Get Pattas - Wholesale Shop-001';
 }
 
 function getShopShortCode(brandKey) {
-  const b = (brandKey || '').toLowerCase();
-  if (b.includes('1') || b.includes('muthu')) return 'MUTHU';
-  if (b.includes('2') || b.includes('daddy')) return 'DADDY';
-  if (b.includes('3') || b.includes('red')) return 'RED';
-  if (b.includes('4') || b.includes('pattas')) return 'PATTAS';
-  return 'PATTAS';
+  if (typeof window !== 'undefined') {
+    const p = (window.location.pathname + window.location.search).toLowerCase();
+    if (p.includes('004')) return '004';
+    if (p.includes('003')) return '003';
+    if (p.includes('002')) return '002';
+  }
+  return '001';
 }
 
 function handleCheckoutFormSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
 
   if (cart.length === 0) {
-    alert('⚠️ Your cart is empty! Please add crackers to your order first.');
+    if (window.Swal) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Your Cart is Empty!',
+        text: 'Please select crackers from the price list to place your order.',
+        confirmButtonColor: '#ea580c'
+      });
+    } else {
+      alert('⚠️ Your cart is empty! Please add crackers to your order first.');
+    }
     return;
   }
 
@@ -1117,7 +1323,19 @@ function handleCheckoutFormSubmit(e) {
   });
 
   if (netTotal < 3000) {
-    alert('⚠️ Minimum order value is ₹3,000. Please add more items to proceed.');
+    const diff = 3000 - netTotal;
+    const brandColor = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]?.themeColor) || '#ea580c';
+    if (window.Swal) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Minimum Order Value: ₹3,000',
+        html: `Your order total is <b>₹${netTotal.toLocaleString('en-IN')}</b>.<br>Please add <b>₹${diff.toLocaleString('en-IN')}</b> more items to complete your wholesale order.`,
+        confirmButtonColor: brandColor,
+        confirmButtonText: 'Add More Crackers'
+      });
+    } else {
+      alert('⚠️ Minimum order value is ₹3,000. Please add more items to proceed.');
+    }
     return;
   }
 
@@ -1125,7 +1343,7 @@ function handleCheckoutFormSubmit(e) {
   const fName = document.getElementById('coFirstName')?.value.trim() || '';
   const lName = document.getElementById('coLastName')?.value.trim() || '';
   const custName = (fName + ' ' + lName).trim() || fName || lName || 'Online Customer';
-  const custPhone = document.getElementById('coPhone')?.value.trim() || '9876543210';
+  const custPhone = document.getElementById('coPhone')?.value.trim() || '8610451118';
   const custEmail = document.getElementById('coEmail')?.value.trim() || '';
   const street = document.getElementById('coStreet')?.value.trim() || '';
   const city = document.getElementById('coCity')?.value.trim() || '';
@@ -1136,7 +1354,7 @@ function handleCheckoutFormSubmit(e) {
 
   const shopCode = getShopShortCode(currentBrand);
   const shopTitle = getShopInvoiceTitle(currentBrand);
-  const bookingNumber = `GP-${shopCode}-${Math.floor(10000 + Math.random() * 90000)}`;
+  const bookingNumber = `Get-Pattas-BookNo-${shopCode}-${Math.floor(10000 + Math.random() * 90000)}`;
 
   // Construct Multi-Brand Order Object
   const orderRecord = {
@@ -1177,7 +1395,7 @@ function handleCheckoutFormSubmit(e) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderRecord)
-    }).catch(() => {});
+    }).catch(() => { });
   } catch (err) { }
 
   // 3. Broadcast real-time sync event across all tabs & Admin
@@ -1185,11 +1403,18 @@ function handleCheckoutFormSubmit(e) {
     syncChannel.postMessage({ type: 'ORDER_PLACED', order: orderRecord });
   }
 
+  const currentOrigin = (window.location.protocol && window.location.protocol.startsWith('http'))
+    ? window.location.origin
+    : 'http://localhost:5000';
+  const invoiceWebUrl = (window.location.protocol === 'file:')
+    ? 'invoice.html?bn=' + bookingNumber
+    : `${currentOrigin}/invoice.html?bn=${bookingNumber}`;
+
   // 4. Construct WhatsApp Trigger Message for Store Desk
   let waMsg = `💥 *GET PATTASU - OFFICIAL DIWALI WHOLESALE BOOKING*\n`;
   waMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   waMsg += `📋 *BOOKING NUMBER:* *${bookingNumber}*\n`;
-  waMsg += `🏬 *Depot / Store:* ${brandObj.shortName} (${brandObj.name})\n`;
+  waMsg += `🏬 *Store:* Get Pattas\n`;
   waMsg += `📅 *Date:* ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}\n`;
   waMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   waMsg += `👤 *CUSTOMER DETAILS:*\n`;
@@ -1211,13 +1436,11 @@ function handleCheckoutFormSubmit(e) {
   waMsg += `💰 *Total Order Amount:* *₹${netTotal.toLocaleString('en-IN')}*\n`;
   waMsg += `🚚 *Delivery:* Direct Sivakasi Factory Transport\n`;
   waMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  waMsg += `Please verify this Booking Number (*${bookingNumber}*) and confirm dispatch tracking details. Thank you!`;
+  waMsg += `Please verify this Booking Number (*${bookingNumber}*) and confirm dispatch tracking details. Thank you!\n`;
+  waMsg += `📄 *Digital Invoice PDF:* ${invoiceWebUrl}`;
 
-  // Desk WhatsApp URL
-  const deskPhoneClean = (brandObj.phone || '9600333302').replace(/[^0-9]/g, '');
-  const targetDeskPhone = deskPhoneClean.startsWith('91') && deskPhoneClean.length === 12
-    ? deskPhoneClean
-    : (deskPhoneClean.length === 10 ? `91${deskPhoneClean}` : deskPhoneClean);
+  // Desk WhatsApp URL - Always sends to Kaira WhatsApp (+91 86104 51118)
+  const targetDeskPhone = '918610451118';
   const deskWaUrl = `https://wa.me/${targetDeskPhone}?text=${encodeURIComponent(waMsg)}`;
 
   // Construct Customer WhatsApp Confirmation Message
@@ -1226,13 +1449,8 @@ function handleCheckoutFormSubmit(e) {
     ? custPhoneClean
     : (custPhoneClean.length === 10 ? `91${custPhoneClean}` : custPhoneClean);
 
-  const currentOrigin = (window.location.protocol && window.location.protocol.startsWith('http'))
-    ? window.location.origin
-    : 'http://localhost:5000';
-  const invoiceWebUrl = `${currentOrigin}/invoice.html?bn=${bookingNumber}`;
-
   let custWaMsg = `💥 *DIWALI WHOLESALE BOOKING CONFIRMATION*\n`;
-  custWaMsg += `🏬 *${brandObj.shortName} (${brandObj.name})*\n`;
+  custWaMsg += `🏬 *Get Pattas*\n`;
   custWaMsg += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
   custWaMsg += `Dear *${custName}*,\n`;
   custWaMsg += `Your fireworks wholesale booking is confirmed! Official invoice generated.\n\n`;
@@ -1258,7 +1476,7 @@ function handleCheckoutFormSubmit(e) {
   custWaMsg += `${invoiceWebUrl}\n\n`;
   custWaMsg += `✨ Thank you for choosing Sivakasi direct factory crackers! Quote your Booking Number (*${bookingNumber}*) for lorry LR tracking inquiries. ✨`;
 
-  const custWaUrl = targetCustPhone ? `https://wa.me/${targetCustPhone}?text=${encodeURIComponent(custWaMsg)}` : deskWaUrl;
+  const custWaUrl = deskWaUrl;
 
   // 5. Store globally & in LocalStorage for invoice PDF rendering
   lastCompletedOrder = orderRecord;
@@ -1274,8 +1492,53 @@ function handleCheckoutFormSubmit(e) {
   updateStickySummaryBar();
   closeCheckoutModal();
 
-  // 7. Pop up Order Confirmation Modal immediately on the site (DO NOT AUTO-OPEN WHATSAPP)
-  openOrderConfirmModal(orderRecord, bookingNumber, custWaUrl, deskWaUrl);
+  // 7. Pop up ONE AND ONLY Order Confirmation Modal (SweetAlert or Fallback)
+  if (window.Swal) {
+    const brandColor = (brandObj && brandObj.themeColor) || '#059669';
+    Swal.fire({
+      icon: 'success',
+      title: '<span style="font-size:23px;font-weight:800;color:' + brandColor + ';">🎉 Order Placed Successfully!</span>',
+      html: `
+        <div style="text-align: left; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; line-height: 1.6;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; margin-bottom: 8px;">
+            <span style="color: #64748b; font-weight: 600;">Booking Number:</span>
+            <span style="background: #e0f2fe; color: #0284c7; font-weight: 800; font-family: monospace; font-size: 14px; padding: 2px 8px; border-radius: 6px;">${bookingNumber}</span>
+          </div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Store:</b> ${escapeHtml(shopTitle)}</div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Customer:</b> ${escapeHtml(custName)} (${escapeHtml(custPhone)})</div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Delivery:</b> ${escapeHtml(custAddress)}</div>
+          <div style="margin-bottom: 6px; color: #334155;"><b>Items Booked:</b> ${totalBoxes} Boxes (${orderRecord.totalItems} Varieties)</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;">
+            <span style="font-weight: 700; color: #1e293b; font-size: 15px;">Total Order:</span>
+            <span style="font-weight: 800; color: ${brandColor}; font-size: 18px;">₹${netTotal.toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+        <div style="font-size: 12.5px; color: #64748b; margin-bottom: 10px; text-align: center;">
+          🚀 Transport: Direct Sivakasi Factory Transport (To-Pay LR)
+        </div>
+      `,
+      showCancelButton: true,
+      showDenyButton: true,
+      confirmButtonColor: '#25D366',
+      cancelButtonColor: '#0284c7',
+      denyButtonColor: '#64748b',
+      confirmButtonText: '<i class="fab fa-whatsapp" style="margin-right:4px;"></i> Confirm on WhatsApp',
+      cancelButtonText: '<i class="fas fa-file-invoice" style="margin-right:4px;"></i> View Invoice PDF',
+      denyButtonText: 'Done',
+      customClass: {
+        popup: 'swal2-order-popup'
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.open(deskWaUrl, '_blank');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        window.open(invoiceWebUrl, '_blank');
+      }
+    });
+  } else {
+    // Offline fallback: only open basic modal if SweetAlert is not available
+    openOrderConfirmModal(orderRecord, bookingNumber, deskWaUrl, deskWaUrl);
+  }
 }
 
 // ==========================================
@@ -1287,7 +1550,7 @@ function openOrderConfirmModal(order, bookingNo, customerWaUrl, storeWaUrl) {
   lastCompletedOrder = order;
   try {
     localStorage.setItem('last_confirmed_order', JSON.stringify(order));
-  } catch (e) {}
+  } catch (e) { }
 
   const modal = document.getElementById('orderConfirmModalOverlay');
   if (!modal) return;
@@ -1311,12 +1574,13 @@ function openOrderConfirmModal(order, bookingNo, customerWaUrl, storeWaUrl) {
   if (totEl) totEl.innerText = '₹' + Number(order.totalAmount).toLocaleString('en-IN');
   if (qtyEl) qtyEl.innerText = `${order.totalBoxes} Boxes (${order.totalItems || (order.items && order.items.length) || 0} Varieties)`;
 
-  // Bind WhatsApp URLs
-  if (custWaBtn && customerWaUrl) {
-    custWaBtn.href = customerWaUrl;
+  // Bind WhatsApp URLs - Always to Kaira WhatsApp +91 86104 51118
+  const targetWa = storeWaUrl || deskWaUrl;
+  if (custWaBtn && targetWa) {
+    custWaBtn.href = targetWa;
   }
-  if (storeWaBtn && storeWaUrl) {
-    storeWaBtn.href = storeWaUrl;
+  if (storeWaBtn && targetWa) {
+    storeWaBtn.href = targetWa;
   }
 
   modal.classList.add('active');
@@ -1359,11 +1623,11 @@ function getActiveInvoiceOrder() {
   try {
     const saved = localStorage.getItem('last_confirmed_order');
     if (saved) return JSON.parse(saved);
-  } catch (e) {}
+  } catch (e) { }
   try {
     const orders = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
     if (orders.length > 0) return orders[0];
-  } catch (e) {}
+  } catch (e) { }
   return null;
 }
 
@@ -1373,11 +1637,11 @@ function buildInvoiceDOM(order) {
   const brandObj = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[brandKey]) || {
     name: shopTitle,
     shortName: getShopShortCode(brandKey),
-    phone: '+91 96003 33302',
-    email: 'orders@getpattasu.in'
+    phone: '+91 86104 51118',
+    email: 'Sales@getpattasu.in'
   };
 
-  const orderDate = order.createdAt 
+  const orderDate = order.createdAt
     ? new Date(order.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
     : new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
@@ -1407,7 +1671,7 @@ function buildInvoiceDOM(order) {
           <h2 style="margin:0 0 4px 0; color:#b91c1c; font-size:1.4rem; font-weight:900;">${shopTitle}</h2>
           <div style="font-size:0.82rem; font-weight:700; color:#475569;">Authorized Sivakasi Crackers Wholesale Depot</div>
           <div style="font-size:0.76rem; color:#64748b; margin-top:2px;">Factory Direct Dispatch, Sivakasi, Tamil Nadu - 626123</div>
-          <div style="font-size:0.76rem; color:#64748b;">📞 Phone / WhatsApp: ${brandObj.phone} | ✉️ ${brandObj.email || 'orders@getpattasu.in'}</div>
+          <div style="font-size:0.76rem; color:#64748b;">📞 Phone / WhatsApp: ${brandObj.phone} | ✉️ ${brandObj.email || 'Sales@getpattasu.in'}</div>
         </div>
         <div style="text-align:right;">
           <div style="background:#fef2f2; border:1px solid #fecaca; color:#b91c1c; font-weight:800; font-size:0.75rem; padding:4px 12px; border-radius:4px; display:inline-block; margin-bottom:6px;">
@@ -1584,6 +1848,40 @@ function addComboToCart(comboKey) {
 // ==========================================
 // CUSTOMER AUTH & ADDRESS BOOK STATE
 // ==========================================
+
+function handleCustomerBtnClick(e) {
+  if (e) e.stopPropagation();
+  if (currentCustomer && window.innerWidth > 768) {
+    toggleDesktopDropdown();
+  } else {
+    openCustomerModal();
+  }
+}
+
+function toggleDesktopDropdown() {
+  const dd = document.getElementById('desktopProfileDropdown');
+  const wrap = document.getElementById('headerAccountWrap');
+  if (dd) {
+    const isActive = dd.classList.toggle('active');
+    if (wrap) wrap.classList.toggle('active', isActive);
+  }
+}
+
+function closeDesktopDropdown() {
+  const dd = document.getElementById('desktopProfileDropdown');
+  const wrap = document.getElementById('headerAccountWrap');
+  if (dd) dd.classList.remove('active');
+  if (wrap) wrap.classList.remove('active');
+}
+
+// Global click outside to close desktop profile dropdown
+document.addEventListener('click', function (e) {
+  const wrap = document.getElementById('headerAccountWrap');
+  if (wrap && !wrap.contains(e.target)) {
+    closeDesktopDropdown();
+  }
+});
+
 function openCustomerModal() {
   closeMobileMenu();
   initCustomerState();
@@ -1647,12 +1945,12 @@ function handleCustomerLogin(e) {
   currentCustomer = userProfile ? {
     username: userProfile.username,
     name: userProfile.name || username.toUpperCase(),
-    phone: userProfile.phone || brandObj.phone || '+91 96003 33302',
+    phone: userProfile.phone || brandObj.phone || '+91 86104 51118',
     address: userProfile.address || 'Direct Sivakasi Order'
   } : {
     username: username,
     name: username.toUpperCase(),
-    phone: brandObj.phone || '+91 96003 33302',
+    phone: brandObj.phone || '+91 86104 51118',
     address: 'Direct Sivakasi Order'
   };
 
@@ -1692,14 +1990,29 @@ function handleCustomerSignup(e) {
   localStorage.setItem(getShopStorageKey('get_pattasu_customer'), JSON.stringify(currentCustomer));
 
   if (address) {
-    const addrData = { name, phone, address, street: address, city: '', pincode: '', state: 'Tamil Nadu' };
+    const addrData = {
+      id: 'addr_' + Date.now(),
+      name: name,
+      firstName: name.split(' ')[0] || name,
+      lastName: name.split(' ').slice(1).join(' ') || '',
+      phone: phone,
+      label: 'Home',
+      address: address,
+      street: address,
+      city: '',
+      pincode: '',
+      state: 'Tamil Nadu',
+      isDefault: true
+    };
     localStorage.setItem(getShopStorageKey('checkout_saved_address'), JSON.stringify(addrData));
+    const key = getShopStorageKey('get_pattasu_addresses');
+    localStorage.setItem(key, JSON.stringify([addrData]));
   }
 
   updateCustomerHeaderUI();
   closeCustomerModal();
   const brandObj = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) ? window.BRANDS_CONFIG[currentBrand] : {};
-  showToast(`Account registered in ${brandObj.shortName || 'Get Pattas'}! Welcome, ${name}`);
+  showToast(`Account registered in Get Pattas! Welcome, ${name}`);
 }
 
 // 100% Isolated Customer Logout for Current Shop (Never affects other shops)
@@ -1708,6 +2021,7 @@ function handleCustomerLogout() {
   localStorage.removeItem(getShopStorageKey('get_pattasu_customer'));
   updateCustomerHeaderUI();
   closeCustomerModal();
+  closeDesktopDropdown();
   showToast('You have been logged out from this store.');
 }
 
@@ -1728,14 +2042,47 @@ function initCustomerState() {
 
 function updateCustomerHeaderUI() {
   const btnText = document.getElementById('customerBtnText');
+  const authBtn = document.getElementById('customerAuthBtn');
   const mobileAuthBtn = document.getElementById('mobileAuthBtn');
   const authViews = document.getElementById('customerAuthViews');
   const profileView = document.getElementById('customerProfileView');
 
+  // Mobile drawer card elements
+  const mucCard = document.getElementById('mobileUserCard');
+  const mucAvatar = document.getElementById('mucAvatar');
+  const mucTitle = document.getElementById('mucTitle');
+  const mucSubtitle = document.getElementById('mucSubtitle');
+  const mucActionBtn = document.getElementById('mucActionBtn');
+
+  // Checkout Login Banner elements
+  const coIcon = document.getElementById('coLoginBannerIcon');
+  const coTitle = document.getElementById('coLoginBannerTitle');
+  const coSub = document.getElementById('coLoginBannerSub');
+  const coBtn = document.getElementById('coLoginBannerBtn');
+
   if (currentCustomer) {
-    const firstName = currentCustomer.name.split(' ')[0];
+    const firstName = (currentCustomer.name || '').split(' ')[0] || currentCustomer.username || 'User';
     if (btnText) btnText.innerText = firstName;
-    if (mobileAuthBtn) mobileAuthBtn.innerHTML = `<span><i class="fa-solid fa-user-check"></i> ${firstName}</span>`;
+    if (authBtn) authBtn.classList.add('logged-in');
+    const caret = document.getElementById('customerAuthCaret');
+    if (caret) caret.style.display = 'inline-block';
+    const dpName = document.getElementById('dpUserName');
+    const dpTag = document.getElementById('dpUserTag');
+    if (dpName) dpName.innerText = currentCustomer.name || firstName;
+    if (dpTag) dpTag.innerText = '@' + currentCustomer.username;
+    if (mobileAuthBtn) mobileAuthBtn.innerHTML = '<span><i class="fa-solid fa-user-check"></i> ' + firstName + '</span>';
+
+    if (mucCard) mucCard.classList.add('logged-in');
+    if (mucAvatar) mucAvatar.innerHTML = '<i class="fa-solid fa-user-check"></i>';
+    if (mucTitle) mucTitle.innerText = currentCustomer.name || firstName;
+    if (mucSubtitle) mucSubtitle.innerText = '@' + currentCustomer.username + ' • Active';
+    if (mucActionBtn) mucActionBtn.innerHTML = '<span>Account</span>';
+
+    if (coIcon) coIcon.innerHTML = '<i class="fa-solid fa-circle-check" style="color: #16a34a;"></i>';
+    if (coTitle) coTitle.innerText = 'Logged in as ' + (currentCustomer.name || firstName);
+    if (coSub) coSub.innerText = '@' + currentCustomer.username + ' • Address linked';
+    if (coBtn) coBtn.innerHTML = '<span>Account</span>';
+
     if (authViews) authViews.style.display = 'none';
     if (profileView) {
       profileView.style.display = 'block';
@@ -1743,49 +2090,111 @@ function updateCustomerHeaderUI() {
       const pUser = document.getElementById('custProfileUser');
       const pPhone = document.getElementById('custProfilePhone');
       if (pName) pName.innerText = currentCustomer.name;
-      if (pUser) pUser.innerText = `@${currentCustomer.username}`;
-      if (pPhone) pPhone.innerHTML = `<i class="fa-solid fa-mobile-screen"></i> ${currentCustomer.phone}`;
+      if (pUser) pUser.innerText = '@' + currentCustomer.username;
+      if (pPhone) pPhone.innerHTML = '<i class="fa-solid fa-mobile-screen"></i> ' + currentCustomer.phone;
       renderSavedAddresses();
     }
   } else {
     if (btnText) btnText.innerText = 'Login';
+    if (authBtn) authBtn.classList.remove('logged-in');
+    const caret = document.getElementById('customerAuthCaret');
+    if (caret) caret.style.display = 'none';
+    closeDesktopDropdown();
     if (mobileAuthBtn) mobileAuthBtn.innerHTML = '<span><i class="fa-solid fa-user"></i> Login</span>';
+
+    if (mucCard) mucCard.classList.remove('logged-in');
+    if (mucAvatar) mucAvatar.innerHTML = '<i class="fa-solid fa-user"></i>';
+    if (mucTitle) mucTitle.innerText = 'Welcome, Guest!';
+    if (mucSubtitle) mucSubtitle.innerText = 'Log in for saved addresses';
+    if (mucActionBtn) mucActionBtn.innerHTML = '<span>Login</span>';
+
+    if (coIcon) coIcon.innerHTML = '<i class="fa-solid fa-circle-user" style="color: #0284c7;"></i>';
+    if (coTitle) coTitle.innerText = 'Have an account?';
+    if (coSub) coSub.innerText = 'Log in for instant address auto-fill';
+    if (coBtn) coBtn.innerHTML = '<span>Log In</span>';
+
     if (authViews) authViews.style.display = 'block';
     if (profileView) profileView.style.display = 'none';
   }
 }
 
 // Address Book Manager for Customer Account
-function showAddressForm() {
+// Address Book Manager for Customer Account
+// Address Book Manager for Customer Account
+// Address Book Manager for Customer Account
+function showAddressForm(editId) {
   const form = document.getElementById('addressCrudForm');
   if (!form) return;
   form.style.display = 'block';
+
+  const editIdInp = document.getElementById('addrEditId');
+  const titleEl = document.getElementById('addrFormTitle');
   const labelInp = document.getElementById('addrLabelInput');
+  const cityInp = document.getElementById('addrCityInput');
+  const textInp = document.getElementById('addrTextInput');
+  const pincodeInp = document.getElementById('addrPincodeInput');
+  const defaultInp = document.getElementById('addrDefaultInput');
+
+  if (editId) {
+    const key = getShopStorageKey('get_pattasu_addresses');
+    let list = [];
+    try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch (e) { }
+    const addr = list.find(function (a) { return a.id === editId; });
+    if (addr) {
+      if (editIdInp) editIdInp.value = addr.id;
+      if (titleEl) titleEl.innerText = 'Edit Delivery Address';
+      if (labelInp) labelInp.value = addr.label || 'Home';
+      if (cityInp) cityInp.value = addr.city || '';
+      if (textInp) textInp.value = addr.street || addr.address || '';
+      if (pincodeInp) pincodeInp.value = addr.pincode || '';
+      if (defaultInp) defaultInp.checked = Boolean(addr.isDefault);
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+  }
+
+  // Reset for Add New Address
+  if (editIdInp) editIdInp.value = '';
+  if (titleEl) titleEl.innerText = 'Add New Delivery Address';
   if (labelInp) labelInp.value = 'Home';
+  if (cityInp) cityInp.value = '';
+  if (textInp) textInp.value = '';
+  if (pincodeInp) pincodeInp.value = '';
+  if (defaultInp) defaultInp.checked = true;
+  form.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 function hideAddressForm() {
   const form = document.getElementById('addressCrudForm');
   if (form) form.style.display = 'none';
+  const editIdInp = document.getElementById('addrEditId');
+  if (editIdInp) editIdInp.value = '';
 }
 
 function handleSaveAddress(e) {
   if (e && e.preventDefault) e.preventDefault();
+  const editId = document.getElementById('addrEditId')?.value;
   const label = document.getElementById('addrLabelInput')?.value.trim() || 'Home';
   const city = document.getElementById('addrCityInput')?.value.trim() || '';
   const text = document.getElementById('addrTextInput')?.value.trim() || '';
   const pincode = document.getElementById('addrPincodeInput')?.value.trim() || '';
   const isDefault = document.getElementById('addrDefaultInput')?.checked || false;
 
+  const formattedAddress = pincode ? (text + ', ' + city + ' - ' + pincode) : (text + ', ' + city);
+  const addressId = editId || ('addr_' + Date.now());
+
   const addressData = {
-    id: 'addr_' + Date.now(),
-    label,
-    city,
+    id: addressId,
+    label: label,
+    city: city,
     street: text,
-    address: `${text}, ${city} - ${pincode}`,
-    pincode,
+    address: formattedAddress,
+    pincode: pincode,
     phone: currentCustomer?.phone || '',
-    isDefault
+    name: currentCustomer?.name || '',
+    firstName: currentCustomer?.name?.split(' ')[0] || '',
+    lastName: currentCustomer?.name?.split(' ').slice(1).join(' ') || '',
+    isDefault: isDefault
   };
 
   const key = getShopStorageKey('get_pattasu_addresses');
@@ -1794,16 +2203,55 @@ function handleSaveAddress(e) {
     list = JSON.parse(localStorage.getItem(key) || '[]');
   } catch (err) { list = []; }
 
-  list.push(addressData);
+  if (isDefault) {
+    list.forEach(function (a) { a.isDefault = false; });
+  }
+
+  if (editId) {
+    const idx = list.findIndex(function (a) { return a.id === editId; });
+    if (idx >= 0) {
+      list[idx] = addressData;
+    } else {
+      list.push(addressData);
+    }
+  } else {
+    if (list.length === 0) addressData.isDefault = true;
+    list.unshift(addressData);
+  }
+
   localStorage.setItem(key, JSON.stringify(list));
 
-  if (isDefault) {
+  if (addressData.isDefault) {
     localStorage.setItem(getShopStorageKey('checkout_saved_address'), JSON.stringify(addressData));
   }
 
   hideAddressForm();
   renderSavedAddresses();
-  showToast('Delivery address saved to your account!');
+  populateCheckoutSavedAddresses();
+  showToast(editId ? 'Delivery address updated!' : 'Delivery address saved to your account!');
+}
+
+function setDefaultAddress(id) {
+  const key = getShopStorageKey('get_pattasu_addresses');
+  let list = [];
+  try { list = JSON.parse(localStorage.getItem(key) || '[]'); } catch (err) { list = []; }
+
+  let chosen = null;
+  list.forEach(function (a) {
+    if (a.id === id) {
+      a.isDefault = true;
+      chosen = a;
+    } else {
+      a.isDefault = false;
+    }
+  });
+  localStorage.setItem(key, JSON.stringify(list));
+  if (chosen) {
+    localStorage.setItem(getShopStorageKey('checkout_saved_address'), JSON.stringify(chosen));
+  }
+  renderSavedAddresses();
+  populateCheckoutSavedAddresses();
+  showToast('★ Default address set to ' + (chosen?.label || 'Address'));
 }
 
 function renderSavedAddresses() {
@@ -1820,34 +2268,98 @@ function renderSavedAddresses() {
     return;
   }
 
-  container.innerHTML = list.map(a => `
-    <div class="address-item-card" style="padding: 10px 12px; margin-bottom: 8px; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
-        <strong style="font-size: 0.88rem; color: #0f172a;">${a.label}</strong>
-        ${a.isDefault ? '<span style="font-size: 0.68rem; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; font-weight: 700;">DEFAULT</span>' : ''}
-      </div>
-      <p style="font-size: 0.82rem; color: #475569; margin: 0 0 6px 0;">${a.address}</p>
-      <button type="button" class="btn-sm link-btn" onclick="deleteSavedAddress('${a.id}')" style="color: #dc2626; font-size: 0.78rem; cursor: pointer; border: none; background: none; padding: 0;"><i class="fa-solid fa-trash"></i> Remove</button>
-    </div>
-  `).join('');
+  const q = String.fromCharCode(39);
+  container.innerHTML = list.map(function (a) {
+    const safeId = a.id.replace(/'/g, "");
+    const defaultBtn = '<button type="button" class="btn-sm link-btn" onclick="setDefaultAddress(' + q + safeId + q + ')" style="font-size: 0.75rem; color: #0284c7; cursor: pointer; border: none; background: none; padding: 0;">Set as Default</button>';
+    const defaultPill = '<span class="default-pill" style="font-size: 0.68rem; background: #059669; color: #fff; padding: 2px 8px; border-radius: 4px; font-weight: 700;">DEFAULT</span>';
+
+    return '<div class="address-card ' + (a.isDefault ? 'default-address' : '') + '" style="margin-bottom: 10px; border: 1px solid ' + (a.isDefault ? '#059669' : '#e2e8f0') + '; padding: 12px; border-radius: 8px; background: ' + (a.isDefault ? '#f0fdf4' : '#ffffff') + ';">' +
+      '<div class="address-card-header" style="display: flex; justify-content: space-between; align-items: center;">' +
+      '<span class="addr-label-badge" style="font-weight: 700; font-size: 0.82rem; color: #0f172a;"><i class="fa-solid fa-location-dot"></i> ' + (a.label || 'Address') + '</span>' +
+      (a.isDefault ? defaultPill : defaultBtn) +
+      '</div>' +
+      '<p class="addr-text" style="margin: 6px 0; font-size: 0.85rem; color: #475569;">' + (a.address || (a.street + (a.city ? ', ' + a.city : ''))) + '</p>' +
+      '<div class="addr-actions" style="display: flex; gap: 12px; justify-content: flex-end; align-items: center; border-top: 1px dashed #e2e8f0; padding-top: 6px; margin-top: 6px;">' +
+      '<button type="button" class="btn-sm link-btn" onclick="showAddressForm(' + q + safeId + q + ')" style="color: #0284c7; font-size: 0.78rem; cursor: pointer; border: none; background: none; padding: 0;"><i class="fa-solid fa-pen-to-square"></i> Edit</button>' +
+      '<button type="button" class="btn-sm link-btn" onclick="deleteSavedAddress(' + q + safeId + q + ')" style="color: #dc2626; font-size: 0.78rem; cursor: pointer; border: none; background: none; padding: 0;"><i class="fa-solid fa-trash"></i> Remove</button>' +
+      '</div>' +
+      '</div>';
+  }).join('');
 }
 
 function deleteSavedAddress(id) {
-  const key = getShopStorageKey('get_pattasu_addresses');
-  let list = [];
-  try {
-    list = JSON.parse(localStorage.getItem(key) || '[]');
-  } catch (err) { list = []; }
-  list = list.filter(a => a.id !== id);
-  localStorage.setItem(key, JSON.stringify(list));
-  renderSavedAddresses();
-  showToast('Address removed from your account.');
+  const doDelete = () => {
+    const key = getShopStorageKey('get_pattasu_addresses');
+    let list = [];
+    try {
+      list = JSON.parse(localStorage.getItem(key) || '[]');
+    } catch (err) { list = []; }
+    list = list.filter(function (a) { return a.id !== id; });
+    localStorage.setItem(key, JSON.stringify(list));
+    renderSavedAddresses();
+    populateCheckoutSavedAddresses();
+    showToast('Address removed from your account.', 'info');
+  };
+
+  if (window.Swal) {
+    Swal.fire({
+      title: 'Remove address?',
+      text: 'Are you sure you want to remove this saved delivery address?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#dc2626',
+      cancelButtonColor: '#64748b',
+      confirmButtonText: '<i class="fa-solid fa-trash"></i> Yes, remove',
+      cancelButtonText: 'Cancel'
+    }).then(result => {
+      if (result.isConfirmed) doDelete();
+    });
+  } else {
+    doDelete();
+  }
 }
 
 // ==========================================
 // UTILITIES & PARTICLES
 // ==========================================
-function showToast(msg) {
+function showToast(msg, iconType) {
+  if (window.Swal) {
+    let swalIcon = iconType;
+    if (!swalIcon) {
+      const lower = (msg || '').toLowerCase();
+      if (lower.includes('error') || lower.includes('failed') || lower.includes('invalid')) {
+        swalIcon = 'error';
+      } else if (lower.includes('warning') || lower.includes('⚠️') || lower.includes('minimum') || lower.includes('empty') || lower.includes('select at least')) {
+        swalIcon = 'warning';
+      } else if (lower.includes('info') || lower.includes('copied') || lower.includes('clipboard') || lower.includes('removed')) {
+        swalIcon = 'info';
+      } else {
+        swalIcon = 'success';
+      }
+    }
+
+    const cleanMsg = (msg || '').replace(/^[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\s]+/u, '').trim();
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 2800,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.onmouseenter = Swal.stopTimer;
+        toast.onmouseleave = Swal.resumeTimer;
+      }
+    });
+
+    Toast.fire({
+      icon: swalIcon,
+      title: cleanMsg || msg
+    });
+    return;
+  }
+
   const container = document.getElementById('toastContainer');
   if (!container) return;
 
@@ -1878,14 +2390,16 @@ function closeMobileMenu() {
   const backdrop = document.getElementById('menuBackdrop');
   if (nav) nav.classList.remove('active');
   if (backdrop) backdrop.classList.remove('active');
+  document.body.style.overflow = '';
 }
 
 function toggleMobileMenu() {
   const nav = document.getElementById('navMenu');
   const backdrop = document.getElementById('menuBackdrop');
-  if (!nav || !backdrop) return;
-  nav.classList.toggle('active');
-  backdrop.classList.toggle('active');
+  if (!nav) return;
+  const isNowActive = nav.classList.toggle('active');
+  if (backdrop) backdrop.classList.toggle('active', isNowActive);
+  document.body.style.overflow = isNowActive ? 'hidden' : '';
 }
 
 function handleNavLinkClick(link) {
@@ -1893,15 +2407,78 @@ function handleNavLinkClick(link) {
   return true;
 }
 
+function initNavScrollSpy() {
+  const sections = ['hero', 'products', 'offers', 'contact'];
+  const navLinks = document.querySelectorAll('.nav-menu .nav-link');
+  if (!navLinks.length) return;
+
+  function updateActiveLink() {
+    const scrollPosition = window.pageYOffset + 140;
+    let currentSectionId = '';
+
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el) {
+        const top = el.offsetTop;
+        const height = el.offsetHeight;
+        if (scrollPosition >= top && scrollPosition < top + height) {
+          currentSectionId = id;
+          break;
+        }
+      }
+    }
+
+    if (!currentSectionId && window.pageYOffset < 300) {
+      currentSectionId = 'hero';
+    }
+
+    navLinks.forEach(link => {
+      const href = link.getAttribute('href') || '';
+      if (currentSectionId === 'hero' && (href === '#' || href === '#hero' || href === 'index.html')) {
+        link.classList.add('active');
+      } else if (currentSectionId && href === `#${currentSectionId}`) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', updateActiveLink, { passive: true });
+  setTimeout(updateActiveLink, 200);
+}
+
 function handleFormSubmit(e) {
   e.preventDefault();
-  alert('Thank you! Your enquiry has been received. Our Sivakasi store desk will contact you via WhatsApp shortly.');
+  const brandColor = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]?.themeColor) || '#059669';
+  if (window.Swal) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Enquiry Received! 🎆',
+      text: 'Thank you! Our Sivakasi store desk will contact you via WhatsApp shortly.',
+      confirmButtonColor: brandColor,
+      confirmButtonText: 'Great!'
+    });
+  } else {
+    alert('Thank you! Your enquiry has been received. Our Sivakasi store desk will contact you via WhatsApp shortly.');
+  }
   e.target.reset();
 }
 
 function handleReviewSubmit(e) {
   e.preventDefault();
-  alert('Thank you for your 5-Star review! Your feedback helps festival shoppers choose genuine Sivakasi fireworks.');
+  const brandColor = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]?.themeColor) || '#059669';
+  if (window.Swal) {
+    Swal.fire({
+      icon: 'success',
+      title: 'Thank You for Your Review! ⭐️⭐️⭐️⭐️⭐️',
+      text: 'Your 5-star rating helps festival shoppers choose genuine Sivakasi fireworks!',
+      confirmButtonColor: brandColor,
+      confirmButtonText: 'Done'
+    });
+  } else {
+    alert('Thank you for your 5-Star review! Your feedback helps festival shoppers choose genuine Sivakasi fireworks.');
+  }
   document.getElementById('reviewModalOverlay')?.classList.remove('active');
 }
 

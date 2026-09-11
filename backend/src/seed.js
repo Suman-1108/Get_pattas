@@ -11,7 +11,7 @@ const SEED_BRANDS = [
     name: 'Get Pattasu',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#dc2626',
-    contactPhone: ['+91 95661 59113', '+91 98765 43210'],
+    contactPhone: ['+91 86104 51118', '+91 86104 51118'],
     contactEmail: 'contact@getpattasu.com',
     address: '12/4B Sivakasi Main Road, Factory Zone, Sivakasi, Tamil Nadu - 626123'
   },
@@ -20,8 +20,8 @@ const SEED_BRANDS = [
     name: 'Muthu Cracker',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#059669',
-    contactPhone: ['+91 96003 33302', '+91 70104 00258'],
-    contactEmail: 'sivakasimuthucrackers@gmail.com',
+    contactPhone: ['+91 86104 51118', '+91 86104 51118'],
+    contactEmail: 'sales@getpattas.com',
     address: '258, Sivakasi Muthu Crackers, Sivakasi, Tamil Nadu - 626123'
   },
   {
@@ -29,7 +29,7 @@ const SEED_BRANDS = [
     name: 'Daddy Cracker',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#7c3aed',
-    contactPhone: ['+91 94431 22889', '+91 95661 59113'],
+    contactPhone: ['+91 86104 51118', '+91 86104 51118'],
     contactEmail: 'orders@daddycracker.com',
     address: 'Daddy\'s Cracker Depot, Bypass Road, Sivakasi, Tamil Nadu - 626189'
   },
@@ -38,7 +38,7 @@ const SEED_BRANDS = [
     name: 'Velmurugan Cracker',
     logoUrl: '/uploads/logo.jpg',
     themeColor: '#ea580c',
-    contactPhone: ['+91 98421 77654', '+91 95661 59113'],
+    contactPhone: ['+91 86104 51118', '+91 86104 51118'],
     contactEmail: 'support@velmurugancracker.com',
     address: 'Star Velmurugan Pyro Tech, Sivakasi, Tamil Nadu - 626124'
   }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Get Pattas Kadai | Sivakasi Direct Online Crackers & Fireworks Store - Shop 004</title>
+  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store</title>
   <meta name="description"
     content="Get Pattas Kadai - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Flat 80% OFF on sparklers, flower pots, sky shots, rockets and festive combo gift boxes with doorstep delivery.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
@@ -59,14 +59,25 @@
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
+        <!-- Mobile User Account Quick Access Card -->
+        <div class="mobile-user-card" id="mobileUserCard">
+          <div class="muc-left">
+            <div class="muc-avatar" id="mucAvatar"><i class="fa-solid fa-user"></i></div>
+            <div class="muc-info">
+              <strong id="mucTitle">Welcome, Guest!</strong>
+              <span id="mucSubtitle">Log in for saved addresses</span>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-primary muc-action-btn" id="mucActionBtn" onclick="openCustomerModal();">
+            <span>Login</span>
+          </button>
+        </div>
 
-        <a href="index.html" class="nav-link active" onclick="closeMobileMenu();">Home</a>
-        <a href="#products" class="nav-link" onclick="closeMobileMenu();">Crackers</a>
+        <a href="#hero" class="nav-link active" onclick="closeMobileMenu();">Home</a>
+        <a href="#products" class="nav-link" onclick="showAllCrackers();">Crackers</a>
         <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Combo Packs</a>
-        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('gift-boxes'); closeMobileMenu();">Gift
-          Boxes</a>
-        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('aerial-shots'); closeMobileMenu();">New
-          Arrivals</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('gift-boxes');">Gift Boxes</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('aerial-shots');">New Arrivals</a>
         <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Offers</a>
         <a href="#contact" class="nav-link" onclick="closeMobileMenu();">Contact</a>
 
@@ -79,7 +90,7 @@
             style="background: linear-gradient(135deg, #ea580c, #c2410c); font-weight: 700;">
             <span><i class="fa-solid fa-cart-shopping"></i> View Estimate & Checkout</span>
           </button>
-          <a href="https://wa.me/919600333302?text=Hi%20Get%20Pattas!%20I%20want%20to%20order%20crackers."
+          <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas!%20I%20want%20to%20order%20crackers."
             target="_blank" class="btn btn-whatsapp full-width" onclick="closeMobileMenu()">
             <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Order</span>
           </a>
@@ -108,12 +119,35 @@
           <span class="action-count-badge cart-count-pill" id="cartCountBadge">0</span>
         </button>
 
-        <!-- Account / Login Icon -->
-        <button class="customer-auth-btn" id="customerAuthBtn" onclick="openCustomerModal()"
-          aria-label="Customer Account">
-          <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
-          <span class="auth-text" id="customerBtnText">Login</span>
-        </button>
+        <!-- Account / Login Profile Section (Desktop Dropdown & Mobile Compatible) -->
+        <div class="header-account-wrap" id="headerAccountWrap">
+          <button class="customer-auth-btn" id="customerAuthBtn" onclick="handleCustomerBtnClick(event)"
+            aria-label="Customer Account">
+            <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
+            <span class="auth-text" id="customerBtnText">Login</span>
+            <i class="fa-solid fa-chevron-down auth-caret" id="customerAuthCaret" style="display: none;"></i>
+          </button>
+          <div class="desktop-profile-dropdown" id="desktopProfileDropdown">
+            <div class="dp-header">
+              <div class="dp-avatar"><i class="fa-solid fa-user-check"></i></div>
+              <div class="dp-user-info">
+                <strong id="dpUserName">Customer Name</strong>
+                <span id="dpUserTag">@username</span>
+              </div>
+            </div>
+            <div class="dp-menu">
+              <button type="button" class="dp-item" onclick="openCustomerModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-location-dot"></i> My Delivery Addresses
+              </button>
+              <button type="button" class="dp-item" onclick="proceedToCheckoutModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-cart-shopping"></i> Checkout Order
+              </button>
+              <button type="button" class="dp-item dp-logout" onclick="handleCustomerLogout(); closeDesktopDropdown();">
+                <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
 
         <!-- Mobile Menu Hamburger -->
         <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Navigation">
@@ -184,14 +218,14 @@
       <div class="active-brand-banner" id="activeBrandBanner">
         <div class="brand-banner-info">
           <span class="current-brand-badge" id="currentBrandBadge"><i class="fa-solid fa-wand-magic-sparkles"></i> GET
-            PATTAS KADAI (SHOP 004)</span>
+            GET PATTAS</span>
           <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas Kadai - Wholesale Price List</h2>
           <p class="current-brand-tagline" id="currentBrandTagline">Direct Sivakasi Factory Rate • Flat 80% Discount •
             Touch '+' to increase quantity</p>
         </div>
         <div class="brand-banner-meta">
           <div class="meta-pill"><span><i class="fa-solid fa-phone"></i> Booking:</span> <strong
-              id="currentBrandPhone">+91 96003 33302</strong></div>
+              id="currentBrandPhone">+91 86104 51118</strong></div>
           <div class="meta-pill"><span><i class="fa-solid fa-truck-fast"></i> Min Order:</span> <strong>₹3,000</strong>
           </div>
         </div>
@@ -573,7 +607,7 @@
               <div class="info-icon"><i class="fa-solid fa-phone"></i></div>
               <div class="info-content">
                 <h4>Phone & WhatsApp Direct Booking</h4>
-                <p><strong class="store-phone-text">+91 98765 43210</strong> (Available 8 AM - 10 PM)</p>
+                <p><strong class="store-phone-text">+91 86104 51118</strong> (Available 8 AM - 10 PM)</p>
               </div>
             </div>
 
@@ -594,9 +628,9 @@
                 <p>Send your item list directly to our Sivakasi store manager</p>
               </div>
             </div>
-            <a href="https://wa.me/919876543210?text=Hi%20Get%20Pattas%20Kadai,%20I%20would%20like%20to%20enquire%20about%20crackers%20booking."
+            <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas%20Kadai,%20I%20would%20like%20to%20enquire%20about%20crackers%20booking."
               target="_blank" class="btn btn-whatsapp full-width">
-              <span>Chat on WhatsApp (+91 98765 43210)</span>
+              <span>Chat on WhatsApp (+91 86104 51118)</span>
             </a>
           </div>
         </div>
@@ -613,7 +647,7 @@
               </div>
               <div class="form-group">
                 <label for="formPhone">WhatsApp / Mobile Number *</label>
-                <input type="tel" id="formPhone" required placeholder="e.g. 9876543210">
+                <input type="tel" id="formPhone" required placeholder="e.g. 8610451118">
               </div>
             </div>
 
@@ -697,14 +731,14 @@
             </div>
             <div class="f-contact-item">
               <span class="f-icon"><i class="fa-solid fa-phone"></i></span>
-              <span><strong>+91 98765 43210</strong> (8 AM - 10 PM)</span>
+              <span><strong>+91 86104 51118</strong> (8 AM - 10 PM)</span>
             </div>
             <div class="f-contact-item">
               <span class="f-icon"><i class="fa-solid fa-envelope"></i></span>
               <span>sales@getpattas.com</span>
             </div>
           </div>
-          <a href="https://wa.me/919876543210?text=Hi%20Get%20Pattas%20Kadai,%20I%20want%20to%20order%20crackers"
+          <a href="https://wa.me/918610451118?text=Hi%20Get%20Pattas%20Kadai,%20I%20want%20to%20order%20crackers"
             target="_blank" class="footer-wa-btn">
             <span><i class="fa-brands fa-whatsapp"></i> Chat on WhatsApp</span>
           </a>
@@ -767,10 +801,10 @@
       <div class="checkout-modal-header">
         <div class="checkout-brand-title">
           <img src="assets/logo.jpg" alt="Get Pattas Kadai" class="checkout-logo">
-          <h3>Get Pattas Kadai Checkout</h3>
+          <h3>Get Pattas Checkout</h3>
         </div>
         <div class="checkout-header-right">
-          <span class="need-help-tag">Need help? Call <strong>+91 98765 43210</strong></span>
+          <span class="need-help-tag">Need help? Call <strong>+91 86104 51118</strong></span>
           <button class="modal-close-btn" onclick="closeCheckoutModal(true)" aria-label="Close Checkout"><i
               class="fa-solid fa-xmark"></i></button>
         </div>
@@ -779,6 +813,19 @@
       <form id="checkoutMainForm" class="checkout-grid-container" onsubmit="handleCheckoutFormSubmit(event)">
         <!-- Left Column: Delivery, Shipping, Payment -->
         <div class="checkout-left-col">
+          <!-- Mobile & Desktop Checkout Login Helper Bar -->
+          <div class="checkout-login-banner" id="coLoginBanner" style="display: flex; justify-content: space-between; align-items: center; background: #f8fafc; border: 1.5px dashed #cbd5e1; padding: 10px 14px; border-radius: 10px; margin-bottom: 1.2rem;">
+            <div style="display: flex; align-items: center; gap: 0.6rem;">
+              <span id="coLoginBannerIcon" style="font-size: 1.1rem; color: #0284c7;"><i class="fa-solid fa-circle-user"></i></span>
+              <div>
+                <strong id="coLoginBannerTitle" style="font-size: 0.88rem; color: #0f172a; display: block;">Have an account?</strong>
+                <span id="coLoginBannerSub" style="font-size: 0.78rem; color: #64748b;">Log in for instant address auto-fill</span>
+              </div>
+            </div>
+            <button type="button" class="btn btn-sm btn-primary" id="coLoginBannerBtn" onclick="openCustomerModal()" style="padding: 0.35rem 0.8rem; font-size: 0.8rem; font-weight: 700; border-radius: 6px;">
+              Log In
+            </button>
+          </div>
           <!-- Email Section -->
           <div class="checkout-section">
             <div class="section-label-row">
@@ -793,9 +840,20 @@
 
           <!-- Delivery Address Section -->
           <div class="checkout-section">
-            <div class="section-label-row">
-              <label class="checkout-label">DELIVERY ADDRESS</label>
-              <button type="button" class="link-btn" onclick="clearCheckoutAddressForm()">+ Add New Address</button>
+            <div class="section-label-row" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+              <label class="checkout-label" style="margin-bottom: 0;">DELIVERY ADDRESS</label>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <button type="button" class="link-btn" onclick="clearCheckoutAddressForm()"><i class="fa-solid fa-plus"></i> Add New Address</button>
+                <button type="button" class="link-btn" onclick="saveAddressFromCheckout()"><i class="fa-solid fa-floppy-disk"></i> Save Address</button>
+              </div>
+            </div>
+
+            <!-- Saved Address Quick Selector Dropdown -->
+            <div id="coSavedAddressWrapper" style="display: none; margin-bottom: 0.85rem; padding: 8px 10px; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px;">
+              <label style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase; margin-bottom: 0.35rem; display: block;"><i class="fa-solid fa-location-dot"></i> Select Saved Address</label>
+              <select id="coSavedAddressSelect" class="checkout-select" onchange="handleCheckoutAddressSelect(this.value)" style="margin-bottom: 0; font-size: 0.85rem;">
+                <option value="">-- Choose from saved addresses --</option>
+              </select>
             </div>
 
             <div class="co-form-group">
@@ -989,7 +1047,7 @@
             </div>
             <div class="form-group">
               <label>Phone Number</label>
-              <input type="tel" id="custRegPhone" placeholder="e.g. 9876543210" required>
+              <input type="tel" id="custRegPhone" placeholder="e.g. 8610451118" required>
             </div>
           </div>
           <div class="form-group">
@@ -1010,8 +1068,7 @@
           <div class="cust-info">
             <h3 id="custProfileName">Customer Name</h3>
             <span class="cust-tag" id="custProfileUser">@username</span>
-            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 98765
-              43210</div>
+            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 86104 51118</div>
             <div style="margin-top: 4px;"><span class="meta-pill"
                 style="font-size: 0.72rem; padding: 2px 8px; background: rgba(234, 88, 12, 0.1); color: #ea580c; font-weight: 700;">SHOP
                 004 ACCOUNT</span></div>
@@ -1105,7 +1162,7 @@
         </div>
         <div class="oc-detail-row">
           <span>Phone / WhatsApp:</span>
-          <strong id="ocCustomerPhone">+91 98765 43210</strong>
+          <strong id="ocCustomerPhone">+91 86104 51118</strong>
         </div>
         <div class="oc-detail-row">
           <span>Delivery Address:</span>
@@ -1132,12 +1189,12 @@
           </div>
         </button>
 
-        <!-- 2. Send Customer WhatsApp Confirmation Button -->
+        <!-- 2. Send WhatsApp Booking to Kaira (+91 86104 51118) -->
         <a id="ocCustomerWhatsAppBtn" href="#" target="_blank" class="btn-oc-action btn-oc-customer-wa">
           <i class="fa-brands fa-whatsapp"></i>
           <div class="btn-oc-text">
-            <strong>Send to Customer WhatsApp</strong>
-            <span>Order breakdown & invoice link to customer</span>
+            <strong>Send to Kaira WhatsApp </strong>
+            <span>Order breakdown & invoice link to WhatsApp</span>
           </div>
         </a>
 
@@ -1326,8 +1383,9 @@
   </div>
 
   <script src="html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="catalogData.js?v=2"></script>
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
 </body>
 
 </html>

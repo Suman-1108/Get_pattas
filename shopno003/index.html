@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store - Shop 003</title>
+  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store</title>
   <meta name="description"
     content="The RED Crackers Sivakasi - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Up to 90% OFF on 127 items: Sparklers, Colour Matches, One Sound, Multi Sound Wala, Bombs, Ground Chakkars, Fancy Pipes, Peacock Fountains, and Gift Boxes.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
@@ -106,12 +106,35 @@
           <span class="action-count-badge cart-count-pill" id="cartCountBadge">0</span>
         </button>
 
-        <!-- Account / Login Icon -->
-        <button class="customer-auth-btn" id="customerAuthBtn" onclick="openCustomerModal()"
-          aria-label="Customer Account">
-          <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
-          <span class="auth-text" id="customerBtnText">Login</span>
-        </button>
+        <!-- Account / Login Profile Section (Desktop Dropdown & Mobile Compatible) -->
+        <div class="header-account-wrap" id="headerAccountWrap">
+          <button class="customer-auth-btn" id="customerAuthBtn" onclick="handleCustomerBtnClick(event)"
+            aria-label="Customer Account">
+            <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
+            <span class="auth-text" id="customerBtnText">Login</span>
+            <i class="fa-solid fa-chevron-down auth-caret" id="customerAuthCaret" style="display: none;"></i>
+          </button>
+          <div class="desktop-profile-dropdown" id="desktopProfileDropdown">
+            <div class="dp-header">
+              <div class="dp-avatar"><i class="fa-solid fa-user-check"></i></div>
+              <div class="dp-user-info">
+                <strong id="dpUserName">Customer Name</strong>
+                <span id="dpUserTag">@username</span>
+              </div>
+            </div>
+            <div class="dp-menu">
+              <button type="button" class="dp-item" onclick="openCustomerModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-location-dot"></i> My Delivery Addresses
+              </button>
+              <button type="button" class="dp-item" onclick="proceedToCheckoutModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-cart-shopping"></i> Checkout Order
+              </button>
+              <button type="button" class="dp-item dp-logout" onclick="handleCustomerLogout(); closeDesktopDropdown();">
+                <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
 
         <!-- Mobile Menu Hamburger -->
         <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Navigation">
@@ -183,7 +206,7 @@
         style="background: linear-gradient(135deg, #7f1d1d 0%, #0f172a 100%);">
         <div class="brand-banner-info">
           <span class="current-brand-badge" id="currentBrandBadge" style="background: #dc2626;"><i
-              class="fa-solid fa-fire-flame-curved"></i> GET PATTAS (SHOP 003)</span>
+              class="fa-solid fa-fire-flame-curved"></i> GET PATTAS</span>
           <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas - The RED Crackers Wholesale Price List</h2>
           <p class="current-brand-tagline" id="currentBrandTagline">Celebrate Bigger, Save More! Up to 90% Off • Touch
             '+' to increase quantity</p>
@@ -306,10 +329,10 @@
         <div class="checkout-brand-title">
           <img src="assets/logo.jpg" alt="Get Pattas"
             style="height: 32px; width: auto; vertical-align: middle; margin-right: 8px; border-radius: 4px;">
-          <h3>Get Pattas (Shop 003) Checkout</h3>
+          <h3>Get Pattas Checkout</h3>
         </div>
         <div class="checkout-header-right">
-          <span class="need-help-tag">Direct Desk: <strong>+91 95661 59113</strong></span>
+          <span class="need-help-tag">Direct Desk: <strong>+91 86104 51118</strong></span>
           <button class="modal-close-btn" onclick="closeCheckoutModal(true)" aria-label="Close Checkout"><i
               class="fa-solid fa-xmark"></i></button>
         </div>
@@ -418,7 +441,7 @@
     </div>
   </div>
 
-  <!-- Customer Account & Authentication Modal (Shop 003 Isolated) -->
+  <!-- Customer Account & Authentication Modal -->
   <div class="customer-modal-overlay" id="customerModalOverlay" onclick="closeCustomerModal(event)">
     <div class="customer-modal-card" onclick="event.stopPropagation()">
       <button class="modal-close-btn" onclick="closeCustomerModal(true)" aria-label="Close Modal"><i
@@ -436,7 +459,7 @@
         <!-- Customer Login Form -->
         <form id="customerLoginForm" class="c-auth-form" onsubmit="handleCustomerLogin(event)">
           <h3>Welcome Back!</h3>
-          <p>Log in to your <strong>Get Pattas (Shop 003)</strong> account.</p>
+          <p>Log in to your <strong>Get Pattas</strong> account.</p>
           <div class="form-group">
             <label>Username</label>
             <input type="text" id="custLoginUser" placeholder="Enter username" required>
@@ -453,7 +476,7 @@
 
         <!-- Customer Registration Form -->
         <form id="customerSignupForm" class="c-auth-form" style="display: none;" onsubmit="handleCustomerSignup(event)">
-          <h3>Create Shop 003 Account</h3>
+          <h3>Create Get Pattas Account</h3>
           <p>Register your account for direct factory order tracking and checkout.</p>
           <div class="form-row">
             <div class="form-group">
@@ -473,7 +496,7 @@
             </div>
             <div class="form-group">
               <label>WhatsApp / Phone Number</label>
-              <input type="tel" id="custRegPhone" placeholder="e.g. 9566159113" required>
+              <input type="tel" id="custRegPhone" placeholder="e.g. 8610451118" required>
             </div>
           </div>
           <div class="form-group">
@@ -494,8 +517,7 @@
           <div class="cust-info">
             <h3 id="custProfileName">Customer Name</h3>
             <span class="cust-tag" id="custProfileUser">@username</span>
-            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 95661
-              59113</div>
+            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 86104 51118</div>
             <div style="margin-top: 4px;"><span class="meta-pill"
                 style="font-size: 0.72rem; padding: 2px 8px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-weight: 700;">SHOP
                 003 ACCOUNT</span></div>
@@ -594,7 +616,7 @@
         </div>
         <div class="oc-detail-row">
           <span>Phone / WhatsApp:</span>
-          <strong id="ocCustomerPhone">+91 95661 59113</strong>
+          <strong id="ocCustomerPhone">+91 86104 51118</strong>
         </div>
         <div class="oc-detail-row">
           <span>Delivery Address:</span>
@@ -622,12 +644,12 @@
           </div>
         </button>
 
-        <!-- 2. Send Customer WhatsApp Confirmation Button -->
+        <!-- 2. Send WhatsApp Booking to Kaira (+91 86104 51118) -->
         <a id="ocCustomerWhatsAppBtn" href="#" target="_blank" class="btn-oc-action btn-oc-customer-wa">
           <i class="fa-brands fa-whatsapp"></i>
           <div class="btn-oc-text">
-            <strong>Send to Customer WhatsApp</strong>
-            <span>Order breakdown & invoice link to customer</span>
+            <strong>Send to Kaira WhatsApp</strong>
+            <span>Order breakdown & invoice link to WhatsApp</span>
           </div>
         </a>
 
@@ -658,8 +680,9 @@
 
   <!-- Scripts -->
   <script src="html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="catalogData.js?v=2"></script>
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
 </body>
 
 </html>

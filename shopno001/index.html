@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store - Shop 001</title>
+  <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store</title>
   <meta name="description"
     content="Sivakasi Muthu Crackers - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Flat 80% OFF on 218 items: Sparklers, Flower Pots, Chakkars, Sky Shots, Rockets and Festive Combo Gift Boxes.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
@@ -106,12 +106,35 @@
           <span class="action-count-badge cart-count-pill" id="cartCountBadge">0</span>
         </button>
 
-        <!-- Account / Login Icon -->
-        <button class="customer-auth-btn" id="customerAuthBtn" onclick="openCustomerModal()"
-          aria-label="Customer Account">
-          <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
-          <span class="auth-text" id="customerBtnText">Login</span>
-        </button>
+        <!-- Account / Login Profile Section (Desktop Dropdown & Mobile Compatible) -->
+        <div class="header-account-wrap" id="headerAccountWrap">
+          <button class="customer-auth-btn" id="customerAuthBtn" onclick="handleCustomerBtnClick(event)"
+            aria-label="Customer Account">
+            <span class="auth-icon"><i class="fa-regular fa-user"></i></span>
+            <span class="auth-text" id="customerBtnText">Login</span>
+            <i class="fa-solid fa-chevron-down auth-caret" id="customerAuthCaret" style="display: none;"></i>
+          </button>
+          <div class="desktop-profile-dropdown" id="desktopProfileDropdown">
+            <div class="dp-header">
+              <div class="dp-avatar"><i class="fa-solid fa-user-check"></i></div>
+              <div class="dp-user-info">
+                <strong id="dpUserName">Customer Name</strong>
+                <span id="dpUserTag">@username</span>
+              </div>
+            </div>
+            <div class="dp-menu">
+              <button type="button" class="dp-item" onclick="openCustomerModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-location-dot"></i> My Delivery Addresses
+              </button>
+              <button type="button" class="dp-item" onclick="proceedToCheckoutModal(); closeDesktopDropdown();">
+                <i class="fa-solid fa-cart-shopping"></i> Checkout Order
+              </button>
+              <button type="button" class="dp-item dp-logout" onclick="handleCustomerLogout(); closeDesktopDropdown();">
+                <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+              </button>
+            </div>
+          </div>
+        </div>
 
         <!-- Mobile Menu Hamburger -->
         <button class="mobile-toggle" onclick="toggleMobileMenu()" aria-label="Toggle Mobile Navigation">
@@ -183,7 +206,7 @@
         style="background: linear-gradient(135deg, #022c22 0%, #064e3b 60%, #0f172a 100%);">
         <div class="brand-banner-info">
           <span class="current-brand-badge" id="currentBrandBadge" style="background: #059669;"><i
-              class="fa-solid fa-wand-magic-sparkles"></i> GET PATTAS (SHOP 001)</span>
+              class="fa-solid fa-wand-magic-sparkles"></i> GET PATTAS</span>
           <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas - Sivakasi Muthu Crackers Price List</h2>
           <p class="current-brand-tagline" id="currentBrandTagline">Direct Sivakasi Factory Rate • Flat 80% Discount •
             Touch '+' to increase quantity</p>
@@ -493,7 +516,7 @@
               <div class="info-icon"><i class="fa-solid fa-envelope"></i></div>
               <div class="info-content">
                 <h4>Wholesale Support Email</h4>
-                <p class="store-email-text">sivakasimuthucrackers@gmail.com</p>
+                <p class="store-email-text">sales@getpattas.com</p>
               </div>
             </div>
           </div>
@@ -609,7 +632,7 @@
             </div>
             <div class="f-contact-item">
               <span class="f-icon"><i class="fa-solid fa-envelope"></i></span>
-              <span>sivakasimuthucrackers@gmail.com</span>
+              <span>sales@getpattas.com</span>
             </div>
           </div>
           <a href="https://wa.me/919600333302?text=Hi%20Sivakasi%20Muthu%20Crackers" target="_blank"
@@ -675,7 +698,7 @@
         <div class="checkout-brand-title">
           <img src="assets/logo.jpg" alt="Get Pattas"
             style="height: 32px; width: auto; vertical-align: middle; margin-right: 8px; border-radius: 4px;">
-          <h3>Get Pattas (Shop 001) Checkout</h3>
+          <h3>Get Pattas Checkout</h3>
         </div>
         <div class="checkout-header-right">
           <span class="need-help-tag">Direct Desk: <strong>+91 96003 33302</strong></span>
@@ -741,10 +764,13 @@
               <div class="op-header">
                 <span class="op-badge"><i class="fa-solid fa-truck-fast"></i> DIRECT SIVAKASI FACTORY DISPATCH</span>
                 <h4>Zero Advance Payment Needed</h4>
-                <p>Click <strong>Order to be placed</strong> below. Your official wholesale <strong>Booking Number</strong> will be generated instantly and confirmed directly with our Sivakasi dispatch desk via WhatsApp.</p>
+                <p>Click <strong>Order to be placed</strong> below. Your official wholesale <strong>Booking
+                    Number</strong> will be generated instantly and confirmed directly with our Sivakasi dispatch desk
+                  via WhatsApp.</p>
               </div>
 
-              <button type="submit" class="btn btn-order-placed full-width" id="btnPlaceOrder" style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">
+              <button type="submit" class="btn btn-order-placed full-width" id="btnPlaceOrder"
+                style="background: linear-gradient(135deg, #059669 0%, #047857 100%);">
                 <span class="btn-op-icon"><i class="fa-solid fa-circle-check"></i></span>
                 <span class="btn-op-text">Order to be placed</span>
                 <span class="btn-op-badge">Instant Booking</span>
@@ -784,7 +810,7 @@
     </div>
   </div>
 
-  <!-- Customer Account & Authentication Modal (Shop 001 Isolated) -->
+  <!-- Customer Account & Authentication Modal -->
   <div class="customer-modal-overlay" id="customerModalOverlay" onclick="closeCustomerModal(event)">
     <div class="customer-modal-card" onclick="event.stopPropagation()">
       <button class="modal-close-btn" onclick="closeCustomerModal(true)" aria-label="Close Modal"><i
@@ -802,7 +828,7 @@
         <!-- Customer Login Form -->
         <form id="customerLoginForm" class="c-auth-form" onsubmit="handleCustomerLogin(event)">
           <h3>Welcome Back!</h3>
-          <p>Log in to your <strong>Get Pattas (Shop 001)</strong> account.</p>
+          <p>Log in to your <strong>Get Pattas</strong> account.</p>
           <div class="form-group">
             <label>Username</label>
             <input type="text" id="custLoginUser" placeholder="Enter username" required>
@@ -819,7 +845,7 @@
 
         <!-- Customer Registration Form -->
         <form id="customerSignupForm" class="c-auth-form" style="display: none;" onsubmit="handleCustomerSignup(event)">
-          <h3>Create Shop 001 Account</h3>
+          <h3>Create Get Pattas Account</h3>
           <p>Register your account for direct factory order tracking and checkout.</p>
           <div class="form-row">
             <div class="form-group">
@@ -941,7 +967,8 @@
         <p><strong>2. 100% Data Confidentiality:</strong> We never sell or share customer details with third-party
           telemarketers.</p>
         <p><strong>3. Contact:</strong> Call <strong>+91 96003 33302</strong> or email
-          <strong>sivakasimuthucrackers@gmail.com</strong>.</p>
+          <strong>sales@getpattas.com</strong>.
+        </p>
       </div>
       <div class="policy-modal-footer">
         <button type="button" class="btn-close-policy"
@@ -1019,7 +1046,8 @@
   <!-- Order Confirmation Modal -->
   <div class="order-confirm-overlay" id="orderConfirmModalOverlay" onclick="closeOrderConfirmModal(event)">
     <div class="order-confirm-card" onclick="event.stopPropagation()">
-      <button class="modal-close-btn" onclick="closeOrderConfirmModal(true)" aria-label="Close Modal"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close-btn" onclick="closeOrderConfirmModal(true)" aria-label="Close Modal"><i
+          class="fa-solid fa-xmark"></i></button>
 
       <div class="order-confirm-header">
         <div class="confirm-celebration-badge">
@@ -1069,7 +1097,8 @@
       <!-- Direct Actions: PDF Download & Customer WhatsApp Confirmation -->
       <div class="oc-action-buttons-group">
         <!-- 1. Download PDF Invoice Button -->
-        <button type="button" class="btn-oc-action btn-oc-pdf" onclick="downloadOrderInvoicePDF()" id="btnDownloadInvoicePDF">
+        <button type="button" class="btn-oc-action btn-oc-pdf" onclick="downloadOrderInvoicePDF()"
+          id="btnDownloadInvoicePDF">
           <i class="fa-solid fa-file-pdf"></i>
           <div class="btn-oc-text">
             <strong>Download Invoice (PDF)</strong>
@@ -1077,28 +1106,31 @@
           </div>
         </button>
 
-        <!-- 2. Send Customer WhatsApp Confirmation Button -->
+        <!-- 2. Send WhatsApp Booking to Kaira (+91 86104 51118) -->
         <a id="ocCustomerWhatsAppBtn" href="#" target="_blank" class="btn-oc-action btn-oc-customer-wa">
           <i class="fa-brands fa-whatsapp"></i>
           <div class="btn-oc-text">
-            <strong>Send to Customer WhatsApp</strong>
-            <span>Order breakdown & invoice link to customer</span>
+            <strong>Send to Kaira WhatsApp </strong>
+            <span>Order breakdown & invoice link to WhatsApp</span>
           </div>
         </a>
 
         <!-- Sub-actions: Store Desk WhatsApp & Print Invoice -->
         <div class="oc-sub-actions-row">
-          <a id="ocWhatsAppBtn" href="#" target="_blank" class="btn-oc-sub btn-oc-store-wa" title="Send booking to Store Desk WhatsApp">
+          <a id="ocWhatsAppBtn" href="#" target="_blank" class="btn-oc-sub btn-oc-store-wa"
+            title="Send booking to Store Desk WhatsApp">
             <i class="fa-brands fa-whatsapp"></i> Store Desk WhatsApp
           </a>
-          <button type="button" class="btn-oc-sub btn-oc-print" onclick="printOrderInvoice()" title="Print Invoice directly">
+          <button type="button" class="btn-oc-sub btn-oc-print" onclick="printOrderInvoice()"
+            title="Print Invoice directly">
             <i class="fa-solid fa-print"></i> Print Invoice
           </button>
         </div>
       </div>
 
       <div class="oc-actions-footer">
-        <button type="button" class="btn btn-secondary full-width" onclick="closeOrderConfirmModal(true)" style="padding: 0.75rem; font-weight: 700;">
+        <button type="button" class="btn btn-secondary full-width" onclick="closeOrderConfirmModal(true)"
+          style="padding: 0.75rem; font-weight: 700;">
           <i class="fa-solid fa-arrow-left"></i> Continue Shopping
         </button>
       </div>
@@ -1110,8 +1142,9 @@
 
   <!-- Scripts -->
   <script src="html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="catalogData.js?v=2"></script>
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
 </body>
 
 </html>
