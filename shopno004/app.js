@@ -175,7 +175,7 @@ function updateBrandUI(brandSlug, isSwitch = false) {
     'getpattasu': {
       tag: '⭐ ALL SIVAKASI BRANDS MEGA STORE',
       title: 'Get Pattas Kadai',
-      tagline: 'Single Window for Muthu, Get pattas  & Get pattas  • Curated Family Hampers • Flat 80% Off Direct Factory Rates',
+      tagline: 'Single Window for Muthu, Get pattas  & Get pattas  • Curated Family Hampers • Flat 75% Off Direct Factory Rates',
       loc: '📍 12/4B Sivakasi Factory Zone, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
@@ -407,7 +407,7 @@ function renderPriceListTable() {
                   <th class="th-name">Product Name (பொருளின் பெயர்)</th>
                   <th class="th-pack">Content / Size</th>
                   <th class="th-mrp">Rate (₹)</th>
-                  <th class="th-net">Our Price (80% Off)</th>
+                  <th class="th-net">Our Price (75% Off)</th>
                   <th class="th-qty">Quantity</th>
                   <th class="th-total">Total (₹)</th>
                 </tr>
@@ -440,7 +440,7 @@ function renderPriceListTable() {
           <td class="td-net">
             <span class="mobile-mrp-strike">₹${item.mrp.toLocaleString('en-IN')}</span>
             <strong class="net-price-highlight">₹${item.price.toLocaleString('en-IN')}</strong>
-            <span class="discount-micro-badge">80% OFF</span>
+            <span class="discount-micro-badge">75% OFF</span>
           </td>
           <td class="td-qty">
             <div class="qty-touch-stepper">
@@ -856,7 +856,7 @@ function sendWhatsAppDirectOrder(existingOrder = null) {
   message += `📦 *Total Items:* ${orderItems.length} items (${totalBoxes} Boxes)\n`;
   message += `💰 *Original MRP:* ~₹${totalMrp.toLocaleString('en-IN')}~\n`;
   message += `🔥 *Wholesale Net Total:* *₹${netTotal.toLocaleString('en-IN')}*\n`;
-  message += `🎉 *Your Total Savings (80% Off):* *₹${savings.toLocaleString('en-IN')}*\n`;
+  message += `🎉 *Your Total Savings (75% Off):* *₹${savings.toLocaleString('en-IN')}*\n`;
   message += `-------------------------------------------\n`;
 
   // Attach saved customer info if present
@@ -1925,7 +1925,7 @@ function printOrderInvoice() {
 // COMBO HAMPER BANNER SHORTCUT
 // ==========================================
 function addComboToCart(comboKey) {
-  // Add Grand Family Combo Pack (₹5,000)
+  // Add Grand Family Combo Pack (₹6,250)
   let comboItem = null;
   for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
     comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.id === 'gp-15');
@@ -1933,7 +1933,7 @@ function addComboToCart(comboKey) {
   }
   if (!comboItem) {
     for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
-      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.price === 5000 && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
+      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => (i.price === 6250 || i.price === 5000) && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
       if (comboItem) break;
     }
   }
@@ -1942,7 +1942,7 @@ function addComboToCart(comboKey) {
     changeQty(comboItem.id, 1);
     showToast(`🎉 Added ${comboItem.name} (₹${comboItem.price.toLocaleString('en-IN')}) to your order!`);
   } else {
-    showToast('🎉 Added Diwali Family Combo Pack (₹5,000)!');
+    showToast('🎉 Added Diwali Family Combo Pack (₹6,250)!');
   }
 }
 
