@@ -603,6 +603,14 @@
       const tbody = document.getElementById('invItemsBody');
       tbody.innerHTML = '';
 
+      function formatPrice(val) {
+        if (val === null || val === undefined) return '0';
+        const num = Number(val);
+        if (isNaN(num)) return '0';
+        if (Number.isInteger(num)) return num.toLocaleString('en-IN');
+        return num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      }
+
       let totalBoxes = 0;
       items.forEach((it, idx) => {
         const qty = Number(it.qty) || 1;
@@ -618,15 +626,15 @@
             ${it.tamilName ? `<div style="font-size: 0.74rem; color: #64748b;">${it.tamilName}</div>` : ''}
           </td>
           <td style="text-align: center; font-weight: 700;">${qty}</td>
-          <td style="text-align: right;">?${price.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 700;">?${sub.toLocaleString('en-IN')}</td>
+          <td style="text-align: right;">₹${formatPrice(price)}</td>
+          <td style="text-align: right; font-weight: 700;">₹${formatPrice(sub)}</td>
         `;
         tbody.appendChild(tr);
       });
 
       document.getElementById('invTotalVarieties').innerText = `${items.length} Items`;
       document.getElementById('invTotalBoxes').innerText = `${order.totalBoxes || totalBoxes} Boxes`;
-      document.getElementById('invNetTotal').innerText = '?' + Number(order.totalAmount).toLocaleString('en-IN');
+      document.getElementById('invNetTotal').innerText = '₹' + formatPrice(order.totalAmount);
       document.getElementById('invSignBrand').innerText = 'For Get Pattas - Wholesale Shop-004';
 
       // Setup WhatsApp share button - Always to Kaira WhatsApp (+91 86104 51118)
