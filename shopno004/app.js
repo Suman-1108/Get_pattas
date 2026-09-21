@@ -787,12 +787,21 @@ function filterByCategory(catSlug) {
 // ==========================================
 // WHATSAPP DIRECT ORDER GENERATOR
 // ==========================================
+// ==========================================
+// WHATSAPP DIRECT ORDER FLOW & DETAILS MODAL
+// ==========================================
 function sendWhatsAppDirectOrder(existingOrder = null) {
   const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['ayyan'] || { name: 'Get Pattas Kadai', themeColor: '#ea580c' };
   const brandColor = brand.themeColor || '#ea580c';
-  const orderItems = existingOrder ? existingOrder.items : cart;
 
-  if ((!orderItems || orderItems.length === 0) && !existingOrder) {
+  // If an existing order is provided (e.g. from invoice re-order or past order), trigger WhatsApp directly
+  if (existingOrder) {
+    executeWhatsAppSend(existingOrder);
+    return;
+  }
+
+  // Validate cart
+  if (!cart || cart.length === 0) {
     if (window.Swal) {
       Swal.fire({
         icon: 'warning',
@@ -809,18 +818,12 @@ function sendWhatsAppDirectOrder(existingOrder = null) {
     return;
   }
 
-  let totalBoxes = 0;
   let netTotal = 0;
-  let totalMrp = 0;
-
-  orderItems.forEach((item) => {
-    const rowTot = (item.price || 0) * (item.qty || 1);
-    totalBoxes += (item.qty || 1);
-    netTotal += rowTot;
-    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
+  cart.forEach(item => {
+    netTotal += (item.price || 0) * (item.qty || 1);
   });
 
-  if (netTotal < 3000 && !existingOrder) {
+  if (netTotal < 3000) {
     const diff = 3000 - netTotal;
     if (window.Swal) {
       Swal.fire({
@@ -838,9 +841,326 @@ function sendWhatsAppDirectOrder(existingOrder = null) {
     return;
   }
 
+  // Open WhatsApp Order Details Modal for customer to fill contact & delivery details
+  openWhatsAppOrderModal();
+}
+
+function openWhatsAppOrderModal() {
+  const modal = document.getElementById('whatsAppOrderModalOverlay');
+  if (!modal) {
+    executeWhatsAppSend(null);
+    return;
+  }
+
+  let totalBoxes = 0;
+  let netTotal = 0;
+  let totalMrp = 0;
+
+  cart.forEach((item) => {
+    const rowTot = (item.price || 0) * (item.qty || 1);
+    totalBoxes += (item.qty || 1);
+    netTotal += rowTot;
+    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
+  });
+
+  const savings = Math.max(0, totalMrp - netTotal);
+
+  const itemCountEl = document.getElementById('waModalItemCount');
+  const boxCountEl = document.getElementById('waModalBoxCount');
+  const mrpEl = document.getElementById('waModalMrp');
+  const savingsEl = document.getElementById('waModalSavings');
+  const netTotalEl = document.getElementById('waModalNetTotal');
+
+  if (itemCountEl) itemCountEl.innerText = cart.length;
+  if (boxCountEl) boxCountEl.innerText = totalBoxes;
+  if (mrpEl) mrpEl.innerText = '₹' + totalMrp.toLocaleString('en-IN');
+  if (savingsEl) savingsEl.innerText = '₹' + savings.toLocaleString('en-IN');
+  if (netTotalEl) netTotalEl.innerText = '₹' + netTotal.toLocaleString('en-IN');
+
+  // Pre-populate saved customer details if available
+  const savedCust = getSavedCustomerDetails();
+  if (savedCust) {
+    const nameInput = document.getElementById('waCustName');
+    const phoneInput = document.getElementById('waCustPhone');
+    const streetInput = document.getElementById('waCustStreet');
+    const cityInput = document.getElementById('waCustCity');
+    const stateInput = document.getElementById('waCustState');
+    const pinInput = document.getElementById('waCustPincode');
+    const emailInput = document.getElementById('waCustEmail');
+
+    if (nameInput && !nameInput.value) nameInput.value = savedCust.name || ((savedCust.firstName || '') + ' ' + (savedCust.lastName || '')).trim();
+    if (phoneInput && !phoneInput.value) phoneInput.value = (savedCust.phone || '').replace(/\D/g, '').slice(-10);
+    if (streetInput && !streetInput.value) streetInput.value = savedCust.street || savedCust.address || '';
+    if (cityInput && !cityInput.value) cityInput.value = savedCust.city || '';
+    if (stateInput && savedCust.state) stateInput.value = savedCust.state;
+    if (pinInput && !pinInput.value) pinInput.value = savedCust.pincode || '';
+    if (emailInput && !emailInput.value) emailInput.value = savedCust.email || '';
+  }
+
+  modal.style.display = 'flex';
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeWhatsAppOrderModal(e) {
+  if (e && e.target && e.target.id !== 'whatsAppOrderModalOverlay' && e !== true) return;
+  const modal = document.getElementById('whatsAppOrderModalOverlay');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+function handleWhatsAppOrderSubmit(e) {
+  if (e && e.preventDefault) e.preventDefault();
+
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['ayyan'] || { name: 'Get Pattas Kadai', themeColor: '#ea580c' };
+  const brandColor = brand.themeColor || '#ea580c';
+
+  if (!cart || cart.length === 0) {
+    alert('Your cart is empty!');
+    closeWhatsAppOrderModal(true);
+    return;
+  }
+
+  const custName = document.getElementById('waCustName')?.value.trim();
+  const rawPhone = document.getElementById('waCustPhone')?.value.trim().replace(/\D/g, '');
+  const custStreet = document.getElementById('waCustStreet')?.value.trim();
+  const custCity = document.getElementById('waCustCity')?.value.trim();
+  const custState = document.getElementById('waCustState')?.value || 'Tamil Nadu';
+  const custPincode = document.getElementById('waCustPincode')?.value.trim();
+  const custEmail = document.getElementById('waCustEmail')?.value.trim() || '';
+
+  if (!custName) {
+    alert('Please enter your full name.');
+    return;
+  }
+  if (!rawPhone || rawPhone.length < 10) {
+    alert('Please enter a valid 10-digit WhatsApp / mobile number.');
+    return;
+  }
+  const custPhone = rawPhone.slice(-10);
+
+  if (!custStreet || !custCity) {
+    alert('Please provide your complete street address and city.');
+    return;
+  }
+
+  const custFullAddress = [custStreet, custCity, custState, custPincode].filter(Boolean).join(', ');
+
+  // Save details in local storage for seamless re-orders & future checkout
+  try {
+    const toSave = {
+      name: custName,
+      phone: custPhone,
+      email: custEmail,
+      street: custStreet,
+      city: custCity,
+      state: custState,
+      pincode: custPincode,
+      address: custFullAddress
+    };
+    localStorage.setItem(getShopStorageKey('checkout_saved_address'), JSON.stringify(toSave));
+  } catch (err) { }
+
+  let totalBoxes = 0;
+  let netTotal = 0;
+  let totalMrp = 0;
+
+  cart.forEach((item) => {
+    const rowTot = (item.price || 0) * (item.qty || 1);
+    totalBoxes += (item.qty || 1);
+    netTotal += rowTot;
+    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
+  });
+
+  const shopCode = getShopShortCode ? getShopShortCode(currentBrand) : '004';
+  const shopTitle = getShopInvoiceTitle ? getShopInvoiceTitle(currentBrand) : 'Get Pattas Kadai';
+  const bookingNumber = `Get-Pattas-BookNo-${shopCode}-WA-${Math.floor(10000 + Math.random() * 90000)}`;
+
+  const orderRecord = {
+    orderId: bookingNumber,
+    bookingNumber: bookingNumber,
+    brand: currentBrand,
+    brandName: shopTitle,
+    customerName: custName,
+    phone: custPhone,
+    email: custEmail,
+    address: custFullAddress,
+    city: custCity,
+    state: custState,
+    pincode: custPincode,
+    customer: {
+      name: custName,
+      phone: custPhone,
+      email: custEmail,
+      address: custFullAddress,
+      city: custCity,
+      state: custState,
+      pincode: custPincode
+    },
+    items: cart.map(i => ({
+      id: i.id || '',
+      name: i.name,
+      tamilName: i.tamilName || '',
+      pack: i.packInfo || i.pack || 'Box',
+      qty: i.qty,
+      price: i.price,
+      subtotal: i.price * i.qty
+    })),
+    totalAmount: netTotal,
+    totalItems: cart.length,
+    totalBoxes: totalBoxes,
+    paymentMethod: 'WhatsApp Direct',
+    utrRef: '',
+    status: 'Pending',
+    createdAt: new Date().toISOString()
+  };
+
+  // 1. Sync order to Admin panel local storage
+  try {
+    const existing = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
+    existing.unshift(orderRecord);
+    localStorage.setItem('admin_orders_sync', JSON.stringify(existing));
+  } catch (e) { }
+
+  // 2. Post to backend REST API so it is saved in MongoDB / Memory Store
+  try {
+    fetch(`${API_BASE}/api/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderRecord)
+    }).catch(() => { });
+  } catch (e) { }
+
+  // 3. Broadcast real-time sync event across all browser tabs & Admin Dashboard
+  if (syncChannel) {
+    syncChannel.postMessage({ type: 'ORDER_PLACED', order: orderRecord });
+  }
+
+  // 4. Construct WhatsApp wholesale order message
+  const currentOrigin = (window.location.protocol && window.location.protocol.startsWith('http'))
+    ? window.location.origin
+    : 'http://localhost:5000';
+  const invoiceWebUrl = (window.location.protocol === 'file:')
+    ? 'invoice.html?bn=' + bookingNumber
+    : `${currentOrigin}/invoice.html?bn=${bookingNumber}`;
+
+  let message = `💥 *${shopTitle.toUpperCase()} - DIWALI WHOLESALE BOOKING*\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `📋 *BOOKING NUMBER:* *${bookingNumber}*\n`;
+  message += `🏬 *Store:* ${shopTitle}\n`;
+  message += `📅 *Date:* ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `👤 *CUSTOMER DETAILS:*\n`;
+  message += `• Name: *${custName}*\n`;
+  message += `• Mobile / WhatsApp: *+91 ${custPhone}*\n`;
+  if (custEmail) message += `• Email: ${custEmail}\n`;
+  message += `• Delivery Address: *${custFullAddress}*\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `📦 *ORDER ITEMS LIST:*\n`;
+
+  cart.forEach((item, idx) => {
+    const rowTot = (item.price || 0) * (item.qty || 1);
+    message += `${idx + 1}. *${item.name}* (${item.tamilName || ''})\n`;
+    message += `   • Size/Pack: ${item.packInfo || item.pack || 'Box'}\n`;
+    message += `   • Qty: *${item.qty} Boxes* × ₹${item.price} = *₹${rowTot.toLocaleString('en-IN')}*\n`;
+  });
+
+  const savings = Math.max(0, totalMrp - netTotal);
+
+  message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `📊 *Total Quantity:* ${totalBoxes} Boxes (${cart.length} Varieties)\n`;
+  message += `💰 *Original MRP:* ~₹${totalMrp.toLocaleString('en-IN')}~\n`;
+  message += `🔥 *Wholesale Net Total:* *₹${netTotal.toLocaleString('en-IN')}*\n`;
+  message += `🎉 *Your Savings (80% Off):* *₹${savings.toLocaleString('en-IN')}*\n`;
+  message += `🚚 *Delivery:* Direct Sivakasi Factory Transport (To-Pay LR)\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `Please confirm my order and share dispatch details. Thank you!\n`;
+  message += `📄 *Digital Invoice PDF:* ${invoiceWebUrl}`;
+
+  const targetDeskPhone = (brand.phone || '8610451118').replace(/[^0-9]/g, '');
+  const deskWaUrl = `https://wa.me/91${targetDeskPhone.slice(-10)}?text=${encodeURIComponent(message)}`;
+
+  // Close the WhatsApp details modal
+  closeWhatsAppOrderModal(true);
+
+  // Open WhatsApp in a new tab
+  window.open(deskWaUrl, '_blank');
+
+  // Reset cart
+  cart = [];
+  qtyMap = {};
+  saveCartToStorage();
+  renderPriceListTable();
+  updateStickySummaryBar();
+
+  // Show Order Confirmation Popup (SweetAlert or Fallback)
+  if (window.Swal) {
+    Swal.fire({
+      icon: 'success',
+      title: '<span style="font-size:23px;font-weight:800;color:#15803d;">🎉 WhatsApp Order Received!</span>',
+      html: `
+        <div style="text-align: left; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 12px; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; line-height: 1.6;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #bbf7d0; padding-bottom: 6px;">
+            <span style="font-weight: 700; color: #166534;">Booking Number:</span>
+            <span style="background: #dcfce7; color: #15803d; font-weight: 800; font-family: monospace; font-size: 14px; padding: 2px 8px; border-radius: 6px;">${bookingNumber}</span>
+          </div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Store:</b> ${escapeHtml(shopTitle)}</div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Customer:</b> ${escapeHtml(custName)} (+91 ${escapeHtml(custPhone)})</div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Delivery:</b> ${escapeHtml(custFullAddress)}</div>
+          <div style="margin-bottom: 4px; color: #334155;"><b>Items Booked:</b> ${totalBoxes} Boxes (${orderRecord.totalItems} Varieties)</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #86efac; padding-top: 8px; margin-top: 8px;">
+            <span style="font-weight: 700; color: #1e293b; font-size: 15px;">Wholesale Total:</span>
+            <span style="font-weight: 800; color: #15803d; font-size: 18px;">₹${netTotal.toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+        <div style="font-size: 12.5px; color: #15803d; margin-bottom: 10px; text-align: center; font-weight: 600;">
+          ✅ Order synced with Sivakasi Admin & opened in WhatsApp!
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonColor: '#22c55e',
+      cancelButtonColor: '#0284c7',
+      confirmButtonText: '<i class="fab fa-whatsapp" style="margin-right:4px;"></i> Open WhatsApp Chat',
+      cancelButtonText: '<i class="fas fa-file-invoice" style="margin-right:4px;"></i> View Invoice PDF'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.open(deskWaUrl, '_blank');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        window.open(invoiceWebUrl, '_blank');
+      }
+    });
+  }
+}
+
+function executeWhatsAppSend(existingOrder) {
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['ayyan'] || { name: 'Get Pattas Kadai', themeColor: '#ea580c' };
+  const orderItems = existingOrder ? existingOrder.items : cart;
+
+  let totalBoxes = 0;
+  let netTotal = 0;
+  let totalMrp = 0;
+
+  orderItems.forEach((item) => {
+    const rowTot = (item.price || 0) * (item.qty || 1);
+    totalBoxes += (item.qty || 1);
+    netTotal += rowTot;
+    totalMrp += (item.mrp || item.price || 0) * (item.qty || 1);
+  });
+
+  const savedCust = getSavedCustomerDetails();
+  const custName = existingOrder?.customerName || savedCust?.name || 'Valued Customer';
+  const custPhone = existingOrder?.phone || savedCust?.phone || '';
+  const custAddr = existingOrder?.address || (savedCust ? `${savedCust.street || savedCust.address || ''}, ${savedCust.city || ''} - ${savedCust.pincode || ''}` : '');
+
   let message = `💥 *Get Pattas KADAI - DIWALI WHOLESALE ORDER ESTIMATE*\n`;
   message += `🏢 *Brand:* ${brand.name}\n`;
   message += `-------------------------------------------\n`;
+  if (existingOrder?.bookingNumber || existingOrder?.orderId) {
+    message += `📋 *Booking Number:* *${existingOrder.bookingNumber || existingOrder.orderId}*\n`;
+  }
   message += `*ORDER ITEMS LIST:*\n`;
 
   orderItems.forEach((item, idx) => {
@@ -858,66 +1178,12 @@ function sendWhatsAppDirectOrder(existingOrder = null) {
   message += `🔥 *Wholesale Net Total:* *₹${netTotal.toLocaleString('en-IN')}*\n`;
   message += `🎉 *Your Total Savings (80% Off):* *₹${savings.toLocaleString('en-IN')}*\n`;
   message += `-------------------------------------------\n`;
-
-  // Attach saved customer info if present
-  const savedCust = getSavedCustomerDetails();
-  const custName = existingOrder?.customerName || savedCust?.name || 'Festival Shopper';
-  const custPhone = existingOrder?.phone || savedCust?.phone || '';
-  const custAddr = existingOrder?.address || (savedCust ? `${savedCust.street || savedCust.address || ''}, ${savedCust.city || ''} - ${savedCust.pincode || ''}` : '');
-
   if (custName) message += `👤 *Customer Name:* ${custName}\n`;
   if (custPhone) message += `📞 *Phone:* ${custPhone}\n`;
   if (custAddr) message += `📍 *Delivery Address:* ${custAddr}\n`;
   message += `-------------------------------------------\n`;
   message += `🚚 *Delivery:* Direct Sivakasi Factory Transport\n`;
   message += `Please confirm my order and share invoice/payment details. Thank you!`;
-
-  // Record WhatsApp order to Admin panel automatically
-  if (!existingOrder && cart.length > 0) {
-    const orderId = 'ORD-WA-' + Math.floor(100000 + Math.random() * 900000);
-    const waOrderRecord = {
-      orderId: orderId,
-      brand: currentBrand,
-      brandName: brand.shortName || brand.name,
-      customerName: custName,
-      phone: custPhone || 'Via WhatsApp',
-      email: savedCust?.email || '',
-      address: custAddr || 'Direct Sivakasi Transport / WhatsApp Order',
-      items: cart.map(i => ({
-        name: i.name,
-        tamilName: i.tamilName || '',
-        pack: i.packInfo,
-        qty: i.qty,
-        price: i.price,
-        subtotal: i.price * i.qty
-      })),
-      totalAmount: netTotal,
-      totalItems: cart.length,
-      totalBoxes: totalBoxes,
-      paymentMethod: 'WhatsApp Direct',
-      utrRef: '',
-      status: 'Pending',
-      createdAt: new Date().toISOString()
-    };
-
-    try {
-      const existing = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
-      existing.unshift(waOrderRecord);
-      localStorage.setItem('admin_orders_sync', JSON.stringify(existing));
-    } catch (e) { }
-
-    try {
-      fetch(`${API_BASE}/api/orders`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(waOrderRecord)
-      }).catch(() => { });
-    } catch (e) { }
-
-    if (syncChannel) {
-      syncChannel.postMessage({ type: 'ORDER_PLACED', order: waOrderRecord });
-    }
-  }
 
   const phoneNum = (brand.phone || '8610451118').replace(/[^0-9]/g, '');
   const waUrl = `https://wa.me/${phoneNum}?text=${encodeURIComponent(message)}`;

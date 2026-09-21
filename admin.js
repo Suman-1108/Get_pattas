@@ -862,7 +862,10 @@ async function loadAdminOrders() {
   let apiOrders = [];
   try {
     const res = await fetch(`${API_BASE}/api/orders`);
-    if (res.ok) apiOrders = await res.json();
+    if (res.ok) {
+      const data = await res.json();
+      apiOrders = Array.isArray(data) ? data : (data.orders || []);
+    }
   } catch (err) { }
 
   let localOrders = [];
@@ -995,16 +998,26 @@ function renderAdminOrders() {
         (o.customerName && o.customerName.toLowerCase().includes(search)) ||
         (o.phone && o.phone.toLowerCase().includes(search)) ||
         (o.email && o.email.toLowerCase().includes(search)) ||
+        (o.address && o.address.toLowerCase().includes(search)) ||
+        (o.city && o.city.toLowerCase().includes(search)) ||
+        (o.paymentMethod && o.paymentMethod.toLowerCase().includes(search)) ||
         (o.brandName && o.brandName.toLowerCase().includes(search));
 
-      const matchesBrand = (activeBrand === 'all') || (o.brand === activeBrand) ||
-        (o.brandName && o.brandName.toLowerCase().includes(activeBrand));
+      let matchesBrand = true;
+      if (activeBrand === 'whatsapp') {
+        matchesBrand = (o.paymentMethod || '').toLowerCase().includes('whatsapp');
+      } else if (activeBrand !== 'all') {
+        matchesBrand = (o.brand === activeBrand) ||
+          (o.brandName && o.brandName.toLowerCase().includes(activeBrand));
+      }
 
       return matchesSearch && matchesBrand;
     });
 
     if (filteredActive.length === 0) {
-      const brandNameDisplay = activeBrand === 'all' ? 'All 4 Brands' : getBrandTitle(activeBrand);
+      const brandNameDisplay = activeBrand === 'all' 
+        ? 'All 4 Brands' 
+        : (activeBrand === 'whatsapp' ? 'WhatsApp Direct Orders' : getBrandTitle(activeBrand));
       activeTbody.innerHTML = `
         <tr>
           <td colspan="10" style="text-align: center; color: #94a3b8; padding: 3.5rem 1rem;">
@@ -1024,6 +1037,8 @@ function renderAdminOrders() {
         const brandName = order.brandName || getBrandTitle(order.brand);
         const brandStyle = getBrandStyle(order.brand);
         const brandIcon = getBrandIcon(order.brand);
+        const isWhatsApp = (order.paymentMethod || '').toLowerCase().includes('whatsapp');
+        const cleanPhone = (order.phone || '').replace(/\D/g, '').slice(-10);
 
         // Normalize status for active button check
         const currentStatus = (order.status || 'Pending').toLowerCase();
@@ -1048,7 +1063,7 @@ function renderAdminOrders() {
               <small style="color: #64748b; font-size: 0.75rem; display: block; max-width: 200px; line-height: 1.3;" title="${order.address || ''}">${order.address || 'Address not specified'}</small>
             </td>
             <td>
-              <a href="tel:${order.phone}" style="color: var(--primary-purple); font-weight: 700; font-size: 0.85rem; display: block;">${order.phone}</a>
+              <a href="tel:${cleanPhone || order.phone}" style="color: var(--primary-purple); font-weight: 700; font-size: 0.85rem; display: block;">${order.phone || 'No phone'}</a>
               ${order.email ? `<small style="color: #2563eb; font-size: 0.74rem; display: block; word-break: break-all;" title="${order.email}"><i class="fa-solid fa-envelope" style="font-size: 0.7rem;"></i> ${order.email}</small>` : `<small style="color: #94a3b8; font-size: 0.72rem; display: block;"><i class="fa-regular fa-envelope"></i> No email</small>`}
             </td>
             <td style="max-width: 200px; font-size: 0.8rem; color: #475569;" title="${itemsSummary}">${itemsSummary || 'Festival Crackers Order'}</td>
@@ -1056,9 +1071,16 @@ function renderAdminOrders() {
               <strong style="color: #0f172a; font-size: 1.05rem;">₹${(order.totalAmount || 0).toLocaleString('en-IN')}</strong>
             </td>
             <td>
-              <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a;">
-                ${order.paymentMethod || 'UPI QR'}
-              </div>
+              ${isWhatsApp ? `
+                <span style="font-size: 0.76rem; font-weight: 800; padding: 0.26rem 0.65rem; border-radius: 9999px; background: #dcfce7; color: #15803d; display: inline-flex; align-items: center; gap: 0.35rem; border: 1px solid #86efac; box-shadow: 0 1px 2px rgba(22,163,74,0.1);">
+                  <i class="fa-brands fa-whatsapp" style="color: #16a34a; font-size: 0.92rem;"></i>
+                  <span>WhatsApp Direct</span>
+                </span>
+              ` : `
+                <div style="font-size: 0.78rem; font-weight: 700; color: #0f172a;">
+                  ${order.paymentMethod || 'UPI QR'}
+                </div>
+              `}
               ${order.utrRef ? `<div style="font-size: 0.7rem; color: #059669; font-family: monospace;">UTR: ${order.utrRef}</div>` : ''}
             </td>
             <td>
@@ -1072,7 +1094,7 @@ function renderAdminOrders() {
             <td style="font-size: 0.78rem; color: #64748b; white-space: nowrap;">${dateStr}</td>
             <td>
               <div class="action-btn-row">
-                <a href="https://wa.me/91${(order.phone || '').replace(/\D/g, '')}?text=Hi%20${encodeURIComponent(order.customerName)},%20update%20from%20${encodeURIComponent(brandName)}%20regarding%20your%20Order%20${orderId}" target="_blank" class="btn btn-dark-outline btn-act" title="Chat on WhatsApp">
+                <a href="https://wa.me/91${cleanPhone}?text=Hi%20${encodeURIComponent(order.customerName)},%20update%20from%20${encodeURIComponent(brandName)}%20regarding%20your%20Order%20${orderId}" target="_blank" class="btn btn-dark-outline btn-act" title="Chat on WhatsApp (+91 ${cleanPhone})">
                   <i class="fa-brands fa-whatsapp" style="color: #22c55e;"></i>
                 </a>
                 <button type="button" class="btn btn-dark-outline btn-act" onclick="viewOrderInvoice('${orderId}')" title="View Order Tax Invoice & Estimate">

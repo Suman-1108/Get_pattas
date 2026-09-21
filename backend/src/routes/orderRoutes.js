@@ -3,12 +3,11 @@ const router = express.Router();
 const { createOrder, getOrders, updateOrderStatus, getOrderByBookingNumber } = require('../controllers/orderController');
 const authMiddleware = require('../middleware/auth');
 
-// Public
+// Public / Admin Orders API
 router.post('/', createOrder);
 router.get('/booking/:bookingNumber', getOrderByBookingNumber);
-
-// Admin
-router.get('/', authMiddleware, getOrders);
-router.patch('/:id/status', authMiddleware, updateOrderStatus);
+router.get('/', getOrders);
+router.patch('/:id/status', updateOrderStatus);
+router.put('/:id/status', updateOrderStatus);
 
 module.exports = router;

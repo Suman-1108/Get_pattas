@@ -624,6 +624,103 @@
         </div>
     </footer>
 
+    <!-- Direct WhatsApp Order Modal -->
+    <div class="checkout-modal-overlay" id="whatsAppOrderModalOverlay" onclick="closeWhatsAppOrderModal(event)" style="display: none; z-index: 999999;">
+        <div class="checkout-modal-card" onclick="event.stopPropagation()" style="max-width: 680px;">
+            <div class="checkout-modal-header" style="background: linear-gradient(135deg, #15803d 0%, #16a34a 100%); color: #ffffff;">
+                <div class="checkout-brand-title" style="display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.8rem; line-height: 1;"><i class="fa-brands fa-whatsapp"></i></span>
+                    <div>
+                        <h3 style="margin: 0; color: #ffffff; font-size: 1.2rem; font-weight: 800;">Direct WhatsApp Order</h3>
+                        <span style="font-size: 0.8rem; opacity: 0.9; display: block;">நேரடி வாட்ஸ்அப் ஆர்டர் & உடனடி உறுதிப்படுத்தல்</span>
+                    </div>
+                </div>
+                <div class="checkout-header-right">
+                    <button class="modal-close-btn" type="button" onclick="closeWhatsAppOrderModal(true)" aria-label="Close" style="color: #ffffff; background: rgba(255,255,255,0.2); border: none; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick Order Summary Banner inside modal -->
+            <div style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <div style="font-size: 0.88rem; color: #166534;">
+                    <strong id="waModalItemCount">0</strong> Varieties (<strong id="waModalBoxCount">0</strong> Boxes)
+                    <span style="display: block; font-size: 0.76rem; color: #15803d;">Original MRP: <del id="waModalMrp">₹0</del> • <span style="font-weight: 700; color: #dc2626;">Saved <span id="waModalSavings">₹0</span> (80% Off)</span></span>
+                </div>
+                <div style="text-align: right;">
+                    <span style="font-size: 0.75rem; color: #64748b; display: block;">Wholesale Net Total</span>
+                    <strong id="waModalNetTotal" style="font-size: 1.3rem; color: #15803d; font-weight: 800;">₹0</strong>
+                </div>
+            </div>
+
+            <form id="whatsAppOrderForm" style="padding: 20px;" onsubmit="handleWhatsAppOrderSubmit(event)">
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Customer Name / வாடிக்கையாளர் பெயர் <span style="color: #dc2626;">*</span></label>
+                    <input type="text" id="waCustName" class="checkout-input" placeholder="Enter your full name" required style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;">
+                </div>
+
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">WhatsApp / Mobile Number <span style="color: #dc2626;">*</span></label>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="padding: 10px 12px; background: #f1f5f9; border: 1.5px solid #cbd5e1; border-radius: 8px; font-weight: 700; color: #475569; font-size: 0.9rem;">+91</span>
+                        <input type="tel" id="waCustPhone" class="checkout-input" placeholder="10-digit WhatsApp phone number" pattern="[0-9]{10}" maxlength="10" required style="flex: 1; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;">
+                    </div>
+                    <small style="color: #64748b; font-size: 0.75rem; margin-top: 3px; display: block;">We will send order confirmation & lorry booking dispatch LR copy to this number.</small>
+                </div>
+
+                <div style="margin-bottom: 14px;">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Delivery Address / வீட்டு முகவரி <span style="color: #dc2626;">*</span></label>
+                    <input type="text" id="waCustStreet" class="checkout-input" placeholder="Door No, Street Name, Area / Landmark" required style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.95rem;">
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">City / ஊர் <span style="color: #dc2626;">*</span></label>
+                        <input type="text" id="waCustCity" class="checkout-input" placeholder="City / Town" required style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">State <span style="color: #dc2626;">*</span></label>
+                        <select id="waCustState" class="checkout-select" required style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem; background: #fff;">
+                            <option value="Tamil Nadu" selected>Tamil Nadu</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Pondicherry">Pondicherry</option>
+                            <option value="Other">Other State</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">PIN Code <span style="color: #dc2626;">*</span></label>
+                        <input type="text" id="waCustPincode" class="checkout-input" placeholder="6-digit PIN" pattern="[0-9]{6}" maxlength="6" required style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 18px;">
+                    <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #334155; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.5px;">Email Address (Optional / மின்னஞ்சல்)</label>
+                    <input type="email" id="waCustEmail" class="checkout-input" placeholder="For digital tax invoice copy" style="width: 100%; padding: 10px 14px; border: 1.5px solid #cbd5e1; border-radius: 8px; font-size: 0.92rem;">
+                </div>
+
+                <div style="background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; padding: 10px 14px; margin-bottom: 18px; display: flex; align-items: center; gap: 10px; font-size: 0.8rem; color: #475569;">
+                    <span style="color: #16a34a; font-size: 1.2rem;"><i class="fa-solid fa-truck-fast"></i></span>
+                    <span><strong>Direct Sivakasi Factory Transport:</strong> Your order details are saved to our dispatch admin and sent to our WhatsApp desk. Pay on delivery / transport office.</span>
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeWhatsAppOrderModal(true)" style="flex: 1; padding: 12px; border: 1.5px solid #cbd5e1; background: #ffffff; color: #475569; font-weight: 700; border-radius: 8px; cursor: pointer;">
+                        Cancel
+                    </button>
+                    <button type="submit" id="btnSubmitWhatsAppOrder" class="btn btn-whatsapp" style="flex: 2; padding: 12px; background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #ffffff; font-weight: 800; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.2rem;"></i>
+                        <span>Confirm & Send Order on WhatsApp</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Privacy Policy Modal -->
     <div class="checkout-modal-overlay" id="privacyModalOverlay"
         onclick="if(event.target===this) this.classList.remove('active')">

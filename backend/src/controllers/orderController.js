@@ -16,23 +16,43 @@ const { memoryStore } = require('../seed');
 // POST /api/orders (Public - Create Order / Estimate)
 const createOrder = async (req, res) => {
   try {
-    const { brand: brandSlug, brandId, totalAmount, bookingNumber, orderId } = req.body;
+    const { 
+      brand: brandSlug, 
+      brandId, 
+      brandName,
+      totalAmount, 
+      bookingNumber, 
+      orderId: clientOrderId,
+      paymentMethod,
+      totalBoxes,
+      totalItems,
+      status
+    } = req.body;
 
-    // Support nested customer object or flat fields
-    const customer = req.body.customer || {
-      name: req.body.customerName,
-      phone: req.body.phone,
-      email: req.body.email || '',
-      address: req.body.address,
-      city: req.body.city || 'Direct Dispatch',
-      state: req.body.state || 'Tamil Nadu',
-      pincode: req.body.pincode || '626123'
+    // Support flat customer fields or nested customer object
+    const customerName = req.body.customerName || (req.body.customer && req.body.customer.name) || 'Valued Customer';
+    const phone = req.body.phone || (req.body.customer && req.body.customer.phone) || '';
+    const email = (req.body.email || (req.body.customer && req.body.customer.email) || '').trim();
+    const address = req.body.address || (req.body.customer && req.body.customer.address) || '';
+    const city = req.body.city || (req.body.customer && req.body.customer.city) || 'Direct Dispatch';
+    const state = req.body.state || (req.body.customer && req.body.customer.state) || 'Tamil Nadu';
+    const pincode = req.body.pincode || (req.body.customer && req.body.customer.pincode) || '626123';
+
+    const customer = {
+      name: customerName,
+      phone,
+      email,
+      address,
+      city,
+      state,
+      pincode
     };
 
-    const bn = bookingNumber || orderId || ('GP-BK-' + Math.floor(10000 + Math.random() * 90000));
+    const bn = bookingNumber || clientOrderId || ('GP-BK-' + Math.floor(10000 + Math.random() * 90000));
+    const finalOrderId = clientOrderId || bn;
 
-    if (!customer || !customer.name || !customer.phone || !customer.address) {
-      return res.status(400).json({ success: false, message: 'Customer name, phone, and address are required.' });
+    if (!customerName || !phone) {
+      return res.status(400).json({ success: false, message: 'Customer name and phone number are required.' });
     }
 
     const rawItems = req.body.items || [];
@@ -44,8 +64,10 @@ const createOrder = async (req, res) => {
     let matchedBrand = null;
     if (!targetBrandId && brandSlug) {
       if (getIsConnected()) {
-        const b = await Brand.findOne({ slug: brandSlug });
-        if (b) { targetBrandId = b._id; matchedBrand = b; }
+        try {
+          const b = await Brand.findOne({ slug: brandSlug });
+          if (b) { targetBrandId = b._id; matchedBrand = b; }
+        } catch (e) {}
       } else {
         const b = memoryStore.brands.find(br => br.slug === brandSlug);
         if (b) { targetBrandId = b._id; matchedBrand = b; }
@@ -53,57 +75,96 @@ const createOrder = async (req, res) => {
     }
 
     if (!targetBrandId) {
-      targetBrandId = getIsConnected() ? (await Brand.findOne())?._id : memoryStore.brands[0]._id;
+      targetBrandId = getIsConnected() ? (await Brand.findOne())?._id : (memoryStore.brands[0]?._id || brandSlug || 'getpattasu');
       matchedBrand = getIsConnected() ? (await Brand.findById(targetBrandId)) : memoryStore.brands[0];
     }
 
+    const bTitle = brandName || (matchedBrand && matchedBrand.name) || 'Get Pattas Kadai';
+
     const formattedItems = rawItems.map(it => ({
-      product: it.product || it.id || (getIsConnected() ? targetBrandId : 'item_' + Date.now()),
+      product: it.product || it.id || 'item_' + Date.now(),
+      id: it.id || '',
       name: it.name,
       tamilName: it.tamilName || '',
       code: it.code || '',
+      pack: it.pack || it.packInfo || 'Box',
       qty: Number(it.qty) || 1,
-      price: Number(it.price) || 0
+      price: Number(it.price) || 0,
+      subtotal: Number(it.subtotal) || ((Number(it.price) || 0) * (Number(it.qty) || 1)),
+      image: it.image || ''
     }));
 
+    const finalPaymentMethod = paymentMethod || 'WhatsApp Direct';
+    const computedTotalBoxes = Number(totalBoxes) || formattedItems.reduce((acc, i) => acc + i.qty, 0);
+    const computedTotalItems = Number(totalItems) || formattedItems.length;
+
     if (getIsConnected()) {
-      const order = await Order.create({
+      const orderData = {
+        orderId: finalOrderId,
+        bookingNumber: bn,
         brand: targetBrandId,
+        brandName: bTitle,
+        customerName,
+        phone,
+        email,
+        address,
+        city,
+        state,
+        pincode,
         customer,
         items: formattedItems,
         totalAmount: Number(totalAmount) || 0,
+        totalItems: computedTotalItems,
+        totalBoxes: computedTotalBoxes,
+        paymentMethod: finalPaymentMethod,
         paymentStatus: 'pending',
-        orderStatus: 'placed',
-        bookingNumber: bn
-      });
+        paymentGateway: 'whatsapp',
+        status: status || 'Pending',
+        orderStatus: 'placed'
+      };
+
+      const order = await Order.create(orderData);
 
       return res.status(201).json({
         success: true,
         message: 'Order placed successfully.',
-        orderId: order._id,
+        orderId: order.orderId || order._id,
         bookingNumber: bn,
         order
       });
     } else {
       const newOrder = {
         _id: 'ord_' + Date.now(),
+        orderId: finalOrderId,
+        bookingNumber: bn,
         brand: targetBrandId,
+        brandName: bTitle,
         brandInfo: matchedBrand,
+        customerName,
+        phone,
+        email,
+        address,
+        city,
+        state,
+        pincode,
         customer,
         items: formattedItems,
         totalAmount: Number(totalAmount) || 0,
+        totalItems: computedTotalItems,
+        totalBoxes: computedTotalBoxes,
+        paymentMethod: finalPaymentMethod,
         paymentStatus: 'pending',
-        paymentGateway: 'razorpay',
+        paymentGateway: 'whatsapp',
+        status: status || 'Pending',
         orderStatus: 'placed',
-        bookingNumber: bn,
         createdAt: new Date().toISOString()
       };
-      memoryStore.orders.push(newOrder);
+      memoryStore.orders.unshift(newOrder);
 
       return res.status(201).json({
         success: true,
         message: 'Order placed successfully.',
-        orderId: newOrder._id,
+        orderId: newOrder.orderId,
         bookingNumber: bn,
         order: newOrder
       });
@@ -118,7 +179,9 @@ const getOrderByBookingNumber = async (req, res) => {
   const { bookingNumber } = req.params;
   try {
     if (getIsConnected()) {
-      const order = await Order.findOne({ bookingNumber }).populate('brand', 'name slug phone email shortName');
+      let order = await Order.findOne({ 
+        $or: [{ bookingNumber }, { orderId: bookingNumber }] 
+      }).populate('brand', 'name slug phone email shortName');
       if (!order) return res.status(404).json({ success: false, message: 'Order not found' });
       return res.json({ success: true, order });
     } else {
@@ -131,11 +194,36 @@ const getOrderByBookingNumber = async (req, res) => {
   }
 };
 
-// GET /api/admin/orders?brand=slug&status= (Admin)
+// Helper to normalize an order object for the admin panel
+const normalizeOrderForAdmin = (orderDoc) => {
+  const o = (orderDoc && typeof orderDoc.toObject === 'function') ? orderDoc.toObject() : { ...orderDoc };
+  const cust = o.customer || {};
+  return {
+    ...o,
+    orderId: o.orderId || o.bookingNumber || o._id,
+    bookingNumber: o.bookingNumber || o.orderId || '',
+    customerName: o.customerName || cust.name || 'Valued Customer',
+    phone: o.phone || cust.phone || '',
+    email: o.email || cust.email || '',
+    address: o.address || cust.address || [cust.address, cust.city, cust.state, cust.pincode].filter(Boolean).join(', '),
+    city: o.city || cust.city || '',
+    state: o.state || cust.state || '',
+    pincode: o.pincode || cust.pincode || '',
+    paymentMethod: o.paymentMethod || 'WhatsApp Direct',
+    status: o.status || 'Pending',
+    totalAmount: Number(o.totalAmount) || 0,
+    totalBoxes: Number(o.totalBoxes) || 0,
+    totalItems: Number(o.totalItems) || (o.items ? o.items.length : 0),
+    brandName: o.brandName || (o.brand && typeof o.brand === 'object' ? o.brand.name : '') || 'Get Pattas'
+  };
+};
+
+// GET /api/orders (Public & Admin)
 const getOrders = async (req, res) => {
   const { brand: brandSlug, status } = req.query;
 
   try {
+    let rawOrders = [];
     if (getIsConnected()) {
       let filter = {};
       if (brandSlug) {
@@ -143,27 +231,26 @@ const getOrders = async (req, res) => {
         if (brand) filter.brand = brand._id;
       }
       if (status) {
-        filter.orderStatus = status;
+        filter.status = status;
       }
 
-      const orders = await Order.find(filter)
-        .populate('brand', 'name slug')
+      rawOrders = await Order.find(filter)
+        .populate('brand', 'name slug phone email shortName')
         .sort({ createdAt: -1 });
-
-      return res.json({ success: true, count: orders.length, orders });
     } else {
-      let orders = [...memoryStore.orders];
+      rawOrders = [...memoryStore.orders];
 
       if (brandSlug) {
         const b = memoryStore.brands.find(br => br.slug === brandSlug);
-        if (b) orders = orders.filter(o => o.brand === b._id);
+        if (b) rawOrders = rawOrders.filter(o => o.brand === b._id);
       }
       if (status) {
-        orders = orders.filter(o => o.orderStatus === status);
+        rawOrders = rawOrders.filter(o => (o.status === status || o.orderStatus === status));
       }
-
-      return res.json({ success: true, count: orders.length, orders });
     }
+
+    const normalized = rawOrders.map(normalizeOrderForAdmin);
+    return res.json(normalized);
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
