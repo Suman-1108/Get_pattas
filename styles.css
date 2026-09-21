@@ -8609,3 +8609,26 @@ body[data-brand="getpattasu"] .btn-primary {
     font-weight: 700;
     letter-spacing: 0.3px;
 }
+
+/* WhatsApp Direct Order Modal Responsive Styles */
+#whatsAppOrderModalOverlay {
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+#whatsAppOrderModalOverlay .checkout-modal-card {
+    max-height: calc(100vh - 30px) !important;
+    max-height: calc(100dvh - 30px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+}
+
+#whatsAppOrderModalOverlay #whatsAppOrderForm {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+}
