@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <base href="/shopno003/">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>Get Pattas | Sivakasi Direct Online Crackers & Fireworks Store</title>
   <meta name="description"
-    content="The Get pattas  Sivakasi - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Up to 90% OFF on 127 items: Sparklers, Colour Matches, One Sound, Multi Sound Wala, Bombs, Ground Chakkars, Fancy Pipes, Peacock Fountains, and Gift Boxes.">
+    content="Get pattas Crackers - Buy genuine Sivakasi firecrackers online at direct factory wholesale prices. Flat 80% OFF on 218 items: Sparklers, Flower Pots, Chakkars, Sky Shots, Rockets and Festive Combo Gift Boxes.">
   <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,7 +17,7 @@
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <!-- Stylesheet -->
-  <link rel="stylesheet" href="styles.css?v=29">
+  <link rel="stylesheet" href="styles.css?v=26">
 </head>
 
 <body data-brand="red">
@@ -26,11 +25,17 @@
   <!-- Background Sparks Canvas -->
   <canvas id="sparksCanvas"></canvas>
 
-  <!-- Top Slim Announcement Strip -->
-  <div class="top-announcement-strip">
-    <div class="container announcement-content">
-      <span><span class="announcement-badge">Diwali 2026</span> 🎉 The Get pattas Sivakasi Direct Factory Wholesale • Flat 80% Off • Free Doorstep Delivery!</span>
-      <a href="products.html" class="announcement-link">Explore 126+ Items Price List ➔</a>
+  <!-- Top Slim Announcement Bar -->
+  <div class="top-announcement-bar">
+    <div class="announcement-inner">
+      <span class="announcement-pulse-dot"></span>
+      <span class="announcement-text">
+        🎉 Diwali Special Offers • Best Prices • Premium Crackers
+      </span>
+      <span class="announcement-sep">•</span>
+      <span class="announcement-extra">
+        <i class="fa-solid fa-truck-fast"></i> Direct Sivakasi Factory Wholesale • Flat 80% Off
+      </span>
     </div>
   </div>
 
@@ -53,9 +58,14 @@
           </button>
         </div>
 
-        <a href="#hero" class="nav-link active" onclick="closeMobileMenu();">Home</a>
-        <a href="/shopno003/products" class="nav-link" onclick="closeMobileMenu();">Product</a>
-        <a href="#about" class="nav-link" onclick="closeMobileMenu();">About</a>
+        <a href="index.html" class="nav-link active" onclick="closeMobileMenu();">Home</a>
+        <a href="#products" class="nav-link" onclick="closeMobileMenu();">Crackers</a>
+        <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Combo Packs</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('gift-boxes'); closeMobileMenu();">Gift
+          Boxes</a>
+        <a href="#products" class="nav-link" onclick="filterCategoryBySlug('aerial-shots'); closeMobileMenu();">New
+          Arrivals</a>
+        <a href="#offers" class="nav-link" onclick="closeMobileMenu();">Offers</a>
         <a href="#contact" class="nav-link" onclick="closeMobileMenu();">Contact</a>
 
         <div class="mobile-menu-actions">
@@ -77,16 +87,14 @@
       <!-- Large Rounded Search Bar in Center/Right -->
       <div class="header-search-wrap">
         <div class="header-search-bar">
-          <i class="fa-solid fa-magnifying-glass search-icon-lead" id="headerSearchIconBtn" onclick="triggerHeaderSearch()" style="cursor: pointer;" title="Search crackers"></i>
+          <i class="fa-solid fa-magnifying-glass search-icon-lead"></i>
           <input type="text" id="headerGlobalSearch" placeholder="Search crackers, combo packs & fireworks..."
-            oninput="handleHeaderSearch(this.value)" onkeydown="handleHeaderSearchKeyDown(event)" autocomplete="off">
+            oninput="handleHeaderSearch(this.value)" autocomplete="off">
           <button type="button" class="search-clear-btn" id="headerSearchClear" onclick="clearHeaderSearch()"
             style="display: none;" aria-label="Clear search">
             <i class="fa-solid fa-xmark"></i>
           </button>
         </div>
-        <!-- Live Instant Search Suggestions Dropdown -->
-        <div class="header-search-dropdown" id="headerSearchDropdown" style="display: none;"></div>
       </div>
 
       <!-- Action Icons: Cart, Account, Mobile Toggle -->
@@ -136,126 +144,69 @@
     </div>
   </header>
 
+  <!-- Category Bar Below Navbar -->
+  <nav class="category-strip-nav" aria-label="Cracker Categories">
+    <div class="category-strip-container">
+      <a href="#products" class="cat-pill cat-pill-chakkars" onclick="filterCategoryBySlug('ground-chakkars')">
+        <span class="cat-icon"><i class="fa-solid fa-compact-disc"></i></span>
+        <span class="cat-name">Chakkars</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-pots" onclick="filterCategoryBySlug('flower-pots')">
+        <span class="cat-icon"><i class="fa-solid fa-mountain"></i></span>
+        <span class="cat-name">Flower Pots</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-rockets" onclick="filterCategoryBySlug('rockets')">
+        <span class="cat-icon"><i class="fa-solid fa-rocket"></i></span>
+        <span class="cat-name">Rockets</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-sparklers" onclick="filterCategoryBySlug('sparklers')">
+        <span class="cat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="cat-name">Sparklers</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-fancy" onclick="filterCategoryBySlug('fancy-novelties')">
+        <span class="cat-icon"><i class="fa-solid fa-burst"></i></span>
+        <span class="cat-name">Fancy Crackers</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-shots" onclick="filterCategoryBySlug('aerial-shots')">
+        <span class="cat-icon"><i class="fa-solid fa-meteor"></i></span>
+        <span class="cat-name">Multi Colour Shots</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-kids" onclick="filterCategoryBySlug('kids-specials')">
+        <span class="cat-icon"><i class="fa-solid fa-face-smile"></i></span>
+        <span class="cat-name">Kids Special</span>
+      </a>
+      <a href="#offers" class="cat-pill cat-pill-combos">
+        <span class="cat-icon"><i class="fa-solid fa-box-open"></i></span>
+        <span class="cat-name">Combo Packs</span>
+      </a>
+      <a href="#products" class="cat-pill cat-pill-gifts" onclick="filterCategoryBySlug('gift-boxes')">
+        <span class="cat-icon"><i class="fa-solid fa-gift"></i></span>
+        <span class="cat-name">Gift Boxes</span>
+      </a>
+    </div>
+  </nav>
+
   <!-- Mobile Menu Backdrop -->
   <div class="mobile-menu-backdrop" id="menuBackdrop" onclick="toggleMobileMenu()"></div>
 
+  <!-- Hero Section: Full-Width Image Only -->
   <section class="cinematic-hero-section hero-image-only hero-desktop" id="hero">
     <picture>
       <source media="(max-width: 768px)" srcset="assets/mobile.jpg">
-      <img src="assets/get_pattas_hero_orange.jpeg" alt="Get Pattas Kadai - Sivakasi Premium Fireworks"
+      <img src="assets/get_pattas_hero_green.jpeg" alt="Get Pattas Kadai - Sivakasi Premium Fireworks"
         class="hero-full-img">
     </picture>
   </section>
 
-  <!-- Novella Circular Categories Strip -->
-  <section class="novella-categories-section">
+  <!-- Full-Width Wholesale Price List Section -->
+  <section class="products-section wholesale-table-section" id="products">
     <div class="container">
-      <div class="novella-cat-header">
-        <h3 class="novella-cat-title"><i class="fa-solid fa-burst" style="color: #dc2626;"></i> Shop by Category</h3>
-        <a href="products.html" class="novella-cat-viewall">View All 126+ Items <i class="fa-solid fa-chevron-right"></i></a>
-      </div>
-      <div class="novella-circle-row">
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('sparkles');" title="Sparklers">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_sparklers_color.jpg" alt="Sparkles" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Sparklers</span>
-          <span class="novella-circle-sub">மத்தாப்பு</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('foundation');" title="Flower Pots">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_flowerpots.jpg" alt="Flower Pots" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Flower Pots</span>
-          <span class="novella-circle-sub">பூச்சட்டி</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('sound');" title="Sound Crackers">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_bombs.jpg" alt="Sound Crackers" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Sound</span>
-          <span class="novella-circle-sub">சவுண்ட் வெடி</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('rockets');" title="Rockets">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_rockets.jpg" alt="Rockets" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Rockets</span>
-          <span class="novella-circle-sub">ராக்கெட்</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('fancy');" title="Fancy Sky Shots">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_skyshots.jpg" alt="Fancy Shots" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Fancy Shots</span>
-          <span class="novella-circle-sub">பேன்சி வெடி</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('kids');" title="Kids Special">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_peacock.jpg" alt="Kids Special" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Kids Special</span>
-          <span class="novella-circle-sub">கிட்ஸ் ஸ்பெஷல்</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('gift-box');" title="Gift Boxes">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_skyshots_box.jpg" alt="Gift Boxes" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Gift Boxes</span>
-          <span class="novella-circle-sub">பரிசு பெட்டகம்</span>
-        </button>
-        <button type="button" class="novella-cat-item" onclick="filterCategoryBySlug('family-combo');" title="Family Combos">
-          <div class="novella-circle-img-wrap">
-            <img src="assets/product_combopack.jpg" alt="Family Combo" class="novella-circle-img" />
-          </div>
-          <span class="novella-circle-name">Family Combo</span>
-          <span class="novella-circle-sub">காம்போ பேக்</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Novella 3 Promo Deal Cards -->
-  <section class="novella-promo-section">
-    <div class="container">
-      <div class="novella-promo-grid">
-        <div class="novella-promo-card novella-promo-1">
-          <span class="npc-badge">⚡ Deal of the Day</span>
-          <div>
-            <h4 class="npc-title">High Altitude Sky Shells</h4>
-            <p class="npc-desc">Multicolor aerial visual fireworks with flat 80% direct factory discount.</p>
-          </div>
-          <a href="products.html?cat=fancy" class="npc-btn">Shop Sky Shots <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="novella-promo-card novella-promo-2">
-          <span class="npc-badge">✨ 2026 Fresh Arrivals</span>
-          <div>
-            <h4 class="npc-title">Special Pyro Novelties</h4>
-            <p class="npc-desc">Color changing flowerpots, musical whistles & dazzling ground chakkars.</p>
-          </div>
-          <a href="products.html?cat=sparkles" class="npc-btn">Explore Arrivals <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-        <div class="novella-promo-card novella-promo-3">
-          <span class="npc-badge">🎁 Bumper Hampers</span>
-          <div>
-            <h4 class="npc-title">Family Festival Combos</h4>
-            <p class="npc-desc">All-in-one curated Diwali gift boxes delivered straight to your door.</p>
-          </div>
-          <a href="products.html?cat=family-combo" class="npc-btn">View Combos <i class="fa-solid fa-arrow-right"></i></a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categories Card Section with Active Brand Banner (User-Friendly Navigation) -->
-  <section class="categories-showcase-section" id="categories">
-    <div class="container">
-      <!-- Active Brand Header Strip (Moved into Categories Card Section) -->
+      <!-- Active Brand Header Strip -->
       <div class="active-brand-banner" id="activeBrandBanner"
-        style="background: linear-gradient(135deg, #7f1d1d 0%, #0f172a 100%);">
+        style="background: linear-gradient(135deg, #7c2d12 0%, #991b1b 60%, #0f172a 100%);">
         <div class="brand-banner-info">
           <span class="current-brand-badge" id="currentBrandBadge" style="background: #dc2626;"><i
-              class="fa-solid fa-fire-flame-curved"></i> GET PATTAS (SHOP 003)</span>
+              class="fa-solid fa-wand-magic-sparkles"></i> GET PATTAS (SHOP 003)</span>
           <h2 class="current-brand-title" id="currentBrandTitle">Get Pattas - Crackers Wholesale Price
             List 003</h2>
           <p class="current-brand-tagline" id="currentBrandTagline">Direct Sivakasi Factory Rate • Flat 80% Discount •
@@ -263,241 +214,44 @@
         </div>
         <div class="brand-banner-meta">
           <div class="meta-pill"><span><i class="fa-solid fa-phone"></i> Direct Booking:</span> <strong
-              id="currentBrandPhone">+91 95661 59113</strong></div>
+              id="currentBrandPhone">+91 86104 51118</strong></div>
           <div class="meta-pill"><span><i class="fa-solid fa-truck-fast"></i> Min Order:</span> <strong>₹3,000</strong>
           </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- Trending Crackers & Bestsellers Showcase (Novella-style Storefront) -->
-  <section class="trending-showcase-section" id="products">
-    <div class="container">
-      <div class="trending-header">
-        <span class="trending-tag"><i class="fa-solid fa-gift"></i> Sivakasi Festive Gift Boxes</span>
-        <h2 class="trending-title">Trending Gift Boxes & Best Sellers</h2>
-        <p class="trending-subtitle">Direct factory rates with flat 80% discount • Exclusive festive gift boxes & grand family combo hampers • Tap 'Add to Cart' or browse our full 126+ wholesale price list</p>
-      </div>
-
-      <div class="trending-products-grid">
-        <!-- 1. Get Pattas Grand Family Festival Dhamaka Pack -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_grand_combo.jpg" alt="Get Pattas Grand Family Festival Dhamaka Pack" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Grand Festival Dhamaka</span>
-            <h4 class="t-card-name">Get Pattas Grand Family Festival Dhamaka Pack (45 Items)</h4>
-            <span class="t-card-tamil">கிராண்ட் பேமிலி பெஸ்டிவல் தமாகா பேக்</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(5.0)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹6,250</strong>
-              <span class="t-card-mrp">₹31,250</span>
-              <span class="t-card-pack">45 Items Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-combo-1', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
+      <!-- Controls & Search Bar -->
+      <div class="table-controls-bar">
+        <div class="table-search-box">
+          <span class="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
+          <input type="text" id="catalogSearch"
+            placeholder="Search Get pattas Crackers by English or தமிழ் பெயர் (e.g. Sparklers, பூச்சட்டி, 120 Shot)..."
+            oninput="handleTableSearch(this.value)">
+          <button type="button" class="search-clear-btn" id="searchClearBtn" onclick="clearTableSearch()"
+            style="display: none;"><i class="fa-solid fa-xmark"></i></button>
         </div>
 
-        <!-- 2. Get Pattas Special Chutti Fancy Box (35 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_combopack.jpg" alt="Get Pattas Special Chutti Fancy Box" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Special</span>
-            <h4 class="t-card-name">Get Pattas Special Chutti Fancy Box (35 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் சுட்டி ஸ்பெஷல் (35 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(4.9)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹6,250</strong>
-              <span class="t-card-mrp">₹31,250</span>
-              <span class="t-card-pack">35 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-119', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 3. Get Pattas Standard Gift Box (31 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_skyshots_box.jpg" alt="Get Pattas Standard Gift Box" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Standard</span>
-            <h4 class="t-card-name">Get Pattas Standard Gift Box (31 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் ஸ்டாண்டர்ட் (31 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-              <span class="rating-score">(4.8)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹1,250</strong>
-              <span class="t-card-mrp">₹6,250</span>
-              <span class="t-card-pack">31 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-124', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 4. Get Pattas Pro Gift Box (41 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_flowerpots_giant.jpg" alt="Get Pattas Pro Gift Box" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Pro</span>
-            <h4 class="t-card-name">Get Pattas Pro Gift Box (41 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் புரோ (41 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(4.9)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹1,563</strong>
-              <span class="t-card-mrp">₹7,813</span>
-              <span class="t-card-pack">41 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-125', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 5. Get Pattas Elite Gift Box (51 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_sparklers_giant.jpg" alt="Get Pattas Elite Gift Box" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Elite</span>
-            <h4 class="t-card-name">Get Pattas Elite Gift Box (51 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் எலைட் (51 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(5.0)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹1,875</strong>
-              <span class="t-card-mrp">₹9,375</span>
-              <span class="t-card-pack">51 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-126', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 6. Get Pattas Extreme Gift Box (61 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_grand_combo.jpg" alt="Get Pattas Extreme Gift Box" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Extreme</span>
-            <h4 class="t-card-name">Get Pattas Extreme Gift Box (61 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் எக்ஸ்ட்ரீம் (61 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(5.0)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹2,500</strong>
-              <span class="t-card-mrp">₹12,500</span>
-              <span class="t-card-pack">61 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-127', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 7. Get Pattas Compact Special Pack (35 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_combopack.jpg" alt="Get Pattas Compact Special Pack" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Special</span>
-            <h4 class="t-card-name">Get Pattas Compact Special Pack (35 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் காம்பாக்ட் ஸ்பெஷல் (35 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
-              <span class="rating-score">(4.8)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹3,750</strong>
-              <span class="t-card-mrp">₹18,750</span>
-              <span class="t-card-pack">35 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-118', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
-        </div>
-
-        <!-- 8. Get Pattas Ultra Mega Super Fancy (40 Products) -->
-        <div class="t-prod-card">
-          <div class="t-card-img-wrap">
-            <img src="assets/product_skyshots_box.jpg" alt="Get Pattas Ultra Mega Super Fancy" class="t-card-img" />
-            <span class="t-card-discount">80% OFF</span>
-          </div>
-          <div class="t-card-body">
-            <span class="t-card-cat">Get Pattas Ultra</span>
-            <h4 class="t-card-name">Get Pattas Ultra Mega Super Fancy (40 Products)</h4>
-            <span class="t-card-tamil">கெட் பட்டாஸ் அல்ட்ரா மெகா பேன்ஸி (40 பொருட்கள்)</span>
-            <div class="t-card-rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <span class="rating-score">(5.0)</span>
-            </div>
-            <div class="t-card-prices">
-              <strong class="t-card-net">₹12,500</strong>
-              <span class="t-card-mrp">₹62,500</span>
-              <span class="t-card-pack">40 Products Box</span>
-            </div>
-            <button type="button" class="t-card-add-btn" onclick="addToCart('rc-122', 1)">
-              <i class="fa-solid fa-cart-plus"></i> Add to Cart
-            </button>
-          </div>
+        <div class="category-jump-wrapper">
+          <select id="categoryJumpSelect" onchange="handleCategoryJump(this.value)" class="category-jump-select"
+            aria-label="Jump to Category">
+            <option value="all">Jump to All Categories</option>
+          </select>
+          <button type="button" class="btn-clear-cart-table" onclick="clearAllCartItems()"
+            title="Reset all selected quantities"><i class="fa-solid fa-rotate-right"></i> Reset Quantities</button>
         </div>
       </div>
 
-      <!-- CTA Banner to Full Dedicated Products Page -->
-      <div class="trending-cta-banner">
-        <div class="tcb-text">
-          <h3>Looking for All 126+ Wholesale Varieties?</h3>
-          <p>Access our complete Sivakasi factory order price list with instant search, quantity steppers, and wholesale discounts.</p>
-        </div>
-        <a href="products.html" class="tcb-btn">
-          <span>Open Full Price List (126+ Items)</span>
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
+      <!-- Category Navigation Pills Horizontal Scroll -->
+      <div class="category-pills-scroll" id="categoryPillsScroll">
+        <!-- Dynamically populated by JS -->
       </div>
 
-      <!-- Hidden elements to keep helper function references safe -->
-      <div id="priceListContainer" style="display:none;"></div>
-      <div id="categoryPillsScroll" style="display:none;"></div>
-      <select id="categoryJumpSelect" style="display:none;"><option value="all">All</option></select>
+      <!-- Full-Width Responsive Cracker Price List Table -->
+      <div class="table-responsive-wrapper">
+        <div id="priceListContainer" class="pricelist-container">
+          <!-- Injected dynamically via JS -->
+        </div>
+      </div>
     </div>
   </section>
 
@@ -535,20 +289,20 @@
   <section class="offers-section" id="offers">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag" style="background: #fef2f2; color: #b91c1c; border-color: #fecaca;">The Get pattas
+        <span class="section-tag" style="background: #ecfdf5; color: #047857; border-color: #a7f3d0;">Get pattas
           Stock</span>
-        <h2 class="section-title">The Get pattas Bumper Offers</h2>
+        <h2 class="section-title">Get pattas Crackers Bumper Offers</h2>
         <p class="section-sub">Direct factory pricing with flat 80% discount on grand festival combo hampers.</p>
       </div>
 
       <div class="combo-banner-card" id="mainComboBanner">
         <div class="banner-img-holder">
-          <img src="assets/product_grand_combo.jpg" alt="Get Pattas Grand Family Festival Dhamaka Pack"
+          <img src="assets/product_grand_combo.jpg" alt="Sivakasi Get pattas Grand Family Diwali Combo Box"
             id="comboBannerImg">
-          <span class="banner-badge" id="comboBannerBadge" style="background: #dc2626;">FLAT 80% OFF</span>
+          <span class="banner-badge" id="comboBannerBadge" style="background: #059669;">FLAT 80% OFF</span>
         </div>
         <div class="banner-info-holder">
-          <span class="banner-sub-tag"><i class="fa-solid fa-fire"></i> BESTSELLING SIVAKASI Get pattas HAMPER</span>
+          <span class="banner-sub-tag"><i class="fa-solid fa-fire"></i> BESTSELLING SIVAKASI GET PATTAS HAMPER</span>
           <h3 class="banner-title" id="comboBannerTitle">Get Pattas Grand Family Festival Dhamaka Pack</h3>
           <p class="banner-desc" id="comboBannerDesc">Comprehensive 45-piece Sivakasi factory Diwali box containing
             Electric Sparklers, Flowerpots, Ground Chakkars, Sky Rockets, 12-Shot Aerials, and Kids Novelty Fireworks.
@@ -560,11 +314,11 @@
           </div>
           <div class="banner-price-action">
             <div class="prices">
-              <span class="original-mrp" id="comboBannerMrp">MRP ₹31,250</span>
-              <span class="offer-price" id="comboBannerPrice" style="color: #dc2626;">₹6,250</span>
+              <span class="original-mrp" id="comboBannerMrp">MRP ₹10,000</span>
+              <span class="offer-price" id="comboBannerPrice" style="color: #059669;">₹5,000</span>
             </div>
             <button class="btn btn-primary" onclick="addComboToCart('combo-1')" id="comboBannerBtn"
-              style="background: #dc2626;"><i class="fa-solid fa-cart-shopping"></i> Add Grand Combo Pack</button>
+              style="background: #059669;"><i class="fa-solid fa-cart-shopping"></i> Add Grand Combo Pack</button>
           </div>
         </div>
       </div>
@@ -576,7 +330,7 @@
     <div class="container">
       <div class="section-header">
         <span class="section-tag">Safety First</span>
-        <h2 class="section-title">The Get pattas - Safe Celebration Guide</h2>
+        <h2 class="section-title">Get Pattas Crackers - Safe Celebration Guide</h2>
         <p class="section-sub">Follow these essential safety precautions for a joyful & safe Diwali celebration.</p>
       </div>
 
@@ -610,52 +364,6 @@
         </div>
       </div>
     </div>
-  <!-- About Get Pattas Kadai Section -->
-  <section class="about-kadai-section" id="about">
-    <div class="container">
-      <div class="about-kadai-grid">
-        <div class="about-kadai-image-wrap">
-          <img src="assets/about_getpattas.jpeg" alt="About Get Pattas Kadai Sivakasi" class="about-kadai-img" />
-          <div class="about-image-badge">
-            <span class="aib-pct">80%</span>
-            <span class="aib-text">Wholesale Savings</span>
-          </div>
-        </div>
-        <div class="about-kadai-text-wrap">
-          <span class="section-tag">Direct Sivakasi Factory</span>
-          <h2 class="about-kadai-heading">About Get Pattas Kadai</h2>
-          <p class="about-kadai-lead">
-            <strong>Get Pattas Kadai (Shop 003)</strong> is Sivakasi’s premier direct-to-customer fireworks wholesale platform, delivering genuine Sivakasi crackers directly to homes and businesses across India.
-          </p>
-          <p class="about-kadai-desc">
-            By connecting you directly with our Sivakasi manufacturing hub, we eliminate retail markups and agent commissions—giving you honest factory wholesale pricing with flat 80% discount on all 180+ certified green fireworks.
-          </p>
-          <div class="about-features-grid">
-            <div class="af-item">
-              <i class="fa-solid fa-certificate"></i>
-              <div>
-                <strong>100% Genuine Sivakasi</strong>
-                <span>Certified green crackers with high quality testing</span>
-              </div>
-            </div>
-            <div class="af-item">
-              <i class="fa-solid fa-truck-fast"></i>
-              <div>
-                <strong>Safe Express Logistics</strong>
-                <span>Direct delivery booking across Tamil Nadu & All India</span>
-              </div>
-            </div>
-            <div class="af-item">
-              <i class="fa-solid fa-headset"></i>
-              <div>
-                <strong>Dedicated Kadai Support</strong>
-                <span>WhatsApp and phone assistance for order packing</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </section>
 
   <!-- Google Reviews Section -->
@@ -669,7 +377,7 @@
         </div>
 
         <h2 class="reviews-main-heading">Loved by Over 10,000+ Happy Families</h2>
-        <p class="reviews-sub-heading">Genuine 5-Star feedback from customers enjoying authentic The Get pattas
+        <p class="reviews-sub-heading">Genuine 5-Star feedback from customers enjoying authentic Get pattas Crackers
           with safe doorstep delivery.</p>
 
         <div class="reviews-rating-bar">
@@ -699,7 +407,7 @@
             <div class="review-card">
               <div class="review-card-top">
                 <div class="review-user">
-                  <div class="user-avatar" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">SK</div>
+                  <div class="user-avatar" style="background: linear-gradient(135deg, #059669, #047857);">SK</div>
                   <div class="user-info">
                     <h4>Suresh Kumar S.</h4>
                     <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Chennai • <span
@@ -713,8 +421,8 @@
                 <span class="review-date">3 days ago</span>
               </div>
               <h5 class="review-headline">"Direct Factory Price & Superb Packing!"</h5>
-              <p class="review-text">"Ordered from The Get pattas. Delivered safely to Chennai within 48
-                hours.
+              <p class="review-text">"Ordered from Get pattas Crackers. Delivered safely to Chennai within
+                48 hours.
                 Excellent cracker quality, especially the 30-shot sky shells and electric sparklers. Highly trustworthy
                 store!"</p>
             </div>
@@ -737,7 +445,7 @@
                 <span class="review-date">1 week ago</span>
               </div>
               <h5 class="review-headline">"Kids Hamper is 100% Safe & Smoke-Fast"</h5>
-              <p class="review-text">"Bought the The Get pattas Family Pack. Beautiful bright colors with very low
+              <p class="review-text">"Bought the Get pattas Crackers Family Pack. Beautiful bright colors with very low
                 smoke. The WhatsApp order support made everything effortless. Thank you Get pattas team!"</p>
             </div>
 
@@ -745,7 +453,7 @@
             <div class="review-card">
               <div class="review-card-top">
                 <div class="review-user">
-                  <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #b91c1c);">RB</div>
+                  <div class="user-avatar" style="background: linear-gradient(135deg, #10b981, #047857);">RB</div>
                   <div class="user-info">
                     <h4>Ramesh Babu V.</h4>
                     <span class="user-meta"><i class="fa-solid fa-location-dot"></i> Madurai • <span
@@ -759,7 +467,7 @@
                 <span class="review-date">2 weeks ago</span>
               </div>
               <h5 class="review-headline">"Real Sivakasi Wholesale - Flat 80% Off"</h5>
-              <p class="review-text">"Compared retail prices with The Get pattas , saved over ₹4,000 for my
+              <p class="review-text">"Compared retail prices with Get pattas Crackers, saved over ₹4,000 for my
                 family Diwali purchase. Direct from Sivakasi factory is the best decision!"</p>
             </div>
           </div>
@@ -770,7 +478,7 @@
 
       <div class="reviews-cta-block">
         <a href="https://maps.google.com" target="_blank" class="btn-write-review" onclick="openReviewModal(event)">
-          <span>✍️ Write a Review for The Get pattas </span>
+          <span>✍️ Write a Review for Get pattas Crackers</span>
         </a>
       </div>
     </div>
@@ -781,9 +489,9 @@
     <div class="container">
       <div class="contact-wrapper">
         <div class="contact-info-col">
-          <span class="section-tag" style="background: #fef2f2; color: #b91c1c; border-color: #fecaca;">Direct Store
+          <span class="section-tag" style="background: #ecfdf5; color: #047857; border-color: #a7f3d0;">Direct Store
             Support</span>
-          <h2 class="contact-heading">Contact The Get pattas (Shop 003)</h2>
+          <h2 class="contact-heading">Contact Get pattas Crackers</h2>
           <p class="contact-text">
             Our Sivakasi factory store team is available 7 days a week to help you choose the best cracker packs, check
             order dispatch, or handle bulk festive gift bookings.
@@ -794,7 +502,7 @@
               <div class="info-icon"><i class="fa-solid fa-location-dot"></i></div>
               <div class="info-content">
                 <h4>Factory Store Address</h4>
-                <p class="store-address-text">258, Sivakasi Main Road, Sivakasi, Tamil Nadu - 626123</p>
+                <p class="store-address-text">258, Virudhunagar Road, Sivakasi, Tamil Nadu - 626123</p>
               </div>
             </div>
 
@@ -819,12 +527,12 @@
             <div class="wa-box-header">
               <span class="wa-icon"><i class="fa-brands fa-whatsapp"></i></span>
               <div>
-                <h4>Direct WhatsApp The Get pattas Order</h4>
+                <h4>Direct WhatsApp Get pattas Order</h4>
                 <p>Send your item list directly to our Sivakasi store manager</p>
               </div>
             </div>
-            <a href="https://wa.me/918610451118?text=Hi%20The%20RED%20Crackers,%20I%20would%20like%20to%20enquire%20about%20crackers%20booking."
-              target="_blank" class="btn btn-whatsapp full-width" style="background: #dc2626;">
+            <a href="https://wa.me/918610451118?text=Hi%20Sivakasi%20Muthu%20Crackers,%20I%20would%20like%20to%20enquire%20about%20crackers%20booking."
+              target="_blank" class="btn btn-whatsapp full-width" style="background: #059669;">
               <span>Chat on WhatsApp (+91 86104 51118)</span>
             </a>
           </div>
@@ -842,7 +550,7 @@
               </div>
               <div class="form-group">
                 <label for="formPhone">WhatsApp / Mobile Number *</label>
-                <input type="tel" id="formPhone" required placeholder="e.g. 9566159113">
+                <input type="tel" id="formPhone" required placeholder="e.g. 9600333302">
               </div>
             </div>
 
@@ -860,11 +568,11 @@
             <div class="form-group">
               <label for="formMessage">Your Order Requirement / Message</label>
               <textarea id="formMessage" rows="4"
-                placeholder="Tell us which items or combo boxes you need from The Get pattas ..."></textarea>
+                placeholder="Tell us which items or combo boxes you need from Get pattas Crackers..."></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary full-width" style="background: #dc2626;">
-              <span>🚀 Submit Enquiry to The Get pattas </span>
+            <button type="submit" class="btn btn-primary full-width" style="background: #059669;">
+              <span>🚀 Submit Enquiry to Get pattas Crackers</span>
             </button>
           </form>
         </div>
@@ -951,7 +659,6 @@
     </div>
   </footer>
 
-
   <!-- Slide-out Cart Drawer Overlay & Sidebar -->
   <div class="cart-overlay" id="cartOverlay" onclick="toggleCartDrawer()"></div>
   <div class="cart-drawer" id="cartDrawer">
@@ -984,7 +691,7 @@
 
       <div class="cart-actions">
         <button class="btn btn-checkout-proceed full-width" onclick="proceedToCheckoutModal()"
-          style="background: #dc2626;">
+          style="background: #059669;">
           <span>➔ ➔ PROCEED TO CHECKOUT</span>
         </button>
       </div>
@@ -998,7 +705,7 @@
         <div class="checkout-brand-title">
           <img src="assets/logo.jpg" alt="Get Pattas"
             style="height: 32px; width: auto; vertical-align: middle; margin-right: 8px; border-radius: 4px;">
-          <h3>Get Pattas (Shop 003) Checkout</h3>
+          <h3>Get Pattas Checkout</h3>
         </div>
         <div class="checkout-header-right">
           <span class="need-help-tag">Need help? Call <strong>+91 86104 51118</strong></span>
@@ -1108,7 +815,7 @@
 
             <div class="co-trust-badge">
               <span class="trust-icon"><i class="fa-solid fa-shield-halved"></i></span>
-              <span>100% Genuine Sivakasi The Get pattas Green Fireworks • Direct Factory Delivery</span>
+              <span>100% Genuine Sivakasi Get pattas Green Fireworks • Direct Factory Delivery</span>
             </div>
           </div>
         </div>
@@ -1272,7 +979,7 @@
             </div>
             <div class="form-group">
               <label>WhatsApp / Phone Number</label>
-              <input type="tel" id="custRegPhone" placeholder="e.g. 9566159113" required>
+              <input type="tel" id="custRegPhone" placeholder="e.g. 9600333302" required>
             </div>
           </div>
           <div class="form-group">
@@ -1293,11 +1000,11 @@
           <div class="cust-info">
             <h3 id="custProfileName">Customer Name</h3>
             <span class="cust-tag" id="custProfileUser">@username</span>
-            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 95661
-              59113</div>
+            <div class="cust-phone-badge" id="custProfilePhone"><i class="fa-solid fa-mobile-screen"></i> +91 96003
+              33302</div>
             <div style="margin-top: 4px;"><span class="meta-pill"
                 style="font-size: 0.72rem; padding: 2px 8px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-weight: 700;">SHOP
-                001 ACCOUNT</span></div>
+                003 ACCOUNT</span></div>
           </div>
           <button class="btn btn-secondary btn-sm" onclick="handleCustomerLogout()"><i
               class="fa-solid fa-right-from-bracket"></i> Logout</button>
@@ -1368,12 +1075,12 @@
             class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="policy-modal-body">
-        <p><strong>1. Information Collection:</strong> When you place an enquiry or order with <strong>The Get pattas
-          </strong>, we collect your name, phone number (WhatsApp/Calling), delivery address, and pincode
+        <p><strong>1. Information Collection:</strong> When you place an enquiry or order with <strong>Get pattas
+            Crackers</strong>, we collect your name, phone number (WhatsApp/Calling), delivery address, and pincode
           solely for safe logistics and order verification.</p>
         <p><strong>2. 100% Data Confidentiality:</strong> We never sell or share customer details with third-party
           telemarketers.</p>
-        <p><strong>3. Contact:</strong> Call <strong>+91 95661 59113</strong> or email
+        <p><strong>3. Contact:</strong> Call <strong>+91 96003 33302</strong> or email
           <strong>sales@getpattas.com</strong>.
         </p>
       </div>
@@ -1415,14 +1122,14 @@
     onclick="if(event.target===this) this.classList.remove('active')">
     <div class="policy-modal-card" style="max-width: 520px;">
       <div class="policy-modal-header">
-        <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;">Rate The Get pattas </h3>
+        <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a;">Rate Get pattas Crackers</h3>
         <button type="button" class="policy-modal-close-btn"
           onclick="document.getElementById('reviewModalOverlay').classList.remove('active')"><i
             class="fa-solid fa-xmark"></i></button>
       </div>
       <form class="policy-modal-body" style="padding: 20px 24px;" onsubmit="handleReviewSubmit(event)">
-        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.2rem;">Share your festival experience with The Get
-          pattas !</p>
+        <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.2rem;">Share your festival experience with
+          Get pattas Crackers!</p>
         <div class="form-group" style="margin-bottom: 1rem;">
           <label
             style="display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 0.4rem; color: #0f172a;">Your
@@ -1463,7 +1170,7 @@
         </div>
         <span class="confirm-pill" style="background: rgba(220, 38, 38, 0.12); color: #dc2626;">WHOLESALE ORDER
           CONFIRMED 🎉</span>
-        <h3 id="ocStoreTitle">The Get pattas </h3>
+        <h3 id="ocStoreTitle">Get pattas Crackers</h3>
         <p class="confirm-sub">Your Sivakasi fireworks wholesale booking has been registered successfully!</p>
       </div>
 
@@ -1487,7 +1194,7 @@
         </div>
         <div class="oc-detail-row">
           <span>Phone / WhatsApp:</span>
-          <strong id="ocCustomerPhone">+91 95661 59113</strong>
+          <strong id="ocCustomerPhone">+91 96003 33302</strong>
         </div>
         <div class="oc-detail-row">
           <span>Delivery Address:</span>
@@ -1546,88 +1253,21 @@
     </div>
   </div>
 
-  <!-- Vertical Edge Tab Badge (Left Screen Edge, as shown in reference) -->
-  <div class="festive-edge-badge" id="festiveFloatingBadge" onclick="toggleOfferBadgePopup(true)" title="Click to view 80% Off Diwali Offer!">
-    <span class="edge-badge-icon"><i class="fa-solid fa-fire"></i></span>
-    <span class="edge-badge-text">Get 80% Off</span>
-  </div>
-
-  <!-- Interactive 80% Festive Offer Modal (Split-Screen Design as in reference) -->
-  <div class="festive-offer-modal" id="festiveOfferPopup">
-    <div class="festive-offer-backdrop" onclick="toggleOfferBadgePopup(false)"></div>
-    <div class="festive-offer-card split-layout">
-      <!-- Circular Dark Close Button on Top Right -->
-      <button type="button" class="offer-close-btn" onclick="toggleOfferBadgePopup(false)" aria-label="Close offer">
-        <i class="fa-solid fa-xmark"></i>
-      </button>
-
-      <!-- Left Side: Warm Festive Diwali Image -->
-      <div class="offer-card-media">
-        <img src="assets/diwali_offer.jpg" alt="Diwali Crackers Celebration Offer" class="offer-card-img" />
-        <div class="offer-media-overlay">
-          <span class="media-badge">SIVAKASI DIRECT</span>
-        </div>
-      </div>
-
-      <!-- Right Side: Content Box -->
-      <div class="offer-card-content">
-        <div class="offer-card-inner">
-          <h2 class="offer-hero-title">Want 80% Off?</h2>
-          <p class="offer-hero-desc">Direct factory wholesale price on all 180+ Sivakasi crackers for your grand Diwali celebrations!</p>
-
-          <div class="offer-benefit-features">
-            <div class="benefit-chip">
-              <i class="fa-solid fa-tags"></i>
-              <span>Flat 80% Wholesale Discount Pre-Applied</span>
-            </div>
-            <div class="benefit-chip">
-              <i class="fa-solid fa-box"></i>
-              <span>Minimum Booking ₹3,000 Only</span>
-            </div>
-            <div class="benefit-chip">
-              <i class="fa-solid fa-sparkles"></i>
-              <span>180+ Premium Sivakasi Varieties</span>
-            </div>
-          </div>
-
-          <button type="button" class="btn-offer-cta" onclick="toggleOfferBadgePopup(false); showAllCrackers();">
-            Shop 80% Off Now
-          </button>
-
-          <div class="offer-trust-row">
-            <div class="offer-trust-col">
-              <div class="trust-circle"><i class="fa-solid fa-truck-fast"></i></div>
-              <div class="trust-info">
-                <strong>Express Transport</strong>
-                <span>Safe TN & All India</span>
-              </div>
-            </div>
-            <div class="offer-trust-divider"></div>
-            <div class="offer-trust-col">
-              <div class="trust-circle"><i class="fa-solid fa-shield-halved"></i></div>
-              <div class="trust-info">
-                <strong>100% Genuine</strong>
-                <span>Sivakasi Standard</span>
-              </div>
-            </div>
-          </div>
-
-          <p class="offer-disclaimer">*Direct wholesale discount already applied. No coupon needed.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  <script>window.html2pdf || document.write('<script src="html2pdf.bundle.min.js?v=101"><\/script>')</script>
+<script>
+    if (!window.html2pdf) {
+      var s = document.createElement('script');
+      s.src = 'html2pdf.bundle.min.js?v=101';
+      document.head.appendChild(s);
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="catalogData.js?v=4"></script>
-  <script src="app.js?v=29"></script>
-  <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=5d7ae2c9"></script>
+  <script src="catalogData.js?v=3"></script>
+  <script src="app.js?v=26"></script>
 </body>
 
 </html>

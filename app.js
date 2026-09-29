@@ -96,20 +96,23 @@ document.addEventListener('DOMContentLoaded', () => {
 // BRAND SWITCHING & PAGE NAVIGATION LOGIC
 // ==========================================
 function selectBrand(brandSlug, event) {
+  // Relative paths work correctly on both file:// and http://localhost
   const brandUrls = {
-    'muthu': '/getpattas/shopno001',
-    'Get pattas ': '/getpattas/shopno002',
-    'red': '/getpattas/shopno003',
-    'getpattasu': '/getpattas/shopno004'
+    'muthu': 'shopno001/',
+    'Get pattas ': 'shopno002/',
+    'red': 'shopno003/',
+    'getpattasu': 'shopno004/'
   };
 
-  const targetUrl = brandUrls[brandSlug] || '/getpattas/shopno004';
+  const targetUrl = brandUrls[brandSlug] || 'shopno004/';
   const currentPath = window.location.pathname.toLowerCase();
-  const isCurrentPage = currentPath.endsWith(targetUrl) ||
-    (brandSlug === 'getpattasu' && (currentPath.endsWith('/') || currentPath.endsWith('index.html') || currentPath.includes('shopno004')));
+  const isCurrentPage =
+    currentPath.includes('shopno001') && brandSlug === 'muthu' ||
+    currentPath.includes('shopno002') && brandSlug === 'Get pattas ' ||
+    currentPath.includes('shopno003') && brandSlug === 'red' ||
+    (brandSlug === 'getpattasu' && (currentPath.includes('shopno004') || currentPath.endsWith('/') || currentPath.endsWith('index.html')));
 
   if (!isCurrentPage) {
-    // Navigate directly to the dedicated full website URL
     window.location.href = targetUrl;
     return;
   }

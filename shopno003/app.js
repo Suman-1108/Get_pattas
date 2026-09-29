@@ -81,53 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  // 6. Escape key to clear search inputs & close dropdown
+  // 6. Escape key to clear search inputs
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      closeHeaderSearchDropdown();
       const activeId = document.activeElement ? document.activeElement.id : '';
       if (activeId === 'headerGlobalSearch' || activeId === 'catalogSearch') {
         clearTableSearch();
       }
-    }
-  });
-
-  // 7. Auto-filter category or search query if URL has ?cat= or ?search= / ?q= parameter
-  const urlParams = new URLSearchParams(window.location.search);
-  const catParam = urlParams.get('cat');
-  const searchParam = urlParams.get('search') || urlParams.get('q');
-
-  if (catParam) {
-    setTimeout(() => {
-      filterCategoryBySlug(catParam);
-    }, 200);
-  }
-
-  if (searchParam) {
-    setTimeout(() => {
-      currentSearchQuery = searchParam;
-      const tableSearch = document.getElementById('catalogSearch');
-      if (tableSearch) tableSearch.value = searchParam;
-      const headerInput = document.getElementById('headerGlobalSearch');
-      if (headerInput) headerInput.value = searchParam;
-      const clearBtn = document.getElementById('searchClearBtn');
-      if (clearBtn) clearBtn.style.display = 'flex';
-      const headerClearBtn = document.getElementById('headerSearchClear');
-      if (headerClearBtn) headerClearBtn.style.display = 'flex';
-      renderPriceListTable();
-      const productsEl = document.getElementById('products') || document.getElementById('priceListContainer');
-      if (productsEl) {
-        const topOffset = productsEl.getBoundingClientRect().top + window.pageYOffset - 110;
-        window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
-      }
-    }, 250);
-  }
-
-  // 8. Global click listener to close search dropdown when clicking outside
-  document.addEventListener('click', (e) => {
-    const searchWrap = document.querySelector('.header-search-wrap');
-    if (searchWrap && !searchWrap.contains(e.target)) {
-      closeHeaderSearchDropdown();
     }
   });
 });
@@ -137,13 +97,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // ==========================================
 function selectBrand(brandSlug, event) {
   const brandUrls = {
-    'muthu': '/getpattas/shopno001',
-    'Get pattas ': '/getpattas/shopno002',
-    'red': '/getpattas/shopno003',
-    'getpattasu': '/getpattas/shopno004'
+    'muthu': '../shopno001/',
+    'Get pattas ': '../shopno002/',
+    'red': '../shopno003/',
+    'getpattasu': '../shopno004/'
   };
 
-  const targetUrl = brandUrls[brandSlug] || '/getpattas/shopno004';
+  const targetUrl = brandUrls[brandSlug] || '../shopno004/';
   const currentPath = window.location.pathname.toLowerCase();
   const isCurrentPage = currentPath.endsWith(targetUrl) ||
     (brandSlug === 'getpattasu' && (currentPath.endsWith('/') || currentPath.endsWith('index.html') || currentPath.includes('shopno004')));
@@ -189,7 +149,7 @@ function updateBrandUI(brandSlug, isSwitch = false) {
       loc: '📍 Bypass Road, Sivakasi Factory Zone',
       phone: '+91 86104 51118',
       min: '₹3,000',
-      page: '/getpattas/shopno002',
+      page: '../shopno002/',
       siteName: "Get pattas 's Store"
     },
     'muthu': {
@@ -199,7 +159,7 @@ function updateBrandUI(brandSlug, isSwitch = false) {
       loc: '📍 258, Get pattas Crackers, Sivakasi',
       phone: '+91 86104 51118',
       min: '₹3,000',
-      page: '/getpattas/shopno001',
+      page: '../shopno001/',
       siteName: "Get pattas Store"
     },
     'red': {
@@ -209,7 +169,7 @@ function updateBrandUI(brandSlug, isSwitch = false) {
       loc: '📍 Sivakasi Wholesale Hub, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
-      page: '/getpattas/shopno003',
+      page: '../shopno003/',
       siteName: "Get pattas Store"
     },
     'getpattasu': {
@@ -219,7 +179,7 @@ function updateBrandUI(brandSlug, isSwitch = false) {
       loc: '📍 12/4B Sivakasi Factory Zone, Tamil Nadu',
       phone: '+91 86104 51118',
       min: '₹3,000',
-      page: '/getpattas/shopno004',
+      page: '../shopno004/',
       siteName: "Get Pattas Master Store"
     }
   };
@@ -310,23 +270,6 @@ function toggleCategoryAccordion(catSlug) {
   }
 }
 
-function getCategoryIcon(catName) {
-  const c = (catName || '').toLowerCase();
-  if (c.includes('sparkler') || c.includes('மத்தாப்பு')) return 'fa-wand-magic-sparkles';
-  if (c.includes('flower') || c.includes('பூச்சட்டி') || c.includes('pot') || c.includes('மண்சட்டி')) return 'fa-mountain-sun';
-  if (c.includes('fountain') || c.includes('பவுண்டன்') || c.includes('peacock')) return 'fa-volcano';
-  if (c.includes('chakkar') || c.includes('சக்கரம்') || c.includes('wheel') || c.includes('வீல்')) return 'fa-arrows-spin';
-  if (c.includes('sound') || c.includes('சவுண்ட்') || c.includes('வெடி') || c.includes('bomb') || c.includes('பாம்') || c.includes('thunder')) return 'fa-volume-high';
-  if (c.includes('rocket') || c.includes('ராக்கெட்') || c.includes('bijili') || c.includes('பிஜிலி')) return 'fa-rocket';
-  if (c.includes('shot') || c.includes('சாட்ஸ்') || c.includes('aerial') || c.includes('pipe') || c.includes('பைப்') || c.includes('fancy') || c.includes('பேன்சி')) return 'fa-meteor';
-  if (c.includes('gift') || c.includes('பரிசு') || c.includes('box') || c.includes('பாக்ஸ்')) return 'fa-gift';
-  if (c.includes('combo') || c.includes('காம்போ') || c.includes('pack')) return 'fa-boxes-stacked';
-  if (c.includes('kid') || c.includes('கிட்ஸ்') || c.includes('pencil') || c.includes('novelty')) return 'fa-face-smile';
-  if (c.includes('match') || c.includes('தீப்பெட்டி') || c.includes('குச்சி')) return 'fa-fire';
-  if (c.includes('star') || c.includes('சாட்டை')) return 'fa-star';
-  return 'fa-fire-flame-curved';
-}
-
 function renderPriceListTable() {
   const container = document.getElementById('priceListContainer');
   const pillsContainer = document.getElementById('categoryPillsScroll');
@@ -345,42 +288,6 @@ function renderPriceListTable() {
     return;
   }
 
-  // Group ALL products for accurate sidebar filter counts
-  const allCategoriesMap = {};
-  products.forEach(p => {
-    if (!allCategoriesMap[p.category]) {
-      allCategoriesMap[p.category] = [];
-    }
-    allCategoriesMap[p.category].push(p);
-  });
-  const allCategoryNames = Object.keys(allCategoriesMap);
-
-  // Dynamically update Sidebar Category Filters with Real Counts
-  const sidebarCatList = document.getElementById('sidebarCategoryList') || document.querySelector('.filter-cat-list');
-  if (sidebarCatList) {
-    let sidebarHTML = `
-      <li class="filter-cat-item ${currentCategoryFilter === 'all' ? 'active' : ''}" id="fcat-all" onclick="filterCategoryBySlug('all')">
-        <span class="cat-label-with-icon"><i class="fa-solid fa-layer-group"></i> All Fireworks</span>
-        <span class="cat-badge-count">${products.length}</span>
-      </li>
-    `;
-
-    allCategoryNames.forEach((catName, idx) => {
-      const catSlug = `cat-${currentBrand}-${idx}`;
-      const icon = getCategoryIcon(catName);
-      const count = allCategoriesMap[catName].length;
-      const isActive = currentCategoryFilter === catSlug;
-      sidebarHTML += `
-        <li class="filter-cat-item ${isActive ? 'active' : ''}" id="fcat-${catSlug}" onclick="filterCategoryBySlug('${catSlug}')" title="${catName}">
-          <span class="cat-label-with-icon"><i class="fa-solid ${icon}"></i> ${catName}</span>
-          <span class="cat-badge-count">${count}</span>
-        </li>
-      `;
-    });
-
-    sidebarCatList.innerHTML = sidebarHTML;
-  }
-
   // Filter products by search query if any
   let filteredProducts = products;
   if (currentSearchQuery.trim()) {
@@ -392,6 +299,7 @@ function renderPriceListTable() {
       (p.category && p.category.toLowerCase().includes(q))
     );
   }
+
 
   // Group products by category
   const categoriesMap = {};
@@ -412,14 +320,13 @@ function renderPriceListTable() {
       selectHTML += `<option value="${catSlug}">${catName} (${categoriesMap[catName].length})</option>`;
     });
     jumpSelect.innerHTML = selectHTML;
-    jumpSelect.value = currentCategoryFilter || 'all';
   }
 
   if (pillsContainer) {
     let pillsHTML = `
       <button type="button" class="category-pill-btn ${currentCategoryFilter === 'all' ? 'active' : ''}" onclick="filterByCategory('all')">
         <span>✨ All Categories</span>
-        <span class="pill-badge">${products.length}</span>
+        <span class="pill-badge">${filteredProducts.length}</span>
       </button>`;
 
     categoryNames.forEach((catName, idx) => {
@@ -741,268 +648,20 @@ function handleTableSearch(val) {
   renderPriceListTable();
 }
 
-function isProductsPage() {
-  const p = window.location.pathname.toLowerCase();
-  return p.includes('products') || document.getElementById('priceListContainer') !== null;
-}
-
-function getProductsCatalogUrl(searchQuery, catSlug) {
-  const p = window.location.pathname;
-  let base = 'products.html';
-  if (p.includes('/shopno003')) {
-    base = p.includes('.html') ? 'products.html' : '/shopno003/products';
-  } else if (p.includes('/shopno004')) {
-    base = p.includes('.html') ? 'products.html' : '/shopno004/products';
-  } else if (typeof currentBrand !== 'undefined' && currentBrand === 'red') {
-    base = 'products.html';
-  } else {
-    base = 'products.html';
-  }
-
-  const params = [];
-  if (searchQuery && searchQuery.trim()) {
-    params.push(`search=${encodeURIComponent(searchQuery.trim())}`);
-  }
-  if (catSlug && catSlug !== 'all') {
-    params.push(`cat=${encodeURIComponent(catSlug)}`);
-  }
-  return params.length > 0 ? `${base}?${params.join('&')}` : base;
-}
-
-function triggerHeaderSearch() {
-  const headerInput = document.getElementById('headerGlobalSearch');
-  const query = headerInput ? headerInput.value.trim() : '';
-  closeHeaderSearchDropdown();
-
-  if (isProductsPage()) {
-    currentSearchQuery = query;
-    const tableSearch = document.getElementById('catalogSearch');
-    if (tableSearch) tableSearch.value = query;
-    const clearBtn = document.getElementById('searchClearBtn');
-    if (clearBtn) clearBtn.style.display = query ? 'flex' : 'none';
-    const headerClearBtn = document.getElementById('headerSearchClear');
-    if (headerClearBtn) headerClearBtn.style.display = query ? 'flex' : 'none';
-
-    renderPriceListTable();
-    const productsEl = document.getElementById('products') || document.getElementById('priceListContainer');
-    if (productsEl) {
-      const topOffset = productsEl.getBoundingClientRect().top + window.pageYOffset - 110;
-      window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
-    }
-  } else {
-    // Navigate from Home to Products page with query
-    window.location.href = getProductsCatalogUrl(query);
-  }
-}
-
-function handleHeaderSearchKeyDown(e) {
-  if (e.key === 'Enter') {
-    e.preventDefault();
-    triggerHeaderSearch();
-  } else if (e.key === 'Escape') {
-    closeHeaderSearchDropdown();
-  }
-}
-
-function closeHeaderSearchDropdown() {
-  const dropdown = document.getElementById('headerSearchDropdown');
-  if (dropdown) dropdown.style.display = 'none';
-}
-
-function quickAddFromSearch(productId, event) {
-  if (event) event.stopPropagation();
-  const currentQty = qtyMap[productId] || 0;
-  updateQuantity(productId, currentQty + 1);
-  const products = getBrandProducts(currentBrand) || [];
-  const prod = products.find(p => p.id === productId);
-  if (typeof showToast === 'function') {
-    showToast(`Added 1x ${prod ? prod.name : 'item'} to cart! 🛒`);
-  }
-  const headerInput = document.getElementById('headerGlobalSearch');
-  if (headerInput && headerInput.value) {
-    renderHeaderSearchDropdown(headerInput.value);
-  }
-}
-
-function selectProductFromSearch(productId) {
-  closeHeaderSearchDropdown();
-  const products = getBrandProducts(currentBrand) || [];
-  const prod = products.find(p => p.id === productId);
-  if (!prod) return;
-
-  if (isProductsPage()) {
-    currentSearchQuery = prod.name;
-    const tableSearch = document.getElementById('catalogSearch');
-    if (tableSearch) tableSearch.value = prod.name;
-    const headerInput = document.getElementById('headerGlobalSearch');
-    if (headerInput) headerInput.value = prod.name;
-    renderPriceListTable();
-    const row = document.getElementById(`row-${prod.id}`);
-    if (row) {
-      row.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      row.style.transition = 'background 0.3s ease';
-      row.style.background = '#fee2e2';
-      setTimeout(() => { row.style.background = ''; }, 2000);
-    }
-  } else {
-    window.location.href = getProductsCatalogUrl(prod.name);
-  }
-}
-
-function selectCategoryFromSearch(catSlug) {
-  closeHeaderSearchDropdown();
-  if (isProductsPage()) {
-    filterCategoryBySlug(catSlug);
-    const productsEl = document.getElementById('products') || document.getElementById('priceListContainer');
-    if (productsEl) {
-      const topOffset = productsEl.getBoundingClientRect().top + window.pageYOffset - 110;
-      window.scrollTo({ top: Math.max(0, topOffset), behavior: 'smooth' });
-    }
-  } else {
-    window.location.href = getProductsCatalogUrl('', catSlug);
-  }
-}
-
-function highlightQuery(text, query) {
-  if (!text || !query) return escapeHtml(text || '');
-  const escapedText = escapeHtml(text);
-  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-  return escapedText.replace(regex, '<mark style="background: #fef08a; color: #854d0e; padding: 0 2px; border-radius: 2px;">$1</mark>');
-}
-
-function renderHeaderSearchDropdown(val) {
-  const dropdown = document.getElementById('headerSearchDropdown');
-  if (!dropdown) return;
-
-  const query = (val || '').trim().toLowerCase();
-  if (!query) {
-    dropdown.style.display = 'none';
-    dropdown.innerHTML = '';
-    return;
-  }
-
-  const products = getBrandProducts(currentBrand) || [];
-  if (products.length === 0) {
-    dropdown.style.display = 'none';
-    return;
-  }
-
-  // Find matching categories
-  const categoriesMap = {};
-  products.forEach(p => {
-    if (!categoriesMap[p.category]) categoriesMap[p.category] = [];
-    categoriesMap[p.category].push(p);
-  });
-  const categoryNames = Object.keys(categoriesMap);
-  const matchedCategories = categoryNames.filter(c => c.toLowerCase().includes(query));
-
-  // Find matching products
-  const matchedProducts = products.filter(p => {
-    const nameMatch = p.name && p.name.toLowerCase().includes(query);
-    const tamilMatch = p.tamilName && p.tamilName.toLowerCase().includes(query);
-    const codeMatch = p.code && p.code.toLowerCase().includes(query);
-    const catMatch = p.category && p.category.toLowerCase().includes(query);
-    return nameMatch || tamilMatch || codeMatch || catMatch;
-  });
-
-  if (matchedCategories.length === 0 && matchedProducts.length === 0) {
-    dropdown.innerHTML = `
-      <div class="hsd-empty">
-        <i class="fa-solid fa-face-frown" style="font-size: 1.6rem; color: #cbd5e1; margin-bottom: 0.5rem; display: block;"></i>
-        <div>No crackers found matching "<strong>${escapeHtml(val)}</strong>"</div>
-        <div style="font-size: 0.76rem; color: #94a3b8; margin-top: 0.3rem;">Try searching Sparklers, Pots, Rockets, 120 Shot, or தமிழ் பெயர்...</div>
-      </div>
-    `;
-    dropdown.style.display = 'block';
-    return;
-  }
-
-  let html = '';
-
-  // Category suggestions if any
-  if (matchedCategories.length > 0) {
-    html += `<div class="hsd-section-title"><i class="fa-solid fa-layer-group"></i> Matching Categories</div>`;
-    html += `<div style="padding: 0.3rem 0.5rem; display: flex; flex-wrap: wrap;">`;
-    matchedCategories.slice(0, 3).forEach(catName => {
-      const idx = categoryNames.indexOf(catName);
-      const catSlug = `cat-${currentBrand}-${idx}`;
-      const count = categoriesMap[catName].length;
-      html += `
-        <div class="hsd-cat-chip" onclick="selectCategoryFromSearch('${catSlug}')">
-          <i class="fa-solid ${getCategoryIcon(catName)}"></i>
-          <span>${catName}</span>
-          <span style="opacity: 0.75; font-size: 0.7rem;">(${count})</span>
-        </div>
-      `;
-    });
-    html += `</div>`;
-  }
-
-  // Product suggestions (top 6)
-  if (matchedProducts.length > 0) {
-    html += `<div class="hsd-section-title"><i class="fa-solid fa-fire"></i> Crackers (${matchedProducts.length} Results)</div>`;
-    const topProducts = matchedProducts.slice(0, 6);
-
-    topProducts.forEach(p => {
-      const icon = getCategoryIcon(p.category);
-      const currentQty = qtyMap[p.id] || 0;
-      const highlightName = highlightQuery(p.name, query);
-      const highlightTamil = p.tamilName ? highlightQuery(p.tamilName, query) : '';
-
-      html += `
-        <div class="hsd-item" onclick="selectProductFromSearch('${p.id}')">
-          <div class="hsd-item-left">
-            <div class="hsd-item-icon"><i class="fa-solid ${icon}"></i></div>
-            <div class="hsd-item-details">
-              <span class="hsd-item-name">${highlightName}</span>
-              <div class="hsd-item-meta">
-                ${highlightTamil ? `<span>${highlightTamil}</span> • ` : ''}
-                <span class="hsd-item-tag">${p.packInfo || p.category}</span>
-              </div>
-            </div>
-          </div>
-          <div class="hsd-item-right">
-            <div class="hsd-item-pricing">
-              <span class="hsd-item-mrp">₹${p.mrp.toFixed(2)}</span>
-              <span class="hsd-item-price">₹${p.price.toFixed(2)}</span>
-            </div>
-            <button type="button" class="hsd-add-btn" onclick="quickAddFromSearch('${p.id}', event)" title="Quick Add">
-              ${currentQty > 0 ? `<i class="fa-solid fa-check"></i> ${currentQty}` : `<i class="fa-solid fa-plus"></i> Add`}
-            </button>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  // Footer
-  html += `
-    <div class="hsd-footer" onclick="triggerHeaderSearch()">
-      <span>View all <strong>${matchedProducts.length}</strong> matching crackers in catalog <i class="fa-solid fa-arrow-right"></i></span>
-    </div>
-  `;
-
-  dropdown.innerHTML = html;
-  dropdown.style.display = 'block';
-}
-
 function handleHeaderSearch(val) {
-  const isNotEmpty = Boolean(val && val.trim());
-  const headerClearBtn = document.getElementById('headerSearchClear');
-  if (headerClearBtn) {
-    headerClearBtn.style.display = isNotEmpty ? 'flex' : 'none';
+  const tableSearchInput = document.getElementById('catalogSearch');
+  if (tableSearchInput && tableSearchInput.value !== val) {
+    tableSearchInput.value = val;
   }
-
-  // Render live dropdown autocomplete
-  renderHeaderSearchDropdown(val);
-
-  // If on products page, also synchronize catalog table
-  if (isProductsPage()) {
-    const tableSearchInput = document.getElementById('catalogSearch');
-    if (tableSearchInput && tableSearchInput.value !== val) {
-      tableSearchInput.value = val;
+  handleTableSearch(val);
+  if (val && val.trim()) {
+    const productsEl = document.getElementById('products');
+    if (productsEl) {
+      const topOffset = productsEl.getBoundingClientRect().top + window.pageYOffset - 120;
+      if (window.pageYOffset < topOffset - 250) {
+        window.scrollTo({ top: topOffset, behavior: 'smooth' });
+      }
     }
-    handleTableSearch(val);
   }
 }
 
@@ -1016,10 +675,7 @@ function clearTableSearch() {
   if (clearBtn) clearBtn.style.display = 'none';
   const headerClearBtn = document.getElementById('headerSearchClear');
   if (headerClearBtn) headerClearBtn.style.display = 'none';
-  closeHeaderSearchDropdown();
-  if (isProductsPage()) {
-    renderPriceListTable();
-  }
+  renderPriceListTable();
 }
 
 function clearHeaderSearch() {
@@ -1034,27 +690,15 @@ function resolveCategorySlug(slug) {
   const categoryNames = [...new Set(products.map(p => p.category))];
 
   const slugKeywords = {
-    'sparklers': ['sparkler', 'மத்தாப்பு', 'sparkle'],
-    'sparkles': ['sparkler', 'மத்தாப்பு', 'sparkle'],
-    'foundation': ['fountain', 'பவுண்டன்', 'flower', 'பூச்சட்டி'],
-    'fountains': ['fountain', 'பவுண்டன்', 'flower', 'பூச்சட்டி'],
+    'sparklers': ['sparkler', 'மத்தாப்பு', 'colour matches', 'குச்சி'],
     'flower-pots': ['flower', 'பூச்சட்டி', 'koti', 'கோட்டி', 'fountain', 'பவுண்டன்'],
     'ground-chakkars': ['chakkar', 'சக்கரம்', 'wheel', 'வீல்'],
-    'sound': ['sound', 'சவுண்ட்', 'bomb', 'பாம்', 'one sound', 'வெடி'],
-    'sound-crackers': ['sound', 'சவுண்ட்', 'bomb', 'பாம்', 'one sound', 'வெடி'],
     'rockets': ['rocket', 'ராக்கெட்', 'bijili', 'பிஜிலி'],
-    'fancy': ['fancy', 'பேன்சி', 'pipe', 'பைப்', 'shots', 'ஷாட்ஸ்', 'aerial'],
-    'fancy-novelties': ['fancy', 'பேன்சி', 'pipe', 'பைப்', 'shots', 'ஷாட்ஸ்', 'aerial'],
     'aerial-shots': ['aerial', 'sky', 'வான', 'shot', 'ஷாட்ஸ்', 'shell', 'pipe', 'பைப்', 'pyro'],
     'one-sound-crackers': ['one sound', 'ஒன் சவுண்ட்', 'sound & bombs', 'sound cracker', 'thunder', 'bomb', 'பாம்', 'வெடி'],
     'multi-sound-walas': ['wala', 'வாலா', 'garland', 'சரவெடி', 'multi sound', 'மல்டி சவுண்ட்', 'sound cracker', 'சவுண்ட் வெடி'],
-    'kids': ['kid', 'கிட்ஸ்', 'novelty', 'நாவல்டி', 'gun', 'துப்பாக்கி', 'pencil', 'பென்சில்'],
     'kids-special': ['kid', 'கிட்ஸ்', 'novelty', 'நாவல்டி', 'gun', 'துப்பாக்கி', 'pencil', 'பென்சில்'],
-    'gift-boxes': ['gift', 'கிப்ட்', 'box', 'பாக்ஸ்', 'பரிசு'],
-    'gift-box': ['gift', 'கிப்ட்', 'box', 'பாக்ஸ்', 'பரிசு'],
-    'family-combo': ['combo', 'காம்போ', 'family', 'பேக்', 'pack', 'hamper'],
-    'family-combos': ['combo', 'காம்போ', 'family', 'பேக்', 'pack', 'hamper'],
-    'combos': ['combo', 'காம்போ', 'family', 'பேக்', 'pack', 'hamper']
+    'gift-boxes': ['gift', 'கிப்ட்', 'box', 'பாக்ஸ்', 'family', 'காம்போ', 'hamper']
   };
 
   const kws = slugKeywords[slug] || [slug.replace(/-/g, ' ')];
@@ -1071,192 +715,80 @@ function resolveCategorySlug(slug) {
   return 'all';
 }
 
-// Interactive 80% Offer Popup Badge Toggle
-function toggleOfferBadgePopup(open) {
-  const popup = document.getElementById('festiveOfferPopup');
-  const badge = document.getElementById('festiveFloatingBadge');
-  if (!popup) return;
-  const isCurrentlyOpen = popup.classList.contains('is-active');
-  const shouldOpen = (typeof open === 'boolean') ? open : !isCurrentlyOpen;
-  if (shouldOpen) {
-    popup.classList.add('is-active');
-    if (badge) badge.classList.add('badge-hidden');
-  } else {
-    popup.classList.remove('is-active');
-    if (badge) badge.classList.remove('badge-hidden');
-  }
-}
-
-// Automatically display 80% offer popup when page first opens (Homepage index.html only)
-window.addEventListener('DOMContentLoaded', () => {
-  const isProductsPage = window.location.pathname.toLowerCase().includes('product');
-  if (!isProductsPage) {
-    setTimeout(() => {
-      toggleOfferBadgePopup(true);
-    }, 900);
-  }
-});
-
-const categoryDisplayNames = {
-  'sparkles': 'Sparkles (மத்தாப்பு)',
-  'foundation': 'Foundation (பவுண்டன் & சட்டி)',
-  'sound': 'Sound (சவுண்ட் வெடி & பாம்)',
-  'rockets': 'Rockets (ராக்கெட் வகைகள்)',
-  'fancy': 'Fancy & Sky Shots (பேன்சி வெடி)',
-  'kids': 'Kids Special (கிட்ஸ் ஸ்பெஷல்)',
-  'gift-box': 'Gift Boxes (பரிசு பெட்டகம்)',
-  'family-combo': 'Family Combos (காம்போ பேக்)'
-};
-
-function updateCategoryIndicator(catSlug) {
-  const catNameEl = document.getElementById('activeCategoryName');
-  const crumbEl = document.getElementById('crumbActiveCat');
-  const resetBtn = document.getElementById('tacResetBtn');
-
-  // Update sidebar active highlights
-  document.querySelectorAll('.filter-cat-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  const targetId = (!catSlug || catSlug === 'all') ? 'fcat-all' : `fcat-${catSlug}`;
-  const targetSidebarItem = document.getElementById(targetId);
-  if (targetSidebarItem) targetSidebarItem.classList.add('active');
-
-  const products = getBrandProducts(currentBrand) || [];
-  let displayName = `All Sivakasi Crackers (${products.length} Items)`;
-
-  if (catSlug && catSlug !== 'all') {
-    const idxMatch = catSlug.match(/cat-[a-zA-Z0-9]+-(\d+)/);
-    if (idxMatch) {
-      const idx = parseInt(idxMatch[1], 10);
-      const categoryNames = [...new Set(products.map(p => p.category))];
-      if (categoryNames[idx]) {
-        displayName = categoryNames[idx];
-      }
-    } else {
-      displayName = categoryDisplayNames[catSlug] || `${catSlug.toUpperCase()} Crackers`;
-    }
-  }
-
-  if (catNameEl) catNameEl.innerText = displayName;
-  if (crumbEl) crumbEl.innerText = displayName;
-  if (resetBtn) resetBtn.style.display = (!catSlug || catSlug === 'all') ? 'none' : 'inline-flex';
-}
-
 function filterCategoryBySlug(slug) {
   closeMobileMenu();
-  if (!isProductsPage()) {
-    window.location.href = getProductsCatalogUrl('', slug);
-    return;
-  }
-
-  if (!slug || slug === 'all') {
-    showAllCrackers();
-    return;
-  }
-
   const resolvedSlug = resolveCategorySlug(slug);
-  if (!resolvedSlug || resolvedSlug === 'all') {
-    showAllCrackers();
-    return;
+  if (resolvedSlug !== 'all') {
+    handleCategoryJump(resolvedSlug);
+  } else {
+    const searchTerm = slug.replace(/-/g, ' ');
+    currentCategoryFilter = 'all';
+    handleTableSearch(searchTerm);
+    const tableSearchInput = document.getElementById('catalogSearch');
+    if (tableSearchInput) tableSearchInput.value = searchTerm;
+    const productsEl = document.getElementById('products');
+    if (productsEl) {
+      const yOffset = -85;
+      const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
   }
-
-  updateCategoryIndicator(resolvedSlug);
-  handleCategoryJump(resolvedSlug);
 }
 
 function showAllCrackers() {
   closeMobileMenu();
-  if (!isProductsPage()) {
-    window.location.href = getProductsCatalogUrl('');
-    return;
-  }
-
-  currentCategoryFilter = 'all';
-  currentSearchQuery = '';
-
-  const searchInput = document.getElementById('catalogSearch');
-  if (searchInput) searchInput.value = '';
-  const headerInput = document.getElementById('headerGlobalSearch');
-  if (headerInput) headerInput.value = '';
-  const clearBtn = document.getElementById('searchClearBtn');
-  if (clearBtn) clearBtn.style.display = 'none';
-  const headerClearBtn = document.getElementById('headerSearchClear');
-  if (headerClearBtn) headerClearBtn.style.display = 'none';
-  closeHeaderSearchDropdown();
-
-  updateCategoryIndicator('all');
-
+  filterByCategory('all');
   const selectEl = document.getElementById('categoryJumpSelect');
   if (selectEl) selectEl.value = 'all';
-
-  renderPriceListTable();
-
-  const productsEl = document.getElementById('products') || document.getElementById('priceListContainer');
+  const productsEl = document.getElementById('products');
   if (productsEl) {
-    const yOffset = -90;
+    const yOffset = -85;
     const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
-    window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    window.scrollTo({ top: y, behavior: 'smooth' });
   }
-}
-
-function openCartDrawer() {
-  const drawer = document.getElementById('cartDrawer');
-  const backdrop = document.getElementById('cartBackdrop') || document.getElementById('cartOverlay');
-  if (!drawer) return;
-  drawer.classList.add('active');
-  if (backdrop) backdrop.classList.add('active');
-  updateCartDrawerUI();
-}
-
-function addToCart(productId, qty = 1) {
-  const current = qtyMap[productId] || 0;
-  setQtyDirect(productId, current + qty);
-  showToast('Added to Cart! 🛒');
-  openCartDrawer();
 }
 
 function handleCategoryJump(catSlug) {
   const resolved = resolveCategorySlug(catSlug);
-  if (!resolved || resolved === 'all') {
-    showAllCrackers();
+  if (resolved === 'all') {
+    filterByCategory('all');
+    const selectEl = document.getElementById('categoryJumpSelect');
+    if (selectEl) selectEl.value = 'all';
+    const productsEl = document.getElementById('products');
+    if (productsEl) {
+      const yOffset = -85;
+      const y = productsEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    }
     return;
   }
-
-  updateCategoryIndicator(resolved);
-  currentCategoryFilter = resolved;
   mobileOpenCategories.add(resolved);
-
+  filterByCategory(resolved);
   const selectEl = document.getElementById('categoryJumpSelect');
   if (selectEl) selectEl.value = resolved;
-
-  renderPriceListTable();
-
   setTimeout(() => {
     const targetEl = document.getElementById(resolved) || document.getElementById('products');
     if (targetEl) {
-      const yOffset = -90;
+      const yOffset = -85;
       const y = targetEl.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+      window.scrollTo({ top: y, behavior: 'smooth' });
     }
-  }, 60);
+  }, 50);
 }
 
 function filterByCategory(catSlug) {
-  if (!catSlug || catSlug === 'all') {
-    showAllCrackers();
-    return;
+  currentCategoryFilter = catSlug;
+  if (catSlug !== 'all') {
+    mobileOpenCategories.add(catSlug);
   }
-  handleCategoryJump(catSlug);
+  renderPriceListTable();
 }
 
-// ==========================================
-// WHATSAPP DIRECT ORDER GENERATOR
-// ==========================================
 // ==========================================
 // WHATSAPP DIRECT ORDER FLOW & DETAILS MODAL
 // ==========================================
 function sendWhatsAppDirectOrder(existingOrder = null) {
-  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['sony'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['red'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
   const brandColor = brand.themeColor || '#dc2626';
 
   // If an existing order is provided (e.g. from invoice re-order or past order), trigger WhatsApp directly
@@ -1380,7 +912,7 @@ function closeWhatsAppOrderModal(e) {
 function handleWhatsAppOrderSubmit(e) {
   if (e && e.preventDefault) e.preventDefault();
 
-  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['sony'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['red'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
   const brandColor = brand.themeColor || '#dc2626';
 
   if (!cart || cart.length === 0) {
@@ -1601,7 +1133,7 @@ function handleWhatsAppOrderSubmit(e) {
 }
 
 function executeWhatsAppSend(existingOrder) {
-  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['sony'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
+  const brand = (window.BRANDS_CONFIG && window.BRANDS_CONFIG[currentBrand]) || window.BRANDS_CONFIG?.['red'] || { name: 'Get Pattas Kadai', themeColor: '#dc2626' };
   const orderItems = existingOrder ? existingOrder.items : cart;
 
   let totalBoxes = 0;
@@ -2321,14 +1853,14 @@ function handleCheckoutFormSubmit(e) {
       title: '<span style="font-size:23px;font-weight:800;color:' + brandColor + ';">🎉 Order Placed Successfully!</span>',
       html: `
         <div style="text-align: left; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 14px 16px; margin: 14px 0; font-size: 13.5px; line-height: 1.6;">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">
-            <span style="font-weight: 700; color: #475569;">Booking Number:</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #cbd5e1; padding-bottom: 8px; margin-bottom: 8px;">
+            <span style="color: #64748b; font-weight: 600;">Booking Number:</span>
             <span style="background: #e0f2fe; color: #0284c7; font-weight: 800; font-family: monospace; font-size: 14px; padding: 2px 8px; border-radius: 6px;">${bookingNumber}</span>
           </div>
           <div style="margin-bottom: 4px; color: #334155;"><b>Store:</b> ${escapeHtml(shopTitle)}</div>
           <div style="margin-bottom: 4px; color: #334155;"><b>Customer:</b> ${escapeHtml(custName)} (${escapeHtml(custPhone)})</div>
           <div style="margin-bottom: 4px; color: #334155;"><b>Delivery:</b> ${escapeHtml(custAddress)}</div>
-          <div style="margin-bottom: 4px; color: #334155;"><b>Items Booked:</b> ${totalBoxes} Boxes (${orderRecord.totalItems} Varieties)</div>
+          <div style="margin-bottom: 6px; color: #334155;"><b>Items Booked:</b> ${totalBoxes} Boxes (${orderRecord.totalItems} Varieties)</div>
           <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;">
             <span style="font-weight: 700; color: #1e293b; font-size: 15px;">Total Order:</span>
             <span style="font-weight: 800; color: ${brandColor}; font-size: 18px;">₹${netTotal.toLocaleString('en-IN')}</span>
@@ -2656,25 +2188,24 @@ function printOrderInvoice() {
 // COMBO HAMPER BANNER SHORTCUT
 // ==========================================
 function addComboToCart(comboKey) {
-  // Add Grand Family Combo Pack (₹6,250)
+  // Add Grand Family Combo Pack (₹5,000)
   let comboItem = null;
   for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
-    comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.id === 'rc-combo-1' || i.id === 'gp-combo-1' || i.code === 'RED-DHK');
+    comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.id === 'gp-15');
     if (comboItem) break;
   }
   if (!comboItem) {
     for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
-      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => (i.price === 6250 || i.price === 5000) && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
+      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.price === 5000 && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
       if (comboItem) break;
     }
   }
 
   if (comboItem) {
-    setQtyDirect(comboItem.id, (qtyMap[comboItem.id] || 0) + 1);
+    changeQty(comboItem.id, 1);
     showToast(`🎉 Added ${comboItem.name} (₹${comboItem.price.toLocaleString('en-IN')}) to your order!`);
-    openCartDrawer();
   } else {
-    showToast('🎉 Added Get Pattas Grand Family Festival Dhamaka Pack (₹6,250)!');
+    showToast('🎉 Added Diwali Family Combo Pack (₹5,000)!');
   }
 }
 
