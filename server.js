@@ -109,6 +109,18 @@ app.get('/admin.css', (req, res) => res.sendFile(path.join(__dirname, 'admin.css
 app.get('/admin.js', (req, res) => res.sendFile(path.join(__dirname, 'admin.js')));
 app.get('/html2pdf.bundle.min.js', (req, res) => res.sendFile(path.join(__dirname, 'html2pdf.bundle.min.js')));
 
+app.get('/shopno001/styles.css', (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'styles.css')));
+app.get('/shopno001/catalogData.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'catalogData.js')));
+app.get('/shopno001/app.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'app.js')));
+app.get('/shopno001/gp-logo.jpg', (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'gp-logo.jpg')));
+app.get('/shopno001/html2pdf.bundle.min.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'html2pdf.bundle.min.js')));
+
+app.get('/shopno002/styles.css', (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'styles.css')));
+app.get('/shopno002/catalogData.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'catalogData.js')));
+app.get('/shopno002/app.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'app.js')));
+app.get('/shopno002/gp-logo.jpg', (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'gp-logo.jpg')));
+app.get('/shopno002/html2pdf.bundle.min.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'html2pdf.bundle.min.js')));
+
 app.get('/shopno003/styles.css', (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'styles.css')));
 app.get('/shopno003/catalogData.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'catalogData.js')));
 app.get('/shopno003/app.js', (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'app.js')));
@@ -123,6 +135,16 @@ app.get('/shopno004/html2pdf.bundle.min.js', (req, res) => res.sendFile(path.joi
 
 app.get('/assets/:file', (req, res) => {
   const filePath = path.join(__dirname, 'assets', req.params.file);
+  if (fs.existsSync(filePath)) return res.sendFile(filePath);
+  res.status(404).send('Asset not found');
+});
+app.get('/shopno001/assets/:file', (req, res) => {
+  const filePath = path.join(__dirname, 'shopno001', 'assets', req.params.file);
+  if (fs.existsSync(filePath)) return res.sendFile(filePath);
+  res.status(404).send('Asset not found');
+});
+app.get('/shopno002/assets/:file', (req, res) => {
+  const filePath = path.join(__dirname, 'shopno002', 'assets', req.params.file);
   if (fs.existsSync(filePath)) return res.sendFile(filePath);
   res.status(404).send('Asset not found');
 });

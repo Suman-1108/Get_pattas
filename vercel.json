@@ -4,8 +4,12 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
+    { "source": "/shopno001", "destination": "/shopno001/index.html" },
+    { "source": "/shopno002", "destination": "/shopno002/index.html" },
     { "source": "/shopno003", "destination": "/shopno003/index.html" },
     { "source": "/shopno004", "destination": "/shopno004/index.html" },
+    { "source": "/shopno001/(.*)", "destination": "/shopno001/$1" },
+    { "source": "/shopno002/(.*)", "destination": "/shopno002/$1" },
     { "source": "/shopno003/products", "destination": "/shopno003/products.html" },
     { "source": "/shopno004/products", "destination": "/shopno004/products.html" },
     { "source": "/shopno003/(.*)", "destination": "/shopno003/$1" },
