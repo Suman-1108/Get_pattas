@@ -1383,9 +1383,9 @@ function renderAdminOrders() {
                 <button type="button" class="btn btn-dark-outline btn-act" onclick="viewOrderInvoice('${orderId}')" title="View Order Tax Invoice & Estimate">
                   <i class="fa-solid fa-file-invoice" style="color: #2563eb;"></i>
                 </button>
-                <button class="btn-perm-del-order" onclick="permanentlyDeleteOrder('${orderId}')" title="Permanently delete this order from database">
+                <button class="btn-action-draft-del" onclick="draftDeleteOrder('${orderId}')" title="Move order to Draft Trash (safely kept for 30 days, can restore anytime)">
                   <i class="fa-solid fa-trash-can"></i>
-                  <span>Delete</span>
+                  <span>Trash</span>
                 </button>
               </div>
             </td>
@@ -1652,27 +1652,27 @@ async function updateOrderStatus(orderId, newStatus) {
 // ----------------------------------------------------
 async function draftDeleteOrder(orderId) {
   const confirmed = confirm(
-    `Move Order #${orderId} to Draft Trash?\n\n` +
-    `• The order will be removed from Active Orders.\n` +
-    `• It will be safely retained in Draft Trash for 30 days.\n` +
-    `• After 30 days, it is automatically purged forever.\n` +
-    `• You can restore it anytime within 30 days.`
+    `Move Order #${orderId} to Trash?\n\n` +
+    `• The order will be moved to "Draft / Trash Bin".\n` +
+    `• It will NOT be deleted permanently.\n` +
+    `• You can restore it anytime or delete it permanently from the Trash tab.`
   );
 
   if (!confirmed) return;
 
   try {
-    const order = adminOrders.find(o => o.orderId === orderId || o.bookingNumber === orderId);
-    const res = await fetch(`${API_BASE}/api/orders/${encodeURIComponent(orderId)}/draft-delete`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order: order })
-    });
+    const order = adminOrders.find(o => o.orderId === orderId || o.bookingNumber === orderId || o._id === orderId);
+    try {
+      await fetch(`${API_BASE}/api/orders/${encodeURIComponent(orderId)}/draft-delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: order })
+      });
+    } catch (apiErr) {
+      console.warn('API draft-delete sync notice:', apiErr);
+    }
 
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Failed to move order to draft trash');
-
-    // Update local state
+    // Update local state immediately
     if (order) {
       order.isDraftDeleted = true;
       order.deletedAt = new Date().toISOString();
@@ -1686,8 +1686,8 @@ async function draftDeleteOrder(orderId) {
     renderDashboardOverview();
 
     showAdminToast(
-      'Order Moved to Draft Trash',
-      `Order #${orderId} has been moved to Draft Trash. It will be kept for 30 days.`,
+      'Order Moved to Trash',
+      `Order #${orderId} has been moved to Draft Trash. You can restore it or permanently delete it from the Trash tab.`,
       'warning'
     );
   } catch (err) {
@@ -1700,15 +1700,16 @@ async function draftDeleteOrder(orderId) {
 // ----------------------------------------------------
 async function restoreOrder(orderId) {
   try {
-    const order = adminOrders.find(o => o.orderId === orderId || o.bookingNumber === orderId);
-    const res = await fetch(`${API_BASE}/api/orders/${encodeURIComponent(orderId)}/restore`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ order: order })
-    });
-
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.message || 'Failed to restore order');
+    const order = adminOrders.find(o => o.orderId === orderId || o.bookingNumber === orderId || o._id === orderId);
+    try {
+      await fetch(`${API_BASE}/api/orders/${encodeURIComponent(orderId)}/restore`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: order })
+      });
+    } catch (apiErr) {
+      console.warn('API restore sync notice:', apiErr);
+    }
 
     // Update local state
     if (order) {

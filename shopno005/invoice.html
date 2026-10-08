@@ -427,8 +427,8 @@
           <h1 class="inv-brand-h1" id="invBrandTitle">Get Pattas (Shop 005)</h1>
           <div class="inv-brand-tagline">Direct Factory Fireworks Wholesale Consignment</div>
           <div class="inv-brand-info">
-            <div>?? Depot Address: Sivakasi Direct Factory Transport Hub, Tamil Nadu - 626123</div>
-            <div>?? WhatsApp / Mobile: <strong id="invBrandPhone">+91 86104 51118</strong> | ?? Sales@getpattasu.in
+            <div><i class="fa-solid fa-location-dot" style="color: #ea580c; margin-right: 4px;"></i> Depot Address: Sivakasi Direct Factory Transport Hub, Tamil Nadu - 626123</div>
+            <div><i class="fa-brands fa-whatsapp" style="color: #16a34a; margin-right: 4px;"></i> WhatsApp / Mobile: <strong id="invBrandPhone">+91 86104 51118</strong> | <i class="fa-solid fa-envelope" style="color: #2563eb; margin-left: 6px; margin-right: 4px;"></i> Sales@getpattasu.in
             </div>
           </div>
         </div>
@@ -437,7 +437,7 @@
         <span class="inv-pill">WHOLESALE TAX INVOICE</span>
         <div class="inv-booking-val" id="invBookingNo">Get-Pattas-BookNo-005</div>
         <div class="inv-date-val" id="invDate">Date: Loading...</div>
-        <div class="inv-status-val">? Status: CONFIRMED BOOKING</div>
+        <div class="inv-status-val"><i class="fa-solid fa-circle-check" style="color: #16a34a; margin-right: 4px;"></i> Status: CONFIRMED BOOKING</div>
       </div>
     </div>
 
@@ -446,7 +446,7 @@
       <div class="inv-party-col">
         <h4>BILL TO / CONSIGNEE:</h4>
         <div class="inv-party-name" id="invCustName">Customer Name</div>
-        <div class="inv-party-line">?? Mobile / WhatsApp: <strong id="invCustPhone">+91 00000 00000</strong></div>
+        <div class="inv-party-line"><i class="fa-solid fa-phone" style="color: #16a34a; margin-right: 4px;"></i> Mobile / WhatsApp: <strong id="invCustPhone">+91 00000 00000</strong></div>
         <div class="inv-party-line" id="invCustEmail"></div>
       </div>
       <div class="inv-party-col">
@@ -454,7 +454,7 @@
         <div class="inv-party-line" id="invCustAddress" style="font-weight: 600; color: #1e293b;">Direct Sivakasi
           Transport Service</div>
         <div class="inv-party-line" style="margin-top: 4px; font-size: 0.78rem; color: #0284c7; font-weight: 700;">
-          ?? Transport: Direct Sivakasi Factory Transport (To-Pay LR Receipt)
+          <i class="fa-solid fa-truck" style="color: #0284c7; margin-right: 4px;"></i> Transport: Direct Sivakasi Factory Transport (To-Pay LR Receipt)
         </div>
       </div>
     </div>
@@ -467,7 +467,7 @@
           <th style="width: 48%;">Item Description / Variety</th>
           <th style="width: 15%; text-align: center;">Quantity (Boxes)</th>
           <th style="width: 16%; text-align: right;">Wholesale Rate</th>
-          <th style="width: 16%; text-align: right;">Total (?)</th>
+          <th style="width: 16%; text-align: right;">Total (₹)</th>
         </tr>
       </thead>
       <tbody id="invItemsBody">
@@ -500,7 +500,7 @@
           </tr>
           <tr class="inv-grand-row">
             <td>Net Total Payable:</td>
-            <td class="val" id="invNetTotal">?0</td>
+            <td class="val" id="invNetTotal">₹0</td>
           </tr>
         </table>
       </div>
@@ -510,7 +510,7 @@
     <div class="inv-bottom-auth">
       <div class="inv-seal">
         <span>GET PATTAS</span>
-        <span style="font-size: 0.75rem;">? ? ?</span>
+        <span style="font-size: 0.75rem; letter-spacing: 2px;">★ ★ ★</span>
         <span>VERIFIED SEAL</span>
       </div>
       <div class="inv-signature-block">
@@ -627,7 +627,7 @@
 
       const email = order.email || (order.customer && order.customer.email);
       if (email) {
-        document.getElementById('invCustEmail').innerText = '?? ' + email;
+        document.getElementById('invCustEmail').innerText = '✉️ ' + email;
       }
 
       const addr = order.address || (order.customer && order.customer.address) || 'Direct Sivakasi Factory Consignment';
@@ -674,14 +674,14 @@
 
       document.getElementById('invTotalVarieties').innerText = `${items.length} Items`;
       document.getElementById('invTotalBoxes').innerText = `${order.totalBoxes || totalBoxes} Boxes`;
-      document.getElementById('invNetTotal').innerText = '?' + Number(order.totalAmount).toLocaleString('en-IN');
+      document.getElementById('invNetTotal').innerText = '₹' + Number(order.totalAmount || 0).toLocaleString('en-IN');
       document.getElementById('invSignBrand').innerText = 'For Get Pattas - Wholesale Shop-005';
 
       // Setup WhatsApp share button - Always to Kaira WhatsApp (+91 86104 51118)
       const targetPhone = '918610451118';
       const shareUrl = window.location.href;
       const custDetails = order.customerName ? `\nCustomer: *${order.customerName}* (${order.phone || ''})` : '';
-      const waMsg = `?? *DIWALI WHOLESALE INVOICE*\nBooking No: *${order.bookingNumber || order.orderId}*${custDetails}\nTotal: *?${Number(order.totalAmount).toLocaleString('en-IN')}*\nView / Download PDF: ${shareUrl}`;
+      const waMsg = `💥 *DIWALI WHOLESALE INVOICE*\nBooking No: *${order.bookingNumber || order.orderId}*${custDetails}\nTotal: *₹${Number(order.totalAmount || 0).toLocaleString('en-IN')}*\nView / Download PDF: ${shareUrl}`;
       document.getElementById('btnShareWa').href = `https://wa.me/${targetPhone}?text=${encodeURIComponent(waMsg)}`;
     }
 
