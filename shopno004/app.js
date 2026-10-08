@@ -13,7 +13,7 @@
    ========================================================================== */
 
 // Global Application State
-let currentBrand = 'muthu';
+let currentBrand = 'getpattasu';
 let currentSearchQuery = '';
 let currentCategoryFilter = 'all';
 let cart = []; // Array of { id, brand, code, name, tamilName, packInfo, mrp, price, qty }
@@ -1211,6 +1211,56 @@ function loadCartFromStorage() {
     const savedQtyMap = localStorage.getItem(getShopStorageKey('get_pattasu_qty_map'));
     if (savedCart) cart = JSON.parse(savedCart) || [];
     if (savedQtyMap) qtyMap = JSON.parse(savedQtyMap) || {};
+
+    // Auto-fix: Migrate old buggy cart items (gp-15, cheers, legacy wrong rates 250/275, etc.) to proper 5000 Grand Combo Pack
+    let cartModified = false;
+    if (Array.isArray(cart) && cart.length > 0) {
+      const activeBrand = (typeof currentBrand !== 'undefined' && currentBrand) ? currentBrand : (typeof detectCurrentBrand === 'function' ? detectCurrentBrand() : 'getpattasu');
+      const brandPrefix = 'gp';
+      const comboId = `${brandPrefix}-combo-1`;
+
+      // Remove buggy gp-15 if present
+      cart = cart.filter(item => {
+        if (item.id === 'gp-15') {
+          delete qtyMap['gp-15'];
+          cartModified = true;
+          return false;
+        }
+        return true;
+      });
+
+      // Fix any combo / dhamaka pack that has wrong price (e.g. 250, 275, etc.)
+      cart = cart.map(item => {
+        const isCombo = item.id === comboId || (item.id && item.id.includes('combo-1')) || 
+          (item.name && (item.name.includes('Grand Family') || item.name.includes('Dhamaka Pack') || item.name.includes('Festival Dhamaka')));
+        if (isCombo) {
+          if (item.price !== 5000 || item.id !== comboId) {
+            cartModified = true;
+            delete qtyMap[item.id];
+            qtyMap[comboId] = item.qty || 1;
+            return {
+              id: comboId,
+              code: `${brandPrefix.toUpperCase()}-DHK`,
+              brand: activeBrand,
+              name: 'Get Pattas Grand Family Festival Dhamaka Pack',
+              tamilName: "கிராண்ட் பேமிலி பெஸ்டிவல் தமாகா பேக் (45 பொருட்கள்)",
+              category: "Festive Gift Boxes (பரிசு பெட்டகம்)",
+              packInfo: "45 Items Mega Box",
+              mrp: 10000,
+              price: 5000,
+              qty: item.qty || 1
+            };
+          }
+        }
+        return item;
+      });
+
+      if (cartModified) {
+        saveCartToStorage();
+        updateStickySummaryBar();
+        updateCartDrawerUI();
+      }
+    }
   } catch (e) {
     cart = [];
     qtyMap = {};
@@ -2188,25 +2238,82 @@ function printOrderInvoice() {
 // COMBO HAMPER BANNER SHORTCUT
 // ==========================================
 function addComboToCart(comboKey) {
-  // Add Grand Family Combo Pack (₹5,000)
-  let comboItem = null;
-  for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
-    comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.id === 'gp-15');
-    if (comboItem) break;
+  // Add Grand Family Festival Dhamaka Pack (₹5,000)
+  const activeBrand = (typeof currentBrand !== 'undefined' && currentBrand) ? currentBrand : (typeof detectCurrentBrand === 'function' ? detectCurrentBrand() : 'getpattasu');
+  const brandPrefix = 'gp';
+  const comboId = (comboKey && comboKey !== 'combo-1') ? comboKey : `${brandPrefix}-combo-1`;
+
+  // 1. Clean up any buggy gp-15 or legacy items from cart / qtyMap
+  let cartCleaned = false;
+  if (qtyMap['gp-15']) {
+    delete qtyMap['gp-15'];
+    cart = cart.filter(i => i.id !== 'gp-15');
+    cartCleaned = true;
   }
-  if (!comboItem) {
+  // Remove any legacy combo item that has wrong price (e.g. 250, 275)
+  cart = cart.filter(i => {
+    if ((i.id === comboId || (i.id && i.id.includes('combo-1')) || (i.name && (i.name.includes('Grand Family') || i.name.includes('Dhamaka Pack')))) && i.price !== 5000) {
+      delete qtyMap[i.id];
+      cartCleaned = true;
+      return false;
+    }
+    return true;
+  });
+  if (cartCleaned) {
+    saveCartToStorage();
+  }
+
+  // 2. Find official combo item in active brand
+  let comboItem = null;
+  if (window.ALL_BRANDS_PRODUCTS && window.ALL_BRANDS_PRODUCTS[activeBrand]) {
+    comboItem = window.ALL_BRANDS_PRODUCTS[activeBrand].find(i => (i.id === comboId || i.id === `${brandPrefix}-combo-1`) && i.price === 5000);
+  }
+
+  // 3. If not found in active brand, search across all brands for comboId with price 5000
+  if (!comboItem && window.ALL_BRANDS_PRODUCTS) {
     for (const bSlug in window.ALL_BRANDS_PRODUCTS) {
-      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => i.price === 5000 && (i.category.includes('Gift') || i.category.includes('Combo') || i.category.includes('பாக்ஸ்')));
+      comboItem = window.ALL_BRANDS_PRODUCTS[bSlug].find(i => (i.id === comboId || (i.id && i.id.includes('combo-1'))) && i.price === 5000);
       if (comboItem) break;
     }
   }
 
-  if (comboItem) {
-    changeQty(comboItem.id, 1);
-    showToast(`🎉 Added ${comboItem.name} (₹${comboItem.price.toLocaleString('en-IN')}) to your order!`);
-  } else {
-    showToast('🎉 Added Diwali Family Combo Pack (₹5,000)!');
+  // 4. Fallback: register comboItem directly into active brand
+  if (!comboItem) {
+    comboItem = {
+      id: comboId,
+      code: `${brandPrefix.toUpperCase()}-DHK`,
+      brand: activeBrand,
+      category: "Festive Gift Boxes (பரிசு பெட்டகம்)",
+      name: "Get Pattas Grand Family Festival Dhamaka Pack",
+      tamilName: "கிராண்ட் பேமிலி பெஸ்டிவல் தமாகா பேக் (45 பொருட்கள்)",
+      packInfo: "45 Items Mega Box",
+      mrp: 10000,
+      price: 5000
+    };
   }
+
+  // Guarantee comboItem price and MRP
+  comboItem.price = 5000;
+  comboItem.mrp = 10000;
+
+  // Ensure registered in window.ALL_BRANDS_PRODUCTS so setQtyDirect finds it properly
+  if (window.ALL_BRANDS_PRODUCTS) {
+    if (!window.ALL_BRANDS_PRODUCTS[activeBrand]) window.ALL_BRANDS_PRODUCTS[activeBrand] = [];
+    const idx = window.ALL_BRANDS_PRODUCTS[activeBrand].findIndex(i => i.id === comboItem.id);
+    if (idx === -1) {
+      window.ALL_BRANDS_PRODUCTS[activeBrand].push(comboItem);
+    } else {
+      window.ALL_BRANDS_PRODUCTS[activeBrand][idx].price = 5000;
+      window.ALL_BRANDS_PRODUCTS[activeBrand][idx].mrp = 10000;
+    }
+  }
+
+  // Increment quantity by 1 directly
+  const currentQ = (typeof qtyMap !== 'undefined' && qtyMap[comboItem.id]) ? parseInt(qtyMap[comboItem.id], 10) : 0;
+  setQtyDirect(comboItem.id, currentQ + 1);
+
+  // Show Toast
+  showToast(`🎉 Added ${comboItem.name} (₹5,000) to your order!`);
 }
 
 // ==========================================

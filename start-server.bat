@@ -15,7 +15,9 @@ echo  Shop 001:    http://localhost:8000/shopno001
 echo  Shop 002:    http://localhost:8000/shopno002
 echo  Shop 003:    http://localhost:8000/shopno003
 echo  Shop 004:    http://localhost:8000/shopno004
-echo  Admin:       http://localhost:8000/admin.html
+echo  Shop 005:    http://localhost:8000/shopno005
+echo  Admin Login: http://localhost:8000/portal/admin/login
+echo  Admin Dash:  http://localhost:8000/portal/admin/dashboard
 echo  ------------------------------------------
 echo.
 echo  Press Ctrl+C to stop the server.

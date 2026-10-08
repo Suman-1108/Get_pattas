@@ -43,6 +43,9 @@ app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno
 app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/Get pattas '], (req, res) => res.sendFile(path.join(frontendDir, 'shopno002', 'index.html')));
 app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattasu/shopno003', '/red'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno003', 'index.html')));
 app.get(['/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno004/', '/getpattasu/shopno004', '/getpattas', '/getpattasu'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno004', 'index.html')));
+app.get(['/shopno005', '/shopno005/'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno005', 'index.html')));
+app.get(['/portal/admin', '/portal/admin/', '/portal/admin/dashboard', '/portal/admin/login'], (req, res) => res.sendFile(path.join(frontendDir, 'admin.html')));
+app.get(['/admin', '/admin.html'], (req, res) => res.redirect(302, '/portal/admin/dashboard'));
 app.get(['/invoice', '/invoice/:bookingNo', '/getpattas/invoice', '/getpattasu/invoice'], (req, res) => res.sendFile(path.join(frontendDir, 'invoice.html')));
 
 // Health Check

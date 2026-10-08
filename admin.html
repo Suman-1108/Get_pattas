@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <base href="/">
   <title>Get Pattas Kadai - Enterprise Store Admin Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +18,7 @@
 <body>
 
   <!-- Admin Login Overlay -->
-  <div class="admin-login-overlay" id="loginOverlay">
+  <div class="admin-login-overlay" id="loginOverlay" style="display: flex;">
     <div class="login-card">
       <div class="login-brand">
         <img src="assets/logo.jpg" alt="Get Pattas Kadai Logo">
@@ -27,11 +28,11 @@
       <form id="loginForm" onsubmit="handleAdminLogin(event)">
         <div class="form-group">
           <label>Admin Username</label>
-          <input type="text" id="loginUser" value="admin" required autocomplete="username">
+          <input type="text" id="loginUser" placeholder="Enter Admin Username" required autocomplete="username">
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" id="loginPass" value="admin123" required autocomplete="current-password">
+          <input type="password" id="loginPass" placeholder="Enter Password" required autocomplete="current-password">
         </div>
         <div class="login-err-msg" id="loginErrMsg"></div>
         <button type="submit" class="btn btn-primary full-width">
@@ -208,10 +209,16 @@
         </div>
         <div class="admin-brand-pills-row">
           <button class="admin-brand-pill active" data-brand="all" onclick="setAdminActiveBrand('all', this)"
-            title="Show All 4 Brands">
+            title="Show All 5 Brands">
             <span class="pill-emoji"><i class="fa-solid fa-globe"></i></span>
-            <span class="pill-text">All 4 Brands (Master)</span>
+            <span class="pill-text">All 5 Brands (Master)</span>
             <span class="pill-badge" id="pillBadgeAll">0</span>
+          </button>
+          <button class="admin-brand-pill" data-brand="shop005" onclick="setAdminActiveBrand('shop005', this)"
+            title="Muthu Crackers Store (Shop 005)">
+            <span class="pill-emoji"><i class="fa-solid fa-gem" style="color: #2563eb;"></i></span>
+            <span class="pill-text">Muthu Crackers (Shop 005)</span>
+            <span class="pill-badge" id="pillBadgeShop005">0</span>
           </button>
           <button class="admin-brand-pill" data-brand="getpattasu" onclick="setAdminActiveBrand('getpattasu', this)"
             title="Get Pattas Kadai Store (Shop 004)">
@@ -583,8 +590,9 @@
             <div class="brand-filter-box">
               <select id="adminBrandFilter" onchange="renderAdminOrders()"
                 style="padding: 0.65rem 1.1rem; border-radius: 8px; border: 2px solid #cbd5e1; font-weight: 700; color: #0f172a; background: #ffffff; cursor: pointer;">
-                <option value="all">🌐 All 4 Brands Orders</option>
+                <option value="all">🌐 All 5 Brands Orders</option>
                 <option value="whatsapp">📱 WhatsApp Direct Orders</option>
+                <option value="shop005">💎 Muthu Crackers (Shop 005)</option>
                 <option value="red">🧨 The Get pattas</option>
                 <option value="muthu">🎆 Get pattas Crackers</option>
                 <option value="Get pattas ">💥 Get pattas 's Crackers</option>
@@ -1093,8 +1101,8 @@
   <!-- Persistent Admin Toast Notifications Container -->
   <div id="adminToastContainer" class="admin-toast-container"></div>
 
-  <script src="catalogData.js?v=3"></script>
-  <script src="admin.js?v=7"></script>
+  <script src="catalogData.js?v=2026100806"></script>
+  <script src="admin.js?v=2026100806"></script>
 </body>
 
 </html>

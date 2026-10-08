@@ -41,6 +41,15 @@ const SEED_BRANDS = [
     contactPhone: ['+91 86104 51118', '+91 86104 51118'],
     contactEmail: 'support@velmurugancracker.com',
     address: 'Star Velmurugan Pyro Tech, Sivakasi, Tamil Nadu - 626124'
+  },
+  {
+    slug: 'shop005',
+    name: 'Muthu Crackers (Shop 005)',
+    logoUrl: '/uploads/logo.jpg',
+    themeColor: '#2563eb',
+    contactPhone: ['+91 86104 51118', '+91 86104 51118'],
+    contactEmail: 'sales@getpattas.com',
+    address: 'Muthu Crackers Depot, Sivakasi, Tamil Nadu - 626123'
   }
 ];
 
@@ -129,15 +138,15 @@ async function seedDatabase() {
   console.log('🌱 Starting Multi-Brand Database Seeding...');
 
   // 1. Seed Admin
-  const adminCount = await Admin.countDocuments();
+  const adminCount = await Admin.countDocuments({ username: 'kaira' });
   if (adminCount === 0) {
-    const passwordHash = await bcrypt.hash('admin123', 10);
+    const passwordHash = await bcrypt.hash('kaira@1234', 10);
     await Admin.create({
-      username: 'admin',
+      username: 'kaira',
       passwordHash,
       role: 'superadmin'
     });
-    console.log('✅ Created Superadmin: admin / admin123');
+    console.log('✅ Created Superadmin: kaira / kaira@1234');
   }
 
   // 2. Seed Brands
@@ -200,8 +209,8 @@ const memoryStore = {
   orders: [],
   admins: [{
     _id: 'admin_1',
-    username: 'admin',
-    passwordHash: bcrypt.hashSync('admin123', 10),
+    username: 'kaira',
+    passwordHash: bcrypt.hashSync('kaira@1234', 10),
     role: 'superadmin'
   }]
 };

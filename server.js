@@ -11,10 +11,13 @@ const Order = require('./models/Order');
 const SiteConfig = require('./models/SiteConfig');
 const User = require('./models/User');
 const nodemailer = require('nodemailer');
+const jwt = require('jsonwebtoken');
+const authMiddleware = require('./backend/src/middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/get_pattasu';
+const JWT_SECRET = process.env.JWT_SECRET || 'get_pattasu_jwt_super_secret_key_2026';
 
 // Ensure uploads folder exists (safely guarded for read-only / serverless environments)
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -47,6 +50,15 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json({ limit: '10mb' }));
+
+// Redirect legacy admin paths before static handler
+app.use((req, res, next) => {
+  if (req.path === '/admin.html' || req.path === '/admin') {
+    return res.redirect(302, '/portal/admin/dashboard');
+  }
+  next();
+});
+
 app.use(express.static(rootDir, {
   setHeaders: (res, filePath) => {
     if (/\.(js|css|html)$/i.test(filePath)) {
@@ -77,18 +89,56 @@ app.use((req, res, next) => {
   next();
 });
 
-// Route Handlers for Main Site and Storefronts
+// Route Handlers for Main Site, Storefronts and Admin Portal
 const serveIndex = (req, res) => res.sendFile(path.join(__dirname, 'index.html'));
+const serveAdmin = (req, res) => res.sendFile(path.join(__dirname, 'admin.html'));
 const serveShop1 = (req, res) => res.sendFile(path.join(__dirname, 'shopno001', 'index.html'));
 const serveShop2 = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 'index.html'));
 const serveShop3 = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
 const serveShop4 = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
+const serveShop5 = (req, res) => res.sendFile(path.join(__dirname, 'shopno005', 'index.html'));
 const serveShop3Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'products.html'));
 const serveShop4Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'products.html'));
 
 // Clean URL Routes
 app.get('/', serveIndex);
-app.get(['/admin', '/admin.html'], (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
+
+// Admin Portal Slugs (/portal/admin/dashboard, /portal/admin/login, /portal/admin)
+app.get([
+  '/portal/admin',
+  '/portal/admin/',
+  '/portal/admin/dashboard',
+  '/portal/admin/login'
+], serveAdmin);
+
+// Legacy Admin URLs redirect to new portal slug
+app.get(['/admin', '/admin.html'], (req, res) => res.redirect(302, '/portal/admin/dashboard'));
+
+// Static asset fallbacks for nested portal admin routes
+app.get([
+  '/portal/admin/admin.css',
+  '/portal/admin/dashboard/admin.css',
+  '/portal/admin/login/admin.css'
+], (req, res) => res.sendFile(path.join(__dirname, 'admin.css')));
+
+app.get([
+  '/portal/admin/admin.js',
+  '/portal/admin/dashboard/admin.js',
+  '/portal/admin/login/admin.js'
+], (req, res) => res.sendFile(path.join(__dirname, 'admin.js')));
+
+app.get([
+  '/portal/admin/catalogData.js',
+  '/portal/admin/dashboard/catalogData.js',
+  '/portal/admin/login/catalogData.js'
+], (req, res) => res.sendFile(path.join(__dirname, 'catalogData.js')));
+
+app.get([
+  '/portal/admin/html2pdf.bundle.min.js',
+  '/portal/admin/dashboard/html2pdf.bundle.min.js',
+  '/portal/admin/login/html2pdf.bundle.min.js'
+], (req, res) => res.sendFile(path.join(__dirname, 'html2pdf.bundle.min.js')));
+
 app.get(['/invoice', '/invoice.html', '/invoice/:bookingNo'], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
 app.get('/shopno001', (req, res) => res.redirect(301, '/shopno001/'));
 app.get('/shopno001/', serveShop1);
@@ -98,6 +148,8 @@ app.get('/shopno003', (req, res) => res.redirect(301, '/shopno003/'));
 app.get('/shopno003/', serveShop3);
 app.get('/shopno004', (req, res) => res.redirect(301, '/shopno004/'));
 app.get('/shopno004/', serveShop4);
+app.get('/shopno005', (req, res) => res.redirect(301, '/shopno005/'));
+app.get('/shopno005/', serveShop5);
 app.get(['/shopno003/products', '/shopno003/products.html'], serveShop3Products);
 app.get(['/shopno004/products', '/shopno004/products.html'], serveShop4Products);
 
@@ -677,8 +729,8 @@ app.delete('/api/customer/address/:addressId', async (req, res) => {
   }
 });
 
-// GET All Registered Customers (Admin)
-app.get('/api/admin/customers', async (req, res) => {
+// GET All Registered Customers (Admin - Protected with JWT)
+app.get('/api/admin/customers', authMiddleware, async (req, res) => {
   try {
     if (isDbConnected) {
       const customers = await User.find().sort({ createdAt: -1 });
@@ -690,13 +742,47 @@ app.get('/api/admin/customers', async (req, res) => {
   }
 });
 
-// Admin Authentication
+// Admin Authentication with JWT Secret
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
-  if (username === 'adgetmin' && password === 'adgetmin321') {
-    return res.json({ success: true, token: 'authenticated-admin-session-token', message: 'Login successful' });
+  if (!username || !password) {
+    return res.status(400).json({ success: false, message: 'Username and password required.' });
+  }
+
+  const u = username.toLowerCase().trim();
+  const p = password.trim();
+
+  if (
+    (u === 'kaira' && p === 'kaira@1234') ||
+    (u === 'adgetmin' && p === 'adgetmin321')
+  ) {
+    const token = jwt.sign(
+      { id: 'admin_' + u, username: u, role: 'superadmin' },
+      JWT_SECRET,
+      { expiresIn: '7d' }
+    );
+    return res.json({
+      success: true,
+      token,
+      admin: {
+        id: 'admin_' + u,
+        username: u,
+        role: 'superadmin'
+      },
+      message: 'Admin authenticated successfully'
+    });
   }
   return res.status(401).json({ success: false, message: 'Invalid Admin Credentials' });
+});
+
+// Admin Token Verification Endpoint (Protected with JWT)
+app.get('/api/admin/verify', authMiddleware, (req, res) => {
+  return res.json({
+    success: true,
+    valid: true,
+    admin: req.admin,
+    message: 'Token is valid'
+  });
 });
 
 // Upload File Endpoint
@@ -1504,8 +1590,8 @@ app.delete('/api/orders/drafts/empty', async (req, res) => {
   }
 });
 
-// GET /api/admin/smtp-config (Admin view SMTP settings without exposing full password)
-app.get('/api/admin/smtp-config', async (req, res) => {
+// GET /api/admin/smtp-config (Admin view SMTP settings - Protected with JWT)
+app.get('/api/admin/smtp-config', authMiddleware, async (req, res) => {
   try {
     const smtp = await getEmailTransporter();
     let config = null;
@@ -1525,8 +1611,8 @@ app.get('/api/admin/smtp-config', async (req, res) => {
   }
 });
 
-// PUT /api/admin/smtp-config (Admin save SMTP settings)
-app.put('/api/admin/smtp-config', async (req, res) => {
+// PUT /api/admin/smtp-config (Admin save SMTP settings - Protected with JWT)
+app.put('/api/admin/smtp-config', authMiddleware, async (req, res) => {
   try {
     const { smtpHost, smtpPort, smtpSecure, smtpUser, smtpPass, smtpFrom, smtpEnabled } = req.body;
     const updateObj = {};
@@ -1551,8 +1637,8 @@ app.put('/api/admin/smtp-config', async (req, res) => {
   }
 });
 
-// POST /api/admin/test-smtp (Admin send test email to verify credentials)
-app.post('/api/admin/test-smtp', async (req, res) => {
+// POST /api/admin/test-smtp (Admin send test email to verify credentials - Protected with JWT)
+app.post('/api/admin/test-smtp', authMiddleware, async (req, res) => {
   try {
     const { testEmail } = req.body;
     if (!testEmail || !testEmail.includes('@')) {

@@ -372,19 +372,101 @@ async function handleManualOrderRefresh() {
 }
 
 // On Load
+// Route and Slug Tracking
+function getAdminCurrentSlug() {
+  const p = window.location.pathname.toLowerCase();
+  if (p.includes('/login')) return 'login';
+  if (p.includes('/dashboard')) return 'dashboard';
+  return 'default';
+}
+
+function setAdminUrlSlug(slug) {
+  try {
+    if (window.history && window.history.pushState) {
+      if (window.location.pathname !== slug) {
+        window.history.pushState(null, '', slug);
+      }
+    }
+  } catch (e) {}
+}
+
+function getAdminAuthHeaders(customHeaders = {}) {
+  const token = sessionStorage.getItem('adminToken') || localStorage.getItem('adminToken');
+  const headers = { ...customHeaders };
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  return headers;
+}
+
+// Verify JWT token with Backend API
+async function verifyAdminAuthSession() {
+  const overlay = document.getElementById('loginOverlay');
+  const app = document.getElementById('adminApp');
+  const token = sessionStorage.getItem('adminToken') || localStorage.getItem('adminToken');
+
+  // If no token exists at all -> strictly unauthorized! Keep dashboard hidden
+  if (!token) {
+    if (overlay) overlay.style.display = 'flex';
+    if (app) app.style.display = 'none';
+    const userField = document.getElementById('loginUser');
+    const passField = document.getElementById('loginPass');
+    if (userField) userField.value = '';
+    if (passField) passField.value = '';
+    setAdminUrlSlug('/portal/admin/login');
+    return false;
+  }
+
+  // Token exists -> verify signature & expiration with backend JWT secret
+  try {
+    const res = await fetch(`${API_BASE}/api/admin/verify`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.valid) {
+        // Token is valid! Allow entry to admin panel
+        sessionStorage.setItem('kaira_admin_auth', 'true');
+        if (overlay) overlay.style.display = 'none';
+        if (app) app.style.display = 'flex';
+        setAdminUrlSlug('/portal/admin/dashboard');
+        initAdminDashboard();
+        return true;
+      }
+    }
+    throw new Error('Invalid or expired token');
+  } catch (err) {
+    // Bad, expired or forged token -> purge and enforce login
+    sessionStorage.removeItem('adminToken');
+    localStorage.removeItem('adminToken');
+    sessionStorage.removeItem('kaira_admin_auth');
+    if (overlay) overlay.style.display = 'flex';
+    if (app) app.style.display = 'none';
+    setAdminUrlSlug('/portal/admin/login');
+    const errDiv = document.getElementById('loginErrMsg');
+    if (errDiv) errDiv.innerText = 'Session expired or invalid credentials. Please log in.';
+    return false;
+  }
+}
+
+// On Load
 document.addEventListener('DOMContentLoaded', () => {
   initAdminTheme();
   initNotifications();
 
-  const token = localStorage.getItem('adminToken');
-  if (token === 'authenticated-admin-session-token' || !token) {
-    localStorage.setItem('adminToken', 'authenticated-admin-session-token');
-    const overlay = document.getElementById('loginOverlay');
-    const app = document.getElementById('adminApp');
-    if (overlay) overlay.style.display = 'none';
-    if (app) app.style.display = 'flex';
-    initAdminDashboard();
+  // Purge any old legacy placeholder tokens
+  const oldToken = localStorage.getItem('adminToken');
+  if (oldToken === 'authenticated-admin-session-token' || oldToken === 'mock-token' || oldToken === 'token' || oldToken === 'kaira-authenticated-admin-token' || oldToken === 'kaira-session-token') {
+    localStorage.removeItem('adminToken');
+    sessionStorage.removeItem('adminToken');
   }
+
+  // Strictly verify authentication using JWT secret before allowing dashboard access
+  verifyAdminAuthSession();
 
   // Cross-tab real-time listener for orders placed/deleted from any storefront or admin tab
   if (syncChannel) {
@@ -451,11 +533,12 @@ function setAdminActiveBrand(brandSlug, btnElement = null) {
   const topUsrName = document.getElementById('topbarUserName');
 
   const brandTitles = {
-    'getpattasu': { title: 'Get Pattas', tag: 'WHOLESALE ADMIN', url: '/getpattas/shopno004', name: 'Get Pattas Admin' },
-    'muthu': { title: 'Get pattas ', tag: 'Get pattas ADMIN', url: '/getpattas/shopno001', name: 'Get pattas Crackers Admin' },
-    'Get pattas ': { title: "Get pattas 'S CRACKERS", tag: 'Get pattas  ADMIN', url: '/getpattas/shopno002', name: "Get pattas 's Crackers Admin" },
-    'red': { title: 'THE Get pattas ', tag: 'Get pattas ADMIN', url: '/getpattas/shopno003', name: 'The Get pattas  Admin' },
-    'all': { title: 'Get Pattas', tag: 'ALL 4 BRANDS ADMIN', url: '/getpattas/shopno004', name: 'Master Super Admin' }
+    'shop005': { title: 'Muthu Crackers (Shop 005)', tag: 'SHOP 005 - MUTHU CRACKERS', url: 'shopno005/index.html', name: 'Muthu Crackers Admin' },
+    'getpattasu': { title: 'Get Pattas', tag: 'WHOLESALE ADMIN', url: 'shopno004/index.html', name: 'Get Pattas Admin' },
+    'muthu': { title: 'Get pattas ', tag: 'Get pattas ADMIN', url: 'shopno001/index.html', name: 'Get pattas Crackers Admin' },
+    'Get pattas ': { title: "Get pattas 'S CRACKERS", tag: 'Get pattas  ADMIN', url: 'shopno002/index.html', name: "Get pattas 's Crackers Admin" },
+    'red': { title: 'THE Get pattas ', tag: 'Get pattas ADMIN', url: 'shopno003/index.html', name: 'The Get pattas  Admin' },
+    'all': { title: 'Get Pattas', tag: 'ALL 5 BRANDS ADMIN', url: 'shopno005/index.html', name: 'Master Super Admin' }
   };
 
   const bInfo = brandTitles[brandSlug] || brandTitles['all'];
@@ -478,14 +561,19 @@ function setAdminActiveBrand(brandSlug, btnElement = null) {
   renderAdminOrders();
 }
 
-// Admin Login
+// Admin Login with JWT Authentication
 async function handleAdminLogin(e) {
   e.preventDefault();
   const user = document.getElementById('loginUser').value.trim();
   const pass = document.getElementById('loginPass').value.trim();
   const errDiv = document.getElementById('loginErrMsg');
+  const btn = e.target.querySelector('button[type="submit"]');
 
-  errDiv.innerText = '';
+  if (errDiv) errDiv.innerText = '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+  }
 
   try {
     const res = await fetch(`${API_BASE}/api/admin/login`, {
@@ -495,30 +583,58 @@ async function handleAdminLogin(e) {
     });
     const data = await res.json();
 
-    if (data.success) {
+    if (res.ok && data.success && data.token) {
+      // Store verified JWT token
+      sessionStorage.setItem('kaira_admin_auth', 'true');
+      sessionStorage.setItem('adminToken', data.token);
       localStorage.setItem('adminToken', data.token);
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminApp').style.display = 'flex';
+      localStorage.setItem('kaira_admin_user', data.admin?.username || user);
+
+      // Hide login overlay and reveal admin workspace
+      const overlay = document.getElementById('loginOverlay');
+      const app = document.getElementById('adminApp');
+      if (overlay) overlay.style.display = 'none';
+      if (app) app.style.display = 'flex';
+
+      // Transition slug to /portal/admin/dashboard
+      setAdminUrlSlug('/portal/admin/dashboard');
+
+      // Initialize admin data
       initAdminDashboard();
+      showAdminToast('Secure Login', 'Welcome to Admin Dashboard', 'success');
+      return;
     } else {
-      errDiv.innerText = data.message || 'Invalid Login Credentials';
+      if (errDiv) errDiv.innerText = data.message || 'Invalid username or password.';
     }
   } catch (err) {
-    if ((user === 'adgetmin' && pass === 'adgetmin321') || (user === 'admin' && pass === 'admin123')) {
-      localStorage.setItem('adminToken', 'authenticated-admin-session-token');
-      document.getElementById('loginOverlay').style.display = 'none';
-      document.getElementById('adminApp').style.display = 'flex';
-      initAdminDashboard();
-    } else {
-      errDiv.innerText = 'Login Failed. Check credentials.';
+    if (errDiv) errDiv.innerText = 'Unable to connect to server. Please try again.';
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Log In to Admin Dashboard';
     }
   }
 }
 
-// Logout
+// Logout and enforce login barrier
 function handleAdminLogout() {
+  sessionStorage.removeItem('kaira_admin_auth');
+  sessionStorage.removeItem('adminToken');
   localStorage.removeItem('adminToken');
-  location.reload();
+  localStorage.removeItem('kaira_admin_user');
+
+  const overlay = document.getElementById('loginOverlay');
+  const app = document.getElementById('adminApp');
+  if (overlay) overlay.style.display = 'flex';
+  if (app) app.style.display = 'none';
+
+  const userField = document.getElementById('loginUser');
+  const passField = document.getElementById('loginPass');
+  if (userField) userField.value = '';
+  if (passField) passField.value = '';
+
+  setAdminUrlSlug('/portal/admin/login');
+  showAdminToast('Logged Out', 'You have been logged out of the admin portal.', 'info');
 }
 
 // Initialize Admin Dashboard
@@ -628,15 +744,17 @@ function renderDashboardOverview() {
 
   // Update pill badges on top switcher
   const pillAll = document.getElementById('pillBadgeAll');
+  const pillShop005 = document.getElementById('pillBadgeShop005');
   const pillGP = document.getElementById('pillBadgeGetpattasu');
   const pillMuthu = document.getElementById('pillBadgeMuthu');
   const pillVel = document.getElementById('pillBadgeVel');
   const pillRed = document.getElementById('pillBadgeRed');
 
   if (pillAll) pillAll.innerText = adminOrders.length;
+  if (pillShop005) pillShop005.innerText = adminOrders.filter(o => o.brand === 'shop005' || (o.brandName && (o.brandName.toLowerCase().includes('royal') || o.brandName.toLowerCase().includes('shop 005') || o.brandName.toLowerCase().includes('shopno005')))).length;
   if (pillGP) pillGP.innerText = adminOrders.filter(o => o.brand === 'getpattasu' || (o.brandName && o.brandName.toLowerCase().includes('Get Pattas'))).length;
   if (pillMuthu) pillMuthu.innerText = adminOrders.filter(o => o.brand === 'muthu' || (o.brandName && o.brandName.toLowerCase().includes('muthu'))).length;
-  if (pillVel) pillVel.innerText = adminOrders.filter(o => o.brand === 'vel' || (o.brandName && o.brandName.toLowerCase().includes('vel'))).length;
+  if (pillVel) pillVel.innerText = adminOrders.filter(o => o.brand === 'vel' || o.brand === 'Get pattas ' || (o.brandName && o.brandName.toLowerCase().includes('vel'))).length;
   if (pillRed) pillRed.innerText = adminOrders.filter(o => o.brand === 'red' || (o.brandName && o.brandName.toLowerCase().includes('red'))).length;
 
   // 2. Recent Orders List
@@ -725,8 +843,26 @@ async function loadAdminProducts() {
     }
   }
 
+  populateAdminCategoryFilter();
   renderAdminProducts();
   renderDashboardOverview();
+}
+
+function populateAdminCategoryFilter() {
+  const catFilter = document.getElementById('prodCategoryFilter');
+  if (!catFilter || !adminProducts || adminProducts.length === 0) return;
+  const currentVal = catFilter.value;
+  const uniqueCats = Array.from(new Set(adminProducts.map(p => p.category).filter(Boolean)));
+  let opts = `<option value="all">All Categories (${uniqueCats.length})</option>`;
+  uniqueCats.forEach(c => {
+    opts += `<option value="${c}">${c}</option>`;
+  });
+  catFilter.innerHTML = opts;
+  if (uniqueCats.includes(currentVal)) {
+    catFilter.value = currentVal;
+  } else {
+    catFilter.value = 'all';
+  }
 }
 
 function renderAdminProducts() {
@@ -921,6 +1057,8 @@ function downloadAdminPriceList() {
 // Brand Helper Utilities for Admin
 function getBrandStyle(brandSlug) {
   switch (brandSlug) {
+    case 'shop005':
+      return 'background: #eff6ff; color: #1d4ed8; border: 1px solid #93c5fd;';
     case 'red':
       return 'background: #fee2e2; color: #dc2626; border: 1px solid #fca5a5;';
     case 'muthu':
@@ -935,6 +1073,7 @@ function getBrandStyle(brandSlug) {
 
 function getBrandEmoji(brandSlug) {
   switch (brandSlug) {
+    case 'shop005': return '💎';
     case 'red': return '🧨';
     case 'muthu': return '🎆';
     case 'Get pattas ':
@@ -945,6 +1084,7 @@ function getBrandEmoji(brandSlug) {
 
 function getBrandIcon(brandSlug) {
   switch (brandSlug) {
+    case 'shop005': return '<i class="fa-solid fa-gem" style="color: #2563eb;"></i>';
     case 'red': return '<i class="fa-solid fa-fire-flame-curved" style="color: #dc2626;"></i>';
     case 'muthu': return '<i class="fa-solid fa-burst" style="color: #059669;"></i>';
     case 'Get pattas ':
@@ -955,6 +1095,7 @@ function getBrandIcon(brandSlug) {
 
 function getBrandTitle(brandSlug) {
   switch (brandSlug) {
+    case 'shop005': return 'Get Pattas Royal (Shop 005)';
     case 'red': return 'The Get pattas ';
     case 'muthu': return 'Get pattas Crackers';
     case 'Get pattas ':
@@ -1696,7 +1837,9 @@ async function openSmtpSettingsModal() {
 
   // Load existing SMTP config
   try {
-    const res = await fetch(`${API_BASE}/api/admin/smtp-config`);
+    const res = await fetch(`${API_BASE}/api/admin/smtp-config`, {
+      headers: getAdminAuthHeaders()
+    });
     if (res.ok) {
       const config = await res.json();
       if (document.getElementById('smtpHostInput')) document.getElementById('smtpHostInput').value = config.host || 'smtp.gmail.com';
@@ -1750,7 +1893,7 @@ async function saveSmtpSettings(e) {
   try {
     const res = await fetch(`${API_BASE}/api/admin/smtp-config`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAdminAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({
         smtpHost: host,
         smtpPort: port,
@@ -1799,7 +1942,7 @@ async function sendTestSmtpEmail() {
   try {
     const res = await fetch(`${API_BASE}/api/admin/test-smtp`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: getAdminAuthHeaders({ 'Content-Type': 'application/json' }),
       body: JSON.stringify({ testEmail: recipient })
     });
 
@@ -1864,7 +2007,9 @@ function showAdminToast(title, message, type = 'info', duration = 4500) {
 // ----------------------------------------------------
 async function loadAdminCustomers() {
   try {
-    const res = await fetch(`${API_BASE}/api/admin/customers`);
+    const res = await fetch(`${API_BASE}/api/admin/customers`, {
+      headers: getAdminAuthHeaders()
+    });
     adminCustomers = await res.json();
   } catch (err) {
     adminCustomers = [];

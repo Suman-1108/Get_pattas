@@ -8665,3 +8665,137 @@ body[data-brand="getpattasu"] .btn-primary {
         display: block !important;
     }
 }
+
+/* ==========================================================================
+   THEME OVERRIDES: SHOP 005 - GET PATTAS ROYAL (BLUE THEME)
+   ========================================================================== */
+body[data-brand="shop005"] {
+  --primary-color: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-gradient: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+  --brand-color: #2563eb;
+  --accent-color: #f59e0b;
+}
+
+body[data-brand="shop005"] .brand-logo-img {
+  border-color: #2563eb;
+}
+
+body[data-brand="shop005"] .brand-name .highlight {
+  color: #2563eb;
+}
+
+body[data-brand="shop005"] .kadai-tag {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+body[data-brand="shop005"] .cart-badge {
+  background: #2563eb;
+}
+
+body[data-brand="shop005"] .nav-link.active,
+body[data-brand="shop005"] .nav-link:hover {
+  color: #2563eb;
+}
+
+body[data-brand="shop005"] .brand-dedicated-hero {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+}
+
+body[data-brand="shop005"] .hero-btn-shop {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+}
+
+body[data-brand="shop005"] .hero-btn-shop:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af);
+}
+
+body[data-brand="shop005"] .active-brand-banner {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%) !important;
+}
+
+body[data-brand="shop005"] .current-brand-badge {
+  background: #2563eb !important;
+}
+
+body[data-brand="shop005"] .category-table-header {
+  background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%) !important;
+  color: #ffffff;
+}
+
+body[data-brand="shop005"] .net-price-highlight {
+  color: #2563eb;
+}
+
+body[data-brand="shop005"] .product-row.row-selected {
+  background: #eff6ff !important;
+}
+
+body[data-brand="shop005"] .product-row.row-selected .row-total-val {
+  color: #1d4ed8;
+}
+
+body[data-brand="shop005"] .btn-qty-minus:hover,
+body[data-brand="shop005"] .btn-qty-plus:hover {
+  background: #2563eb;
+  color: #ffffff;
+  border-color: #2563eb;
+}
+
+body[data-brand="shop005"] .btn-sticky-checkout {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+}
+
+body[data-brand="shop005"] .btn-sticky-checkout:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+}
+
+body[data-brand="shop005"] .category-pill-btn.active {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+body[data-brand="shop005"] .category-pill-btn.active .pill-badge {
+  background: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+body[data-brand="shop005"] .table-search-box input:focus,
+body[data-brand="shop005"] .category-jump-select:focus {
+  border-color: #2563eb !important;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+}
+
+body[data-brand="shop005"] .upi-qr-display-box {
+  border-color: #2563eb;
+}
+
+body[data-brand="shop005"] .upi-copy-btn {
+  background: #2563eb;
+}
+
+body[data-brand="shop005"] .btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+}
+
+body[data-brand="shop005"] .cart-nav-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+  color: #ffffff !important;
+}
+
+body[data-brand="shop005"] .cart-nav-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
+}
+
+body[data-brand="shop005"] .action-count-badge,
+body[data-brand="shop005"] .cart-count-pill {
+  background: #f59e0b !important;
+  color: #0f172a !important;
+}
+
+body[data-brand="shop005"] .mobile-menu-actions .btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
+}
