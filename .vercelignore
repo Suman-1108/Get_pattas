@@ -1,0 +1,12 @@
+# Vercel Deployment Exclusions
+# Ignore backend/server files so Vercel deploys the site purely as a static Edge CDN platform
+server.js
+backend/
+models/
+uploads/
+package.json
+package-lock.json
+node_modules/
+.env*
+scratch/
+test_*.js

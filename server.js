@@ -97,8 +97,8 @@ const serveShop2 = (req, res) => res.sendFile(path.join(__dirname, 'shopno002', 
 const serveShop3 = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
 const serveShop4 = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
 const serveShop5 = (req, res) => res.sendFile(path.join(__dirname, 'shopno005', 'index.html'));
-const serveShop3Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'products.html'));
-const serveShop4Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'products.html'));
+const serveShop3Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'index.html'));
+const serveShop4Products = (req, res) => res.sendFile(path.join(__dirname, 'shopno004', 'index.html'));
 
 // Clean URL Routes
 app.get('/', serveIndex);
@@ -154,6 +154,8 @@ app.get(['/shopno003/products', '/shopno003/products.html'], serveShop3Products)
 app.get(['/shopno004/products', '/shopno004/products.html'], serveShop4Products);
 
 // Explicit Static Asset Routes (guarantees bundling by @vercel/node)
+app.get('/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'favicon.ico')));
+app.get('/shopno003/favicon.ico', (req, res) => res.sendFile(path.join(__dirname, 'shopno003', 'favicon.ico')));
 app.get('/styles.css', (req, res) => res.sendFile(path.join(__dirname, 'styles.css')));
 app.get('/catalogData.js', (req, res) => res.sendFile(path.join(__dirname, 'catalogData.js')));
 app.get('/app.js', (req, res) => res.sendFile(path.join(__dirname, 'app.js')));

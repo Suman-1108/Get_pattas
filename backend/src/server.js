@@ -39,6 +39,7 @@ const frontendDir = path.join(__dirname, '../../');
 app.use(express.static(frontendDir));
 app.use('/getpattas', express.static(path.join(frontendDir, 'getpattas')));
 
+app.get(['/favicon.ico', '/shopno003/favicon.ico'], (req, res) => res.sendFile(path.join(frontendDir, 'favicon.ico')));
 app.get(['/shopno001', '/shopno001/', '/getpattas/shopno001', '/getpattas/shopno001/', '/getpattasu/shopno001', '/muthu'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno001', 'index.html')));
 app.get(['/shopno002', '/shopno002/', '/getpattas/shopno002', '/getpattas/shopno002/', '/getpattasu/shopno002', '/Get pattas '], (req, res) => res.sendFile(path.join(frontendDir, 'shopno002', 'index.html')));
 app.get(['/shopno003', '/shopno003/', '/getpattas/shopno003', '/getpattas/shopno003/', '/getpattasu/shopno003', '/red'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno003', 'index.html')));

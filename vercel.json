@@ -1,9 +1,9 @@
 {
-  "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
+    { "source": "/favicon.ico", "destination": "/favicon.ico" },
     { "source": "/portal/admin/login", "destination": "/admin.html" },
     { "source": "/portal/admin/dashboard", "destination": "/admin.html" },
     { "source": "/portal/admin", "destination": "/admin.html" },
@@ -17,8 +17,8 @@
     { "source": "/shopno005", "destination": "/shopno005/index.html" },
     { "source": "/shopno001/(.*)", "destination": "/shopno001/$1" },
     { "source": "/shopno002/(.*)", "destination": "/shopno002/$1" },
-    { "source": "/shopno003/products", "destination": "/shopno003/products.html" },
-    { "source": "/shopno004/products", "destination": "/shopno004/products.html" },
+    { "source": "/shopno003/products", "destination": "/shopno003/index.html" },
+    { "source": "/shopno004/products", "destination": "/shopno004/index.html" },
     { "source": "/shopno003/(.*)", "destination": "/shopno003/$1" },
     { "source": "/shopno004/(.*)", "destination": "/shopno004/$1" },
     { "source": "/shopno005/(.*)", "destination": "/shopno005/$1" }
