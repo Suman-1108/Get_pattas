@@ -768,10 +768,28 @@ img {
     display: inline-block;
   }
 
+  .cinematic-hero-section.hero-image-only {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: unset !important;
+    width: 100% !important;
+    overflow: hidden;
+  }
+
+  .cinematic-hero-section.hero-image-only picture {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .hero-full-img,
   .hero-full-banner-img {
     border-radius: 0;
-    object-fit: contain;
+    object-fit: cover;
+    width: 100% !important;
+    height: auto !important;
+    display: block !important;
   }
 }
 
