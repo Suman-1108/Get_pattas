@@ -3,9 +3,9 @@
    Real-Time Sync, Product Registry, Orders & Interactive Analytics
    ========================================================================== */
 
-const API_BASE = (window.location.protocol && window.location.protocol.startsWith('http'))
+let API_BASE = (window.location.protocol && window.location.protocol.startsWith('http'))
   ? (window.location.port === '5000' || !window.location.port ? window.location.origin : 'http://localhost:5000')
-  : 'http://localhost:5000';
+  : (localStorage.getItem('admin_api_base') || 'https://getpattas.in');
 
 // BroadcastChannel for instant cross-tab sync
 const syncChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('get_pattasu_sync_channel') : null;
@@ -382,9 +382,11 @@ function getAdminCurrentSlug() {
 
 function setAdminUrlSlug(slug) {
   try {
-    if (window.history && window.history.pushState) {
-      if (window.location.pathname !== slug) {
-        window.history.pushState(null, '', slug);
+    if (window.location.protocol && window.location.protocol.startsWith('http')) {
+      if (window.history && window.history.pushState) {
+        if (window.location.pathname !== slug) {
+          window.history.pushState(null, '', slug);
+        }
       }
     }
   } catch (e) {}
@@ -533,7 +535,7 @@ function setAdminActiveBrand(brandSlug, btnElement = null) {
   const topUsrName = document.getElementById('topbarUserName');
 
   const brandTitles = {
-    'shop005': { title: 'Muthu Crackers (Shop 005)', tag: 'SHOP 005 - MUTHU CRACKERS', url: 'shopno005/index.html', name: 'Muthu Crackers Admin' },
+    'shop005': { title: 'Get Pattas (Shop 005)', tag: 'SHOP 005 - GET PATTAS', url: 'shopno005/index.html', name: 'Get Pattas (Shop 005) Admin' },
     'getpattasu': { title: 'Get Pattas', tag: 'WHOLESALE ADMIN', url: 'shopno004/index.html', name: 'Get Pattas Admin' },
     'muthu': { title: 'Get pattas ', tag: 'Get pattas ADMIN', url: 'shopno001/index.html', name: 'Get pattas Crackers Admin' },
     'Get pattas ': { title: "Get pattas 'S CRACKERS", tag: 'Get pattas  ADMIN', url: 'shopno002/index.html', name: "Get pattas 's Crackers Admin" },

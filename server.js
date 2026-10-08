@@ -140,6 +140,26 @@ app.get([
 ], (req, res) => res.sendFile(path.join(__dirname, 'html2pdf.bundle.min.js')));
 
 app.get([
+  '/portal/admin/logo.jpg',
+  '/portal/admin/dashboard/logo.jpg',
+  '/portal/admin/login/logo.jpg',
+  '/logo.jpg'
+], (req, res) => res.sendFile(path.join(__dirname, 'assets', 'logo.jpg')));
+
+app.get([
+  '/portal/admin/assets/:file',
+  '/portal/admin/dashboard/assets/:file',
+  '/portal/admin/login/assets/:file',
+  '/portal/assets/:file'
+], (req, res) => {
+  const f = path.join(__dirname, 'assets', req.params.file);
+  if (fs.existsSync(f)) {
+    return res.sendFile(f);
+  }
+  res.status(404).send('Asset not found');
+});
+
+app.get([
   '/invoice',
   '/invoice.html',
   '/invoice/:bookingNo',

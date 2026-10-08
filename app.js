@@ -1,4 +1,4 @@
-/* ==========================================================================
+﻿/* ==========================================================================
    Get Pattas - MULTI-BRAND SIVAKASI FIREWORKS WEB APPLICATION
    References: kannancrackers.net & jallikattucrackers.in
    Features:
@@ -23,7 +23,7 @@ let currentCustomer = null;
 // API Base calculation
 const API_BASE = (window.location.protocol && window.location.protocol.startsWith('http'))
   ? (window.location.port === '5000' || !window.location.port ? window.location.origin : 'http://localhost:5000')
-  : 'http://localhost:5000';
+  : (localStorage.getItem('admin_api_base') || 'https://getpattas.in');
 
 // Real-time BroadcastChannel for cross-tab sync
 const syncChannel = (typeof BroadcastChannel !== 'undefined') ? new BroadcastChannel('get_pattasu_sync_channel') : null;
@@ -1041,7 +1041,7 @@ function handleWhatsAppOrderSubmit(e) {
   // 4. Construct WhatsApp wholesale order message
   const currentOrigin = (window.location.protocol && window.location.protocol.startsWith('http'))
     ? window.location.origin
-    : 'http://localhost:5000';
+    : (localStorage.getItem('admin_api_base') || 'https://getpattas.in');
   const invoiceWebUrl = (window.location.protocol === 'file:')
     ? 'invoice.html?bn=' + bookingNumber
     : `${currentOrigin}/invoice.html?bn=${bookingNumber}`;
@@ -1822,7 +1822,7 @@ function handleCheckoutFormSubmit(e) {
 
   const currentOrigin = (window.location.protocol && window.location.protocol.startsWith('http'))
     ? window.location.origin
-    : 'http://localhost:5000';
+    : (localStorage.getItem('admin_api_base') || 'https://getpattas.in');
   const invoiceWebUrl = (window.location.protocol === 'file:')
     ? 'invoice.html?bn=' + bookingNumber
     : `${currentOrigin}/invoice.html?bn=${bookingNumber}`;

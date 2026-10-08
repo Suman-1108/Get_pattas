@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -580,7 +580,7 @@
         try {
           const apiBase = (window.location.protocol && window.location.protocol.startsWith('http'))
             ? (window.location.port === '5000' || !window.location.port ? window.location.origin : 'http://localhost:5000')
-            : 'http://localhost:5000';
+            : (localStorage.getItem('admin_api_base') || 'https://getpattas.in');
           let res = await fetch(`${apiBase}/api/orders/${encodeURIComponent(bnParam)}`);
           if (!res.ok) {
             res = await fetch(`${apiBase}/api/orders/booking/${encodeURIComponent(bnParam)}`);

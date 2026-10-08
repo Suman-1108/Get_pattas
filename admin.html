@@ -4,7 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <base href="/">
+  <script>
+    // Only set base href on HTTP/HTTPS so that file:/// protocol loads local relative assets without ERR_FILE_NOT_FOUND
+    if (window.location.protocol && window.location.protocol.startsWith('http')) {
+      document.write('<base href="/">');
+    }
+  </script>
   <title>Get Pattas Kadai - Enterprise Store Admin Portal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -215,9 +220,9 @@
             <span class="pill-badge" id="pillBadgeAll">0</span>
           </button>
           <button class="admin-brand-pill" data-brand="shop005" onclick="setAdminActiveBrand('shop005', this)"
-            title="Muthu Crackers Store (Shop 005)">
+            title="Get Pattas Store (Shop 005)">
             <span class="pill-emoji"><i class="fa-solid fa-gem" style="color: #2563eb;"></i></span>
-            <span class="pill-text">Muthu Crackers (Shop 005)</span>
+            <span class="pill-text">Get Pattas (Shop 005)</span>
             <span class="pill-badge" id="pillBadgeShop005">0</span>
           </button>
           <button class="admin-brand-pill" data-brand="getpattasu" onclick="setAdminActiveBrand('getpattasu', this)"
@@ -592,7 +597,7 @@
                 style="padding: 0.65rem 1.1rem; border-radius: 8px; border: 2px solid #cbd5e1; font-weight: 700; color: #0f172a; background: #ffffff; cursor: pointer;">
                 <option value="all">🌐 All 5 Brands Orders</option>
                 <option value="whatsapp">📱 WhatsApp Direct Orders</option>
-                <option value="shop005">💎 Muthu Crackers (Shop 005)</option>
+                <option value="shop005">💎 Get Pattas (Shop 005)</option>
                 <option value="red">🧨 The Get pattas</option>
                 <option value="muthu">🎆 Get pattas Crackers</option>
                 <option value="Get pattas ">💥 Get pattas 's Crackers</option>
