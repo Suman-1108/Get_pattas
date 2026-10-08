@@ -508,6 +508,12 @@
 
     // Brand phone dictionary
     const BRAND_INFO = {
+      shop005: { name: 'Get Pattas - Wholesale Shop-005', phone: '+91 86104 51118' },
+      shopno005: { name: 'Get Pattas - Wholesale Shop-005', phone: '+91 86104 51118' },
+      shopno001: { name: 'Get Pattas - Wholesale Shop-001', phone: '+91 86104 51118' },
+      shopno002: { name: 'Get Pattas - Wholesale Shop-002', phone: '+91 86104 51118' },
+      shopno003: { name: 'Get Pattas - Wholesale Shop-003', phone: '+91 86104 51118' },
+      shopno004: { name: 'Get Pattas - Wholesale Shop-004', phone: '+91 86104 51118' },
       muthu: { name: 'Get Pattas - Wholesale Shop-001', phone: '+91 86104 51118' },
       Daddy: { name: 'Get Pattas - Wholesale Shop-002', phone: '+91 86104 51118' },
       red: { name: 'Get Pattas - Wholesale Shop-003', phone: '+91 86104 51118' },
@@ -601,6 +607,7 @@
       const bn = ((order && (order.bookingNumber || order.orderId)) || '').toLowerCase();
       const path = (window.location.pathname + window.location.search).toLowerCase();
 
+      if (bn.includes('005') || path.includes('005') || (order && order.brand === 'shop005')) return 'Get Pattas - Wholesale Shop-005';
       if (bn.includes('004') || path.includes('004')) return 'Get Pattas - Wholesale Shop-004';
       if (bn.includes('003') || path.includes('003')) return 'Get Pattas - Wholesale Shop-003';
       if (bn.includes('002') || path.includes('002')) return 'Get Pattas - Wholesale Shop-002';

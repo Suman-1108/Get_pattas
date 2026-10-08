@@ -1503,6 +1503,16 @@ function renderAdminOrders() {
 // ----------------------------------------------------
 // VIEW ORDER TAX INVOICE & ESTIMATE
 // ----------------------------------------------------
+function getOrderShopFolder(order, orderId) {
+  const text = `${(order && order.brand) || ''} ${(order && order.brandName) || ''} ${(order && order.shopNumber) || ''} ${(order && order.shopId) || ''} ${(order && order.bookingNumber) || ''} ${orderId || ''}`.toLowerCase();
+  if (text.includes('005') || text.includes('gp5')) return 'shopno005';
+  if (text.includes('004') || text.includes('getpattasu')) return 'shopno004';
+  if (text.includes('003') || text.includes('red')) return 'shopno003';
+  if (text.includes('002') || text.includes('daddy')) return 'shopno002';
+  if (text.includes('001') || text.includes('muthu')) return 'shopno001';
+  return '';
+}
+
 function viewOrderInvoice(orderId) {
   if (!orderId) {
     showAdminToast('Error', 'Invalid Order ID', 'error');
@@ -1528,13 +1538,15 @@ function viewOrderInvoice(orderId) {
     }
   }
 
-  // 3. Build invoice URL supporting both HTTP/HTTPS and file:/// protocols
-  let invoiceUrl = `invoice.html?bn=${encodeURIComponent(orderId)}`;
+  // 3. Resolve shop-specific storefront folder (shopno001 - shopno005) or root
+  const shopFolder = getOrderShopFolder(order, orderId);
+  const encodedBn = encodeURIComponent(orderId);
+
+  // 4. Build reliable invoice URL supporting both HTTP/HTTPS and file:/// protocols
+  let invoiceUrl = shopFolder ? `${shopFolder}/invoice.html?bn=${encodedBn}` : `invoice.html?bn=${encodedBn}`;
   if (window.location.protocol && window.location.protocol.startsWith('http')) {
-    const pathParts = window.location.pathname.split('/');
-    pathParts.pop(); // Remove 'admin.html'
-    const dirPath = pathParts.join('/');
-    invoiceUrl = `${window.location.origin}${dirPath ? dirPath + '/' : '/'}invoice.html?bn=${encodeURIComponent(orderId)}`;
+    const origin = window.location.origin;
+    invoiceUrl = shopFolder ? `${origin}/${shopFolder}/invoice.html?bn=${encodedBn}` : `${origin}/invoice.html?bn=${encodedBn}`;
   }
 
   // Open invoice in new tab

@@ -139,7 +139,17 @@ app.get([
   '/portal/admin/login/html2pdf.bundle.min.js'
 ], (req, res) => res.sendFile(path.join(__dirname, 'html2pdf.bundle.min.js')));
 
-app.get(['/invoice', '/invoice.html', '/invoice/:bookingNo'], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
+app.get([
+  '/invoice',
+  '/invoice.html',
+  '/invoice/:bookingNo',
+  '/portal/admin/invoice',
+  '/portal/admin/invoice.html',
+  '/portal/admin/dashboard/invoice.html',
+  '/portal/admin/login/invoice.html',
+  '/portal/invoice.html',
+  '/portal/invoice'
+], (req, res) => res.sendFile(path.join(__dirname, 'invoice.html')));
 app.get('/shopno001', (req, res) => res.redirect(301, '/shopno001/'));
 app.get('/shopno001/', serveShop1);
 app.get('/shopno002', (req, res) => res.redirect(301, '/shopno002/'));

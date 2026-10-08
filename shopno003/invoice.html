@@ -530,49 +530,83 @@
       getpattasu: { name: 'Get Pattas', phone: '+91 86104 51118' }
     };
 
-    function loadOrder() {
+    async function loadOrder() {
       const urlParams = new URLSearchParams(window.location.search);
-      const bnParam = urlParams.get('bn') || window.location.pathname.split('/').pop();
+      let bnParam = urlParams.get('bn');
+      if (!bnParam) {
+        const lastPart = window.location.pathname.split('/').filter(Boolean).pop();
+        if (lastPart && !lastPart.includes('invoice') && !lastPart.includes('.html')) {
+          bnParam = lastPart;
+        }
+      }
 
       let order = null;
 
-      // 1. Try localStorage last_confirmed_order
+      // 1. Try localStorage view_invoice_order (set directly by Admin panel button click)
       try {
-        const last = JSON.parse(localStorage.getItem('last_confirmed_order') || 'null');
-        if (last && (!bnParam || last.bookingNumber === bnParam || last.orderId === bnParam)) {
-          order = last;
+        const viewOrder = JSON.parse(localStorage.getItem('view_invoice_order') || 'null');
+        if (viewOrder && (!bnParam || viewOrder.bookingNumber === bnParam || viewOrder.orderId === bnParam || viewOrder._id === bnParam)) {
+          order = viewOrder;
         }
       } catch (e) { }
 
-      // 2. Try admin_orders_sync
-      if (!order && bnParam) {
+      // 2. Try localStorage last_confirmed_order
+      if (!order) {
         try {
-          const syncList = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
-          order = syncList.find(o => o.bookingNumber === bnParam || o.orderId === bnParam);
+          const last = JSON.parse(localStorage.getItem('last_confirmed_order') || 'null');
+          if (last && (!bnParam || last.bookingNumber === bnParam || last.orderId === bnParam || last._id === bnParam)) {
+            order = last;
+          }
         } catch (e) { }
       }
 
-      // 3. Try backend API if not found locally
-      if (!order && bnParam && bnParam.startsWith('GP-')) {
-        fetch(`/api/orders/booking/${bnParam}`)
-          .then(res => res.json())
-          .then(data => {
-            if (data.success && data.order) {
-              renderInvoice(data.order);
-            } else {
-              renderFallback(bnParam);
+      // 3. Try admin_orders_sync
+      if (!order && bnParam) {
+        try {
+          const syncList = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
+          order = syncList.find(o => o.bookingNumber === bnParam || o.orderId === bnParam || o._id === bnParam);
+        } catch (e) { }
+      }
+
+      // 4. Try localStorage orders list
+      if (!order && bnParam) {
+        try {
+          const ordersList = JSON.parse(localStorage.getItem('orders') || '[]');
+          order = ordersList.find(o => o.bookingNumber === bnParam || o.orderId === bnParam || o._id === bnParam);
+        } catch (e) { }
+      }
+
+      // 5. Try backend API for ANY booking number format
+      if (!order && bnParam) {
+        try {
+          const apiBase = (window.location.protocol && window.location.protocol.startsWith('http'))
+            ? (window.location.port === '5000' || !window.location.port ? window.location.origin : 'http://localhost:5000')
+            : 'http://localhost:5000';
+          let res = await fetch(`${apiBase}/api/orders/${encodeURIComponent(bnParam)}`);
+          if (!res.ok) {
+            res = await fetch(`${apiBase}/api/orders/booking/${encodeURIComponent(bnParam)}`);
+          }
+          if (res.ok) {
+            const data = await res.json();
+            if (data && (data.order || data.orderId)) {
+              order = data.order || data;
             }
-          })
-          .catch(() => {
-            renderFallback(bnParam);
-          });
-        return;
+          }
+        } catch (e) { }
+      }
+
+      // 6. Fallback to latest synced order if no specific bnParam
+      if (!order && !bnParam) {
+        try {
+          const syncList = JSON.parse(localStorage.getItem('admin_orders_sync') || '[]');
+          if (syncList && syncList.length > 0) order = syncList[0];
+        } catch (e) { }
       }
 
       if (order) {
         renderInvoice(order);
       } else {
-        renderFallback(bnParam || 'GP-DEMO-10001');
+        renderFallback(bnParam || 'Get-Pattas-BookNo-003');
       }
     }
 
@@ -604,25 +638,38 @@
       tbody.innerHTML = '';
 
       let totalBoxes = 0;
-      items.forEach((it, idx) => {
-        const qty = Number(it.qty) || 1;
-        const price = Number(it.price) || 0;
-        const sub = qty * price;
-        totalBoxes += qty;
+      if (items.length > 0) {
+        items.forEach((it, idx) => {
+          const qty = Number(it.qty || it.quantity) || 1;
+          const price = Number(it.price || it.rate) || 0;
+          const sub = qty * price;
+          totalBoxes += qty;
 
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="text-align: center;">${idx + 1}</td>
+            <td>
+              <strong>${it.name || it.productName || 'Crackers Item'}</strong>
+              ${it.tamilName ? `<div style="font-size: 0.74rem; color: #64748b;">${it.tamilName}</div>` : ''}
+            </td>
+            <td style="text-align: center; font-weight: 700;">${qty}</td>
+            <td style="text-align: right;">₹${price.toLocaleString('en-IN')}</td>
+            <td style="text-align: right; font-weight: 700;">₹${sub.toLocaleString('en-IN')}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        const netAmt = Number(order.totalAmount || 0);
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td style="text-align: center;">${idx + 1}</td>
-          <td>
-            <strong>${it.name}</strong>
-            ${it.tamilName ? `<div style="font-size: 0.74rem; color: #64748b;">${it.tamilName}</div>` : ''}
-          </td>
-          <td style="text-align: center; font-weight: 700;">${qty}</td>
-          <td style="text-align: right;">?${price.toLocaleString('en-IN')}</td>
-          <td style="text-align: right; font-weight: 700;">?${sub.toLocaleString('en-IN')}</td>
+          <td style="text-align: center;">1</td>
+          <td><strong>Wholesale Consignment Package</strong><div style="font-size: 0.74rem; color: #64748b;">Direct Sivakasi Factory Fireworks Booking</div></td>
+          <td style="text-align: center; font-weight: 700;">${order.totalBoxes || 1}</td>
+          <td style="text-align: right;">₹${netAmt.toLocaleString('en-IN')}</td>
+          <td style="text-align: right; font-weight: 700;">₹${netAmt.toLocaleString('en-IN')}</td>
         `;
         tbody.appendChild(tr);
-      });
+      }
 
       document.getElementById('invTotalVarieties').innerText = `${items.length} Items`;
       document.getElementById('invTotalBoxes').innerText = `${order.totalBoxes || totalBoxes} Boxes`;

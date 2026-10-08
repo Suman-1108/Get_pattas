@@ -47,7 +47,19 @@ app.get(['/shopno004', '/shopno004/', '/getpattas/shopno004', '/getpattas/shopno
 app.get(['/shopno005', '/shopno005/'], (req, res) => res.sendFile(path.join(frontendDir, 'shopno005', 'index.html')));
 app.get(['/portal/admin', '/portal/admin/', '/portal/admin/dashboard', '/portal/admin/login'], (req, res) => res.sendFile(path.join(frontendDir, 'admin.html')));
 app.get(['/admin', '/admin.html'], (req, res) => res.redirect(302, '/portal/admin/dashboard'));
-app.get(['/invoice', '/invoice/:bookingNo', '/getpattas/invoice', '/getpattasu/invoice'], (req, res) => res.sendFile(path.join(frontendDir, 'invoice.html')));
+app.get([
+  '/invoice',
+  '/invoice.html',
+  '/invoice/:bookingNo',
+  '/getpattas/invoice',
+  '/getpattasu/invoice',
+  '/portal/admin/invoice',
+  '/portal/admin/invoice.html',
+  '/portal/admin/dashboard/invoice.html',
+  '/portal/admin/login/invoice.html',
+  '/portal/invoice.html',
+  '/portal/invoice'
+], (req, res) => res.sendFile(path.join(frontendDir, 'invoice.html')));
 
 // Health Check
 app.get('/api/health', (req, res) => {
