@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muthu Crackers - Wholesale Shop 005 | Tax Invoice</title>
+  <title>Get Pattas - Wholesale Shop 005 | Tax Invoice</title>
   <link rel="icon" type="image/jpeg" href="gp-logo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -424,7 +424,7 @@
       <div class="inv-brand-left">
         <img src="gp-logo.jpg" alt="Get Pattas Logo" class="inv-brand-logo">
         <div>
-          <h1 class="inv-brand-h1" id="invBrandTitle">Muthu Crackers (Shop 005)</h1>
+          <h1 class="inv-brand-h1" id="invBrandTitle">Get Pattas (Shop 005)</h1>
           <div class="inv-brand-tagline">Direct Factory Fireworks Wholesale Consignment</div>
           <div class="inv-brand-info">
             <div>?? Depot Address: Sivakasi Direct Factory Transport Hub, Tamil Nadu - 626123</div>
@@ -524,6 +524,7 @@
   <script>
     // Brand phone dictionary
     const BRAND_INFO = {
+      shop005: { name: 'Get Pattas (Shop 005)', phone: '+91 86104 51118' },
       muthu: { name: 'Get Pattas', phone: '+91 86104 51118' },
       Daddy : { name: 'Get Pattas', phone: '+91 86104 51118' },
       red: { name: 'Get Pattas', phone: '+91 86104 51118' },
@@ -577,7 +578,7 @@
     }
 
     function renderInvoice(order) {
-      const brandKey = order.brand || 'muthu';
+      const brandKey = order.brand || 'shop005';
       const bInfo = BRAND_INFO[brandKey] || { name: order.brandName || 'Sivakasi Fireworks Depot', phone: '+91 86104 51118' };
 
       document.getElementById('invBrandTitle').innerText = 'Get Pattas - Wholesale Shop-005';
